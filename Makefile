@@ -84,7 +84,7 @@ $(MLX) : $(MLX_DIR)/Makefile $(MLX_DIR)/mlx.h
 
 clean:
 	@echo "\033[1;31mX\033[0m \033[1;37mRemoving Objects LIBFT\033[0m"
-	@$(MAKE) -C $(MLX_DIR) fclean
+	@$(MAKE) -C $(MLX_DIR) clean
 	@printf "$(RED)X$(RESET) Removing $(RED)$(NAME)$(RESET) Objects\n"
 	@rm -vfR $(OBJS_DIR)/** 
 

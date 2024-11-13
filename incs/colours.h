@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mrt-math.h                                         :+:      :+:    :+:   */
+/*   colours.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/13 18:23:56 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/13 18:25:40 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/13 18:28:22 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MFT_MATH_H
-#define MFT_MATH_H
+#ifndef COLOURS_H
+#define COLOURS_H
 
-typedef struct s_vec2
+typedef struct s_acolour
 {
-	int	x;
-	int	y;
-}	t_vect2d:
+	int32_t r;
+	int32_t g;
+	int32_t b;
+	int32_t a;
+};
 
-typedef struct s_vec3
+typedef struct s_colour
 {
-	int	x;
-	int	y;
-	int	z;
-}	t_vect3d:
+	int32_t r;
+	int32_t g;
+	int32_t b;
+};
 
 #endif

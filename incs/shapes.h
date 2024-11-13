@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mrt-math.h                                         :+:      :+:    :+:   */
+/*   shapes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/13 18:23:56 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/13 18:25:22 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MFT_MATH_H
-#define MFT_MATH_H
+#ifndef SHAPES_H
+#define SHAPES_H
 
-typedef struct s_vec2
-{
-	int	x;
-	int	y;
-}	t_vect2d:
+#include "mrt_math.h"
 
-typedef struct s_vec3
+typedef struct s_plane
 {
-	int	x;
-	int	y;
-	int	z;
-}	t_vect3d:
+	t_vec3 p1;		
+	t_vec3 p2;		
+	t_color rgb;
+}	t_plane;
 
 #endif
+
