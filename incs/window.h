@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.h                                           :+:      :+:    :+:   */
+/*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 18:54:52 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/14 18:05:33 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
-* Code related with the creation and transformation of lights
+* Code related with minilibx. Open/Create and Close window, and rendering image
 */
-#ifndef LIGHTS_H
-#define LIGHTS_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
-#include "colours.h"
-#include "mrt-math.h"
 
-typedef struct s_light
-{
-	t_vec3 pos;
-	t_color rgb;
-	double brghtnss;
-}	t_light;
 
-#endif
+#endif;

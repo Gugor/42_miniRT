@@ -1,5 +1,5 @@
 BLACK		:= \033[1;30m
-RED			:= \033[1;31m
+RED		:= \033[1;31m
 GREEN		:= \033[1;32m
 YELLOW		:= \033[1;33m
 BLUE		:= \033[1;34m
@@ -25,10 +25,19 @@ DEPS_CRT		:= create_deps
 
 
 # Files
-SRC_FILES		:= minirt.c 
+SRC_FILES		:= minirt.c \
+				parse-inputfile.c \
+				ft_strings.c
 
 INC_FILES		:=  minirt.h \
-				mrt-math.h	
+				colours.h \
+				file.h \
+				mrt-math.h \
+				materials.h \
+				shapes.h \
+				parsing.h \
+				ft_strings.h \
+				lights.h
 
 			#create includes var with include names.
 OBJS_DIR		:= .objs
@@ -49,10 +58,10 @@ LFLAGS			:= -L$(MLX_DIR) -lmlx
 
 all: $(MLX) $(OBJS_DIR) $(DEPS_DIR) $(NAME) 
 
-$(NAME):: $(OBJS) $(MF) $(INCS) | $(LIBFT) 
+$(NAME):: $(OBJS) $(MF) $(INCS) | $(MLX) 
 	@printf "\n$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(NAME)$(RESET)\n"
 	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME) $(LFLAGS)
-$(NAME):: $(OBJS) $(MF) | $(LIBFT)  
+$(NAME):: $(OBJS) $(MF) | $(MLX)  
 	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(MF) $(INCS) 
@@ -78,12 +87,11 @@ create_deps::
 	@printf " 🌟 $(WHITE) Dependencies Folders Created $(RESET) 🌟 \n\n" 
 
 $(MLX) : $(MLX_DIR)/Makefile $(MLX_DIR)/mlx.h
-	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(LIBFT)$(RESET) library\n" 
+	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
 	@$(MAKE) -C $(MLX_DIR)
 
-
 clean:
-	@echo "\033[1;31mX\033[0m \033[1;37mRemoving Objects LIBFT\033[0m"
+	@echo "\033[1;31mX\033[0m \033[1;37mRemoving Objects MLX\033[0m"
 	@$(MAKE) -C $(MLX_DIR) clean
 	@printf "$(RED)X$(RESET) Removing $(RED)$(NAME)$(RESET) Objects\n"
 	@rm -vfR $(OBJS_DIR)/** 

@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.h                                           :+:      :+:    :+:   */
+/*   ft_strings.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 18:54:52 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/14 19:56:52 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/14 20:13:24 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
-* Code related with the creation and transformation of lights
-*/
-#ifndef LIGHTS_H
-#define LIGHTS_H
-
-#include "colours.h"
-#include "mrt-math.h"
-
-typedef struct s_light
+int ft_strlen(const char *str)
 {
-	t_vec3 pos;
-	t_color rgb;
-	double brghtnss;
-}	t_light;
+	int indx;
+	
+	indx = -1;
+	while (str[++indx])
+		;;
+	return (indx);
+}
 
-#endif
+int ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2)
+	{
+		if (*s1 == *s2)
+			return (0);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}

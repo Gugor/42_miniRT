@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.h                                           :+:      :+:    :+:   */
+/*   materials.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 18:54:52 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/14 16:34:57 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/14 18:42:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
-* Code related with the creation and transformation of lights
+* Code related with the creation and interaction of materials
 */
-#ifndef LIGHTS_H
-#define LIGHTS_H
+#ifndef MATERIALS_H
+#define MATERIALS_H
 
-#include "colours.h"
-#include "mrt-math.h"
-
-typedef struct s_light
+typedef struct s_material
 {
-	t_vec3 pos;
-	t_color rgb;
-	double brghtnss;
-}	t_light;
+	t_color albedo;	
+};
 
-#endif
+
+#endif;
