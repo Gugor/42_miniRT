@@ -21,12 +21,14 @@ INCS_DIR		:= incs
 LIBS_DIR		:= libs
 MLX_DIR			:= libs/$(MLX)
 SRCS_DIR		:= srcs
+LOG_DIR			:= $(SRCS_DIR)/log
 OBJS_CRT		:= create_objs
 DEPS_CRT		:= create_deps
 
 
 # Files
 SRC_FILES		:= minirt.c \
+				$(LOGGER_DIR)/logger-file.c \
 				parse-inputfile.c \
 				ft_strings.c
 
@@ -38,6 +40,7 @@ INC_FILES		:=  minirt.h \
 				shapes.h \
 				parsing.h \
 				ft_strings.h \
+				logger.h \
 				lights.h
 
 			#create includes var with include names.
@@ -65,7 +68,7 @@ $(NAME):: $(OBJS) $(MF) $(INCS) | $(MLX)
 $(NAME):: $(OBJS) $(MF) | $(MLX)  
 	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(MF) $(INCS) 
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/*%.c $(MF) $(INCS) 
 	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
 	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
 
@@ -91,6 +94,17 @@ $(MLX) : $(MLX_DIR)/Makefile $(MLX_DIR)/mlx.h
 	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) Looking for Graphic Dependencies for $(MAGENTA)minilibx$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) This can take a while depending the state of your dependencies\n" 
+	@if ! sudo -n true 2>/dev/null; then \
+		echo ""; \
+		echo "$(RED)::->$(RESET) You don't have sudo access. Ask you system admin to install the following dependencies: "; \
+		echo "\t >_ $(WHITE)sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev$(RESET)"; \
+		echo ""; \
+		echo  "$(RED)::->$(RESET) If you are sure that you have installed all this dependencies. Just execute the next code to skip this step."; \
+		echo "\t >_ $(WHITE)touch .mlx$(RESET)"; \
+		echo ""; \
+	else \
+		exit; \
+	fi 
 	@if [ ! -f .mlx ]; then \
 		sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev && \
 		touch .mlx; \

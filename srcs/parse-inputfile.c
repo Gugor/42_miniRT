@@ -6,7 +6,7 @@
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:11:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:10:37 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,4 @@ int	parse_inputfile(const char *filename)
 		printf("is NOT a rt file");
 		return (0);
 	}
-	
 }

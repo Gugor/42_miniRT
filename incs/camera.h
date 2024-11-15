@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   materials.h                                        :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 16:34:57 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:39 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/15 15:48:40 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
-* Code related with the creation and interaction of materials
-*/
-#ifndef MATERIALS_H
-#define MATERIALS_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
-typedef struct s_material
+#include "mrt-math.h"
+
+typedef struct	s_camera
 {
-	t_color albedo;	
-}	t_material;
-
+	t_p3	pos;
+	t_vec3	axis;
+	double	fovH;
+	double	fovV;
+}	t_camera;
 
 #endif
