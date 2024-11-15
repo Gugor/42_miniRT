@@ -12,6 +12,7 @@ RESET		:= \033[1;0m
 # Targets
 NAME 		:= miniRT
 MLX		:= mlx
+BSD_LIB = $(shell pkg-config --libs bsd)
 
 MF		:= Makefile
 
@@ -88,6 +89,12 @@ create_deps::
 
 $(MLX) : $(MLX_DIR)/Makefile $(MLX_DIR)/mlx.h
 	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
+	@printf "$(GREEN)::$(RESET) Looking for Graphic Dependencies for $(MAGENTA)minilibx$(RESET) library\n" 
+	@printf "$(GREEN)::$(RESET) This can take a while depending the state of your dependencies\n" 
+	@if [ ! -f .mlx ]; then \
+		sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev && \
+		touch .mlx; \
+	fi
 	@$(MAKE) -C $(MLX_DIR)
 
 clean:
