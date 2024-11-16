@@ -46,6 +46,7 @@ SRC_FILES		:= minirt.c \
 				scene.c \
 				parse-inputfile.c \
 				parse-errors.c \
+				rt-file.c \
 				ft_strings.c \
 				string-iterate.c \
 				string-verify.c \

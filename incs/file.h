@@ -13,18 +13,9 @@
 #ifndef FILE_H
 #define FILE_H
 
-int open_rt(char *rt_path)
-{
-	t_scene	*scene;
-	int	fd;
-
-	scene = get_scene();
-	if((fd = open(rt_path, O_RDONLY)) == -1) 	
-	{
-		err_rt_file_not_open(errno);
-		exit(ERR_FILE_NO_OPEN);
-	}
-}
+#include <fcntl.h>
 
 
-#endif;
+int open_rt(const char *rt_path);
+
+#endif

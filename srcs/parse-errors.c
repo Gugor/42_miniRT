@@ -24,10 +24,10 @@ void err_no_rt_extension(void)
 /**
 * @brief 
 */
-void err_rt_file_not_open(int err)
+void err_rt_file_not_open(const int err)
 {
-	ft_putstr_fd(2,"Error:");
-	ft_putstr_fd(2, stderror(err));
+	ft_putstr_fd(2,"Error: ");
+	ft_putstr_fd(2, strerror(err));
 	ft_putstr_fd(2,"\n");
 }
 

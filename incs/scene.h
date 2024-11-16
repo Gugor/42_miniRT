@@ -26,8 +26,10 @@
 
 typedef struct s_scene
 {
-	unsigned int height;
-	unsigned int width;
+	unsigned int	height;
+	unsigned int	width;
+	int		rtfd;
+	char		*entity_ids[8];
 	t_camera	camera;
 	t_ambient	ambient_light;
 	t_light		*lights;
@@ -37,6 +39,7 @@ typedef struct s_scene
 }	t_scene;
 
 
-t_scene *scene_storage(t_scene *storage);
+t_scene 	*scene_storage(t_scene *storage);
+t_scene 	*get_scene(void);
 
 #endif

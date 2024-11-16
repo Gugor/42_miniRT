@@ -5,7 +5,7 @@
 * @brief It gets the scene stored statically by `scene_storage()`.
 * @returns `{t_scene *}`
 */
-t_scene *get_scene()
+t_scene *get_scene(void)
 {
 	return (scene_storage(NULL));
 }
