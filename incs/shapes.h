@@ -6,7 +6,7 @@
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:02 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:04:58 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 #ifndef SHAPES_H
 #define SHAPES_H
 
-#include "mrt-math.h"
-#include "colours.h"
-#include "materials.h"
+#include "mrt_math.h"
+
+
 
 typedef struct s_plane
 {
-	double (*geometry)();		
+	t_vec3 *geometry;		
 	t_vec3 pos;		
 	t_vec2 axis;		
 	t_color rgb;
@@ -31,12 +31,12 @@ typedef struct s_plane
 
 typedef struct s_sphere
 {
-	double (*geometry)();		
+	t_vec3 *geometry;		
 	t_vec3 pos;		
 	double size;
 	t_color rgb;
 	t_material material;
-}	t_sphere;
+}	t_plane;
 
 typedef struct s_cylinder
 {
@@ -46,7 +46,8 @@ typedef struct s_cylinder
 	t_vec2 size;
 	t_color rgb;
 	t_material material;
-}	t_cylinder;
+}	t_plane;
+
 
 #endif
 

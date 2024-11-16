@@ -18,12 +18,13 @@
 #define PARSING_H
 
 int		is_rt_file(const char *filename);
-int		parse_inputfile(const char *filename);
+int		parse_inputfile(const char *filename, t_scene *scene);
 int		parse_ambient_light(const char *line);
 int		parse_light_source(const char *line);
 int		parse_plane(const char *line);
 int		parse_sphere(const char *line);
 int		parse_cylinder(const char *line);
+int		create_entities(t_scene
 
 int		is_scene_entity(const char *str);
 #endif

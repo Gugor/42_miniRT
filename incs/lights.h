@@ -19,6 +19,12 @@
 #include "colours.h"
 #include "mrt-math.h"
 
+typedef struct s_ambient
+{
+	t_color	rgb;
+	double	range;
+};
+
 typedef struct s_light
 {
 	t_vec3 pos;

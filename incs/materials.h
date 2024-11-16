@@ -6,7 +6,7 @@
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:34:57 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/15 17:17:39 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:42:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 typedef struct s_material
 {
 	t_color albedo;	
-}	t_material;
+};
 
 
-#endif
+#endif;

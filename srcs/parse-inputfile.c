@@ -6,7 +6,7 @@
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/15 16:10:37 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/14 20:11:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #include "parsing.h"
 #include "ft_strings.h"
 
+
+/**
+* @brief 
+*/
 int	is_rt_file(const char *filename)
 {
 	int	size;
@@ -29,16 +33,24 @@ int	is_rt_file(const char *filename)
 	return (0);
 }
 
-int	parse_inputfile(const char *filename)
+/**
+* @brief It parse the data form an .rt file into the t_scene structure statically by `scene_storage()`.
+* @param filename `{const char*}` the pat
+* @returns `{int}`
+* `0 no errors`
+* `>0 for errors`
+*/
+int	parse_inputfile(const char *rt_path)
 {
-	if (is_rt_file(filename))
+	if (!is_rt_file(rt_path))
 	{
-		printf("is a rt file");
+		printf("is NOT a rt file");
 		return (1);
 	}
 	else
 	{
-		printf("is NOT a rt file");
+		printf("is a rt file");
 		return (0);
 	}
+	
 }

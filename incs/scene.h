@@ -24,8 +24,17 @@
 
 typedef struct s_scene
 {
-	void		*shapes;
+	unsigned int height;
+	unsigned int width;
+	t_camera	camera;
+	t_ambient	ambient_light;
 	t_light		*lights;
+	t_plane		*planes;
+	t_sphere	*spheres;
+	t_cyilinder	*cylinders;
 }	t_scene;
+
+
+t_scene *scene_storage(t_scene *storage, int reset);
 
 #endif

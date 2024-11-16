@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "scene.h"
 #include "parsing.h"
 #include "mrt-math.h"
 
@@ -19,9 +20,11 @@ int main(int ac, char** av)
 	if (ac != 2)
 		return (1);
 	char *filename;
+	t_scene scene;
 
 	filename = av[1];
-	parse_inputfile(filename);
+	scene_storage(&scene);
+	parse_inputfile(filename, &scene);
 	printf("Filename: %s\n", filename);
 	return (0);
 }
