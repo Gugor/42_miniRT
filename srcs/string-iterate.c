@@ -1,7 +1,6 @@
 /* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strings.h                                       :+:      :+:    :+:   */
+/*   string-iterate.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,21 +9,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STRINGS_H
-#define FT_STRINGS_H
+#include "ft_strings.h"
 
-#include <unistd.h>
-
-/******************************************************************************/
-/*			String Verifiy        		                      */
-int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strlen(const char *str);
-int		ft_isspace(const char c);
-
-/*			String Iterate	        		              */
-int		skip_spaces(const char *str);
-
-/*			String Write	        		              */
-void		ft_putstr_fd(int fd, const char *str);
-
-#endif
+/**
+* @brief
+*/
+int	skip_spaces(const char *str)
+{
+	int indx;
+	
+	indx = 0;
+	while (ft_isspace(str[indx]))
+		indx++;
+	return (0);
+}

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse-inputfile.c                                  :+:      :+:    :+:   */
+/*   parse-errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,48 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "parsing.h"
 #include "ft_strings.h"
 #include "error-handler.h"
-
 
 /**
 * @brief 
 */
-int	is_rt_file(const char *filename)
+void err_no_rt_extension(void)
 {
-	int	size;
-
-	size = ft_strlen(filename);
-	if (filename[size - 3] == '.')
-	{
-		if (filename[size -2] == 'r' && filename[size -1] == 't')
-			return (1);
-		if (filename[size -2] == 'R' && filename[size -1] == 'T')
-			return (1);
-	}
-	return (0);
+	ft_putstr_fd(2, "Error: this is not a valid file. You need to provide a file with a '.rt' extension\n");	
 }
 
 /**
-* @brief It parse the data form an .rt file into the t_scene structure statically by `scene_storage()`.
-* @param filename `{const char*}` the pat
-* @returns `{int}`
-* `0 no errors`
-* `>0 for errors`
+* @brief 
 */
-int	parse_inputfile(const char *rt_path)
+void err_rt_file_not_open(int err)
 {
-	if (!is_rt_file(rt_path))
-	{
-		err_no_rt_extension();
-		return (1);
-	}
-	else
-	{
-		//open_fil
-		open_rt(rt_path);
-		return (0);
-	}
+	ft_putstr_fd(2,"Error:");
+	ft_putstr_fd(2, stderror(err));
+	ft_putstr_fd(2,"\n");
+}
+
+/**
+* @brief
+*/
+void	err_wrong_rt_file_format(void)
+{
+	ft_putstr_fd(2, "Error: this file has not a valid format. Please provide a valid formatted file.\n");	
 }

@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 14:50:22 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:12:56 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/15 15:48:40 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "parsing.h"
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include "mrt-math.h"
 
-int main(int ac, char** av)
+typedef struct	s_camera
 {
-	if (ac != 2)
-		return (1);
-	char *filename;
-	t_scene scene;
+	t_p3	pos;
+	t_vec3	axis;
+	double	fovH;
+	double	fovV;
+}	t_camera;
 
-	filename = av[1];
-	scene_storage(&scene);
-	parse_inputfile(filename);
-	printf("Filename: %s\n", filename);
-	return (0);
-}
+#endif

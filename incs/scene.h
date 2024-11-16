@@ -21,6 +21,8 @@
 #include <unistd.h>
 
 #include "lights.h"
+#include "camera.h"
+#include "shapes.h"
 
 typedef struct s_scene
 {
@@ -31,10 +33,10 @@ typedef struct s_scene
 	t_light		*lights;
 	t_plane		*planes;
 	t_sphere	*spheres;
-	t_cyilinder	*cylinders;
+	t_cylinder	*cylinders;
 }	t_scene;
 
 
-t_scene *scene_storage(t_scene *storage, int reset);
+t_scene *scene_storage(t_scene *storage);
 
 #endif

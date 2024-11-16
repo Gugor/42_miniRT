@@ -19,7 +19,7 @@
 typedef struct s_material
 {
 	t_color albedo;	
-};
+}	t_material;
 
 
-#endif;
+#endif

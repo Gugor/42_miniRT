@@ -16,9 +16,8 @@
 #ifndef SHAPES_H
 #define SHAPES_H
 
-#include "mrt_math.h"
-
-
+#include "mrt-math.h"
+#include "materials.h"
 
 typedef struct s_plane
 {
@@ -36,7 +35,7 @@ typedef struct s_sphere
 	double size;
 	t_color rgb;
 	t_material material;
-}	t_plane;
+}	t_sphere;
 
 typedef struct s_cylinder
 {
@@ -46,7 +45,7 @@ typedef struct s_cylinder
 	t_vec2 size;
 	t_color rgb;
 	t_material material;
-}	t_plane;
+}	t_cylinder;
 
 
 #endif

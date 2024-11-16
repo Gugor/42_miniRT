@@ -23,7 +23,7 @@ typedef struct s_ambient
 {
 	t_color	rgb;
 	double	range;
-};
+}	t_ambient;
 
 typedef struct s_light
 {

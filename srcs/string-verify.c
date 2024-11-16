@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strings.h                                       :+:      :+:    :+:   */
+/*   strings-verify.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,21 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STRINGS_H
-#define FT_STRINGS_H
+#include "ft_strings.h"
 
-#include <unistd.h>
+/**
+* @brief It tells if a given character is a space in ASCII. We consider:
+*  8 '\b' (backsapce)
+*  9 '\t' (horizontal tab)
+* 11 '\v' (vertical) 
+*/
+int	ft_isspace(const char c)
+{
+	if (c >= 8 && c <= 13 && c == 32 && c != 10)
+		return (1);
+	return (0);
+}
 
-/******************************************************************************/
-/*			String Verifiy        		                      */
-int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strlen(const char *str);
-int		ft_isspace(const char c);
-
-/*			String Iterate	        		              */
-int		skip_spaces(const char *str);
-
-/*			String Write	        		              */
-void		ft_putstr_fd(int fd, const char *str);
-
-#endif

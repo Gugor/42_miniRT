@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   string-write.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 14:50:22 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:12:56 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/14 20:11:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "parsing.h"
-#include "mrt-math.h"
+#include "ft_strings.h"
 
-int main(int ac, char** av)
+/**
+* @brief It write a sting in a given file descriptor.
+* @param fd `{int}` a file descriptor to write to.
+* @param str `{const char *}` a pointer to the string to write.
+* @returns `{void}`
+*/
+void ft_putstr_fd(int fd, const char *str)
 {
-	if (ac != 2)
-		return (1);
-	char *filename;
-	t_scene scene;
-
-	filename = av[1];
-	scene_storage(&scene);
-	parse_inputfile(filename);
-	printf("Filename: %s\n", filename);
-	return (0);
+	if (!str)
+		return ;
+	while(*str)
+		write(fd, str++, 1);
 }
+
