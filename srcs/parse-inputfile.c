@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse-inputfile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:11:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:19:10 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,46 +35,63 @@ int	is_rt_file(const char *filename)
 	return (0);
 }
 
-int	is_valid_entity(char *buff)
+
+/**
+* @brief It finds the entity id in the buffer passed and return it integer id.
+* NOTE: The id returned is the index of the array that stores the identifier ids in
+* scene struct (`scene->entity_ids[]`). There is an `enum` called `ent_id`
+* @returns `{int}`
+* the entity id [0 - (NUM_ENTITIES - 1)]
+*/
+int	find_entity_id(char *buff)
 {
 	t_scene *scene;
+	int	len;
 	int	indx;
 
 	scene = get_scene();
-	while (scene->entity_ids[indx])
+	len = 0;
+	indx = -1;
+	while (buff[len] && buff[len] != ' ')
+		len++;
+	while (scene->entity_ids[++indx])
 	{
-		if (ft_strcmp(scene->entity_ids[indx]))
+		if (ft_strncmp(scene->entity_ids[indx], buff, len) == 0)
+			return (indx);
 	}
+	return (-1);
 }
 
 /**
 * @brief It parse a line and transform it into an entitie of the scene.
 */
-void parse_entities(char *buff, t_scene *scene)
+void parse_rt_file_line(char *line, t_scene *scene)
 {
 	int indx;
+	int ent_id;
 
-	indx = skip_spaces(buff);
-	buff += indx; 
-	if (is_valid_entity(buff))
-	{
-
-	}
+	indx = skip_spaces(line);
+	line += indx; 
+	ent_id = find_entity_id(line);
+	if (ent_id == -1)
+		//throw err and exit
+	create_entity(scene, ent_id, line);
 }
 
 /**
 * @brief It patse rt file and create entities.
 */
-int	read_entities(int fd, t_scene *scene)
+int	read_rtfile_to_scene(int fd, t_scene *scene)
 {
-	char		*buf[BUFF_SIZE];
+	char		*buff[BUFF_SIZE];
 	ssize_t		bytes_read;
+	unsigned int	len;
 
 	bytes_read = 0;
-	while ((bytes_read = read(fd, buf, BUFF_SIZE)) != 0)
+	len = 0;
+	while ((bytes_read = read(fd, buff, BUFF_SIZE)) != 0)
 	{
-		parse_entities(buff, t_scene *scene);	
-	
+		parse_rtfile_line(buff, scene);	
 	}
 } 
 
@@ -86,7 +103,7 @@ int	read_entities(int fd, t_scene *scene)
 * `0 no errors`
 * `>0 for errors`
 */
-int	parse_inputfile(const char *rt_path)
+int	parse_rtfile(const char *rt_path)
 {
 	t_scene *scene;
 
@@ -100,7 +117,7 @@ int	parse_inputfile(const char *rt_path)
 	{
 		//open_fil
 		scene->rtfd = open_rt(rt_path);
-		parse_entities();
+		read_rtfile_to_scene(scene->rtfd, scene);
 		return (0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 18:54:52 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:47:41 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
 
-#include "colours.h"
 #include "mrt-math.h"
+#include "colours.h"
 
 typedef struct s_ambient
 {

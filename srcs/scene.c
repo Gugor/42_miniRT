@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scene.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/18 18:48:16 by hmontoya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "scene.h"
 
@@ -8,6 +19,33 @@
 t_scene *get_scene(void)
 {
 	return (scene_storage(NULL));
+}
+
+/**
+* @brief It fill entity_id field in scene with the entiy identifiers
+* accepted in this program.
+* @return `{void}`
+*/
+void	set_entity_ids(char *entities[NUM_ENTITIES + 1])
+{
+	entities[0] = "A";
+	entities[1] = "L";
+	entities[2] = "C";
+	entities[3] = "pl";
+	entities[4] = "sp";
+	entities[5] = "cy";
+	entities[6] = "ot";
+	entities[7] = "\0";
+}
+
+/**
+* @brief Initialize the scene and entities with default data.
+*/
+int	init_scene_data(t_scene *scene)
+{
+	set_entity_ids(scene->entity_ids);
+	scene->required_ents = 0b00000000;
+	return (0);
 }
 
 /**

@@ -1,45 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 18:47:25 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:25:15 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
 * Code related to the program itself  and the scene
 */
-#ifndef MINIRT_H
-#define MINIRT_H
+#ifndef SCENE_H
+# define SCENE_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdint.h>
 
-#include "lights.h"
-#include "camera.h"
-#include "shapes.h"
+# include "lights.h"
+# include "camera.h"
+# include "shapes.h"
+
+# define NUM_ENTITIES 7
+
+/**
+* @brief Its used for stablishing if a scene can be rendered
+* A series of values to mask an compare with, to stablish if all the
+* required entity are set to a scene being able to render.
+*/
+typedef enum e_req_ents
+{
+	REQ_AMBIENT = 1,
+	REQ_CAMERA = 2,
+	REQ_FULL = 3,
+}	t_reqents;
 
 typedef struct s_scene
 {
-	unsigned int	height;
-	unsigned int	width;
-	int		rtfd;
-	char		*entity_ids[8];
-	t_camera	camera;
-	t_ambient	ambient_light;
-	t_light		*lights;
-	t_plane		*planes;
-	t_sphere	*spheres;
-	t_cylinder	*cylinders;
+	unsigned int		height;
+	unsigned int		width;
+	int					rtfd;
+	uint8_t				required_ents;	
+	char				*entity_ids[NUM_ENTITIES + 1];
+	t_camera			camera;
+	t_ambient			alight;
+	t_light				*lights;
+	t_plane				*planes;
+	t_sphere			*spheres;
+	t_cylinder			*cylinders;
 }	t_scene;
 
-
-t_scene 	*scene_storage(t_scene *storage);
-t_scene 	*get_scene(void);
+t_scene		*scene_storage(t_scene *storage);
+int			init_scene_data(t_scene *scene);
+t_scene		*get_scene(void);
 
 #endif

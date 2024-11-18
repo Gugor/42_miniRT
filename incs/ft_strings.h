@@ -6,7 +6,7 @@
 /*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:57:28 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:09:57 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:49:51 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 /******************************************************************************/
 /*			String Verifiy        		                      */
 int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strncmp(const char *s1, const char *s2, int n);
 int		ft_strlen(const char *str);
 int		ft_isspace(const char c);
 
