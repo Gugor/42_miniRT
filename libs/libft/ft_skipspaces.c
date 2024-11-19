@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_skipspaces.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:24:47 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 16:27:49 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:51:42 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	skip_spaces(const char *str)
+int	skip_spaces(char *str)
 {
-	int indx;
+	int	indx;
 
 	indx = 0;
-	while (ft_isspace(str[indx]))
+	while (str[indx] && ft_isspace(str[indx]))
 		indx++;
-	return (0);
+	return (indx);
 }

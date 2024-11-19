@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 17:34:16 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:41:11 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,26 @@ int	is_rt_file(const char *filename)
 */
 int	read_rtfile_to_scene(int fd, t_scene *scene)
 {
-	char		line[BUFF_SIZE];
+	char		line[BUFF_SIZE + 1];
 	char		*buff;
 	ssize_t		bytes_read;
 	unsigned int	len;
 
 	bytes_read = 1;
 	len = 0;
+	ft_memset((char *)&line, '\0', BUFF_SIZE + 1);
 	while ((bytes_read = read(fd, &line, BUFF_SIZE)) > 0)
 	{
-		len += skip_spaces((const char*)&line);
+		line[BUFF_SIZE] = '\0';
+		printf("Line: %s\n", line);
+		buff = ft_strjoin(&buff[len], (char *)line);
+		len += skip_spaces((char *)&buff);
 		while (buff[len] && buff[len] == '\n')
 			continue;
 		if (!buff[len] && len >= BUFF_SIZE)
 			return (-1);	//line too long
-		buff = ft_strjoin(&buff[len], line);
-		ft_memset(line, 0, ft_strlen(line));
-		extract_line(line, &buff);
-		parse_rtfile_line((char *)&line, scene);	
+		extract_line((char *)line, &buff);
+		parse_rtfile_line((char *)line, scene);	
 	}
 	free(buff);
 	if (bytes_read < 0)

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 19:13:08 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:02:48 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	create_ambient_light(t_scene *scene, const char *line)
 
 	if (!(scene->required_ents & REQ_AMBIENT))
 		err_rt_file_format("more than one ambient light.");
-	line += skip_spaces(line);
+	line += skip_spaces((char *)line);
 	if (!line || !ft_isdigit(*line))
 		err_rt_file_format("wrong ambien light format.");
 	indx = -1;
-	scene->alight.range = get_double(line, 10, NULL);
+	scene->alight.range = get_double((char *)line, 10, NULL);
 	if (!scene->alight.range || !in_range_dbl(scene->alight.range, 0.0, 1.0))
 		err_rt_file_format("wrong ambien light format [range].");
-	if (set_rgb(&scene->alight.rgb, line, NULL)
+	if (set_rgb(&scene->alight.rgb, (char *)line, NULL)
 		|| !in_range_rgb(scene->alight.rgb, 0, 255))
 		err_rt_file_format("wrong ambien light format [rgb].");
 	scene->required_ents |= REQ_AMBIENT;

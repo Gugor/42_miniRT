@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 18:58:35 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 18:22:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:11:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include "scene.h"
 
-# define BUFF_SIZE 255
+# define BUFF_SIZE 80
 
 typedef enum e_ent_id
 {

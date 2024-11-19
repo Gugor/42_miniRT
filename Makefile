@@ -63,6 +63,7 @@ INCS			:= $(addprefix $(INCS_DIR)/, $(INC_FILES))
 
 # Compilation & flags
 CC 			:= cc
+GCC 			:= gcc
 CFLAGS			:= -Wall -Wextra -Werror -O3
 IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 DFLAGS			:= -g -fsanitize=leak
@@ -76,6 +77,14 @@ $(NAME):: $(OBJS) $(MF) $(INCS) | $(MLX) $(LIBFT)
 	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME) $(LFLAGS)
 $(NAME):: $(OBJS) $(MF) | $(MLX) $(LIBFT) 
 	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
+
+debug:: $(OBJS) $(MF) $(INCS) | $(MLX) $(LIBFT)
+	@printf "\n$(YELLOW)=======+++++  DEBUG MODE  +++==========$(RESET)\n"
+	@printf "\n$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(NAME)$(RESET)\n"
+	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME) $(LFLAGS)
+debug:: $(OBJS) $(MF) | $(MLX) $(LIBFT) 
+	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
+	@printf "\n$(YELLOW)=======+++++  DEBUG MODE  +++==========$(RESET)\n"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/*%.c $(MF) $(INCS) 
 	@printf "$(GREEN)√ $(RESET)$(WHITE)%s$(RESET)\n  " "$<"
