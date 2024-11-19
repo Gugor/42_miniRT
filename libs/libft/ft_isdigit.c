@@ -1,25 +1,16 @@
 /* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string-iterate.h                                   :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 19:57:28 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:09:57 by hmontoya         ###   ########.fr       */
+/*   Created: 2023/05/03 15:59:13 by hmontoya          #+#    #+#             */
+/*   Updated: 2023/06/14 18:45:28 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_strings.h"
-
-/**
-* @brief
-*/
-int	skip_spaces(const char *str)
+int	ft_isdigit(int c)
 {
-	int indx;
-	
-	indx = 0;
-	while (ft_isspace(str[indx]))
-		indx++;
-	return (0);
+	return ((c >= '0' && c <= '9'));
 }

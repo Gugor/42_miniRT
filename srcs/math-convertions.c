@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error-handler.h                                    :+:      :+:    :+:   */
+/*   math-convertions.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 18:28:06 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/19 19:05:30 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/19 19:10:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef ERROR_HANDLER_H
-#define ERROR_HANDLER_H
+#include "mrt-math.h"
 
-#include <string.h>
-#include <errno.h>
-
-enum errorsnum 
+/**
+ * @brief It converst from vec3 to t_color
+*/
+t_color	vec3_to_rgb(t_vec3 *v3)
 {
-	SUCCESS,
-	ERR_NO_RT_EXT,
-	ERR_FILE_NO_OPEN,	
-};
+	t_color	rgb;
 
-void		err_no_rt_extension(void);
-void		err_wrong_rt_file_format(void);
-void		err_rt_file_not_open(const int err);
-void		err_rt_file_format(const char *msg);
-#endif
+	rgb.r = v3->x;
+	rgb.g = v3->y;
+	rgb.b = v3->z;
+	return (rgb);
+}

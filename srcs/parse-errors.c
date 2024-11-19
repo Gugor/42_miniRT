@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse-errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/14 20:11:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:55:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_strings.h"
+#include "libft.h"
 #include "error-handler.h"
 
 /**
@@ -29,6 +29,15 @@ void err_rt_file_not_open(const int err)
 	ft_putstr_fd(2,"Error: ");
 	ft_putstr_fd(2, strerror(err));
 	ft_putstr_fd(2,"\n");
+}
+
+void	err_rt_file_format(const char *msg)
+{
+	ft_putstr_fd(2,"Error: rt file: ");
+	ft_putstr_fd(2, (char *)msg);
+	ft_putstr_fd(2,"\n");
+	//clean_scene();
+	exit (101);
 }
 
 /**

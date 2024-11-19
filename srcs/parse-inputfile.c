@@ -6,15 +6,15 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/18 19:19:10 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:34:16 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "file.h"
 #include "parsing.h"
-#include "ft_strings.h"
 #include "error-handler.h"
+#include "libft.h"
 
 
 /**
@@ -35,64 +35,34 @@ int	is_rt_file(const char *filename)
 	return (0);
 }
 
-
 /**
-* @brief It finds the entity id in the buffer passed and return it integer id.
-* NOTE: The id returned is the index of the array that stores the identifier ids in
-* scene struct (`scene->entity_ids[]`). There is an `enum` called `ent_id`
-* @returns `{int}`
-* the entity id [0 - (NUM_ENTITIES - 1)]
-*/
-int	find_entity_id(char *buff)
-{
-	t_scene *scene;
-	int	len;
-	int	indx;
-
-	scene = get_scene();
-	len = 0;
-	indx = -1;
-	while (buff[len] && buff[len] != ' ')
-		len++;
-	while (scene->entity_ids[++indx])
-	{
-		if (ft_strncmp(scene->entity_ids[indx], buff, len) == 0)
-			return (indx);
-	}
-	return (-1);
-}
-
-/**
-* @brief It parse a line and transform it into an entitie of the scene.
-*/
-void parse_rt_file_line(char *line, t_scene *scene)
-{
-	int indx;
-	int ent_id;
-
-	indx = skip_spaces(line);
-	line += indx; 
-	ent_id = find_entity_id(line);
-	if (ent_id == -1)
-		//throw err and exit
-	create_entity(scene, ent_id, line);
-}
-
-/**
-* @brief It patse rt file and create entities.
+* @brief It parse rt file and create entities.
 */
 int	read_rtfile_to_scene(int fd, t_scene *scene)
 {
-	char		*buff[BUFF_SIZE];
+	char		line[BUFF_SIZE];
+	char		*buff;
 	ssize_t		bytes_read;
 	unsigned int	len;
 
-	bytes_read = 0;
+	bytes_read = 1;
 	len = 0;
-	while ((bytes_read = read(fd, buff, BUFF_SIZE)) != 0)
+	while ((bytes_read = read(fd, &line, BUFF_SIZE)) > 0)
 	{
-		parse_rtfile_line(buff, scene);	
+		len += skip_spaces((const char*)&line);
+		while (buff[len] && buff[len] == '\n')
+			continue;
+		if (!buff[len] && len >= BUFF_SIZE)
+			return (-1);	//line too long
+		buff = ft_strjoin(&buff[len], line);
+		ft_memset(line, 0, ft_strlen(line));
+		extract_line(line, &buff);
+		parse_rtfile_line((char *)&line, scene);	
 	}
+	free(buff);
+	if (bytes_read < 0)
+		return (-2); //error_reading file
+	return (0);
 } 
 
 

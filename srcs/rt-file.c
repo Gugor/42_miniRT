@@ -18,5 +18,3 @@ int open_rt(const char *rt_path)
 	return (fd);
 }
 
-
-

@@ -10,16 +10,17 @@ RESET		:= \033[1;0m
 
 
 # Targets
-NAME 		:= miniRT
-MLX		:= mlx
-BSD_LIB = $(shell pkg-config --libs bsd)
+NAME 			:= miniRT
+MLX			:= mlx	
+LIBFT			:= libft	
 
-MF		:= Makefile
+MF			:= Makefile
 
 # Directories
 INCS_DIR		:= incs
 LIBS_DIR		:= libs
 MLX_DIR			:= libs/$(MLX)
+LIBFT_DIR		:= libs/$(LIBFT)
 SRCS_DIR		:= srcs
 LOG_DIR			:= $(SRCS_DIR)/log
 OBJS_CRT		:= create_objs
@@ -36,7 +37,6 @@ INC_FILES		:= scene.h \
 				materials.h \
 				shapes.h \
 				parsing.h \
-				ft_strings.h \
 				error-handler.h \
 				ray.h \
 				window.h \
@@ -46,13 +46,14 @@ SRC_FILES		:= minirt.c \
 				scene.c \
 				parse-inputfile.c \
 				parse-errors.c \
+				parse-entities.c \
+				parse-entity-params.c \
 				rt-file.c \
-				ft_strings.c \
-				string-iterate.c \
-				string-verify.c \
-				string-write.c \
+				parse-rtfile-line.c \
+				math-in-range-utils.c \
+				math-convertions.c \
 
-			#create includes var with include names.
+#create includes var with include names.
 OBJS_DIR		:= .objs
 DEPS_DIR		:= .deps
 SRCS		 	:= $(addprefix $(SRCS_DIR)/, $(SRC_FILES))
@@ -63,18 +64,17 @@ INCS			:= $(addprefix $(INCS_DIR)/, $(INC_FILES))
 # Compilation & flags
 CC 			:= cc
 CFLAGS			:= -Wall -Wextra -Werror -O3
-UNAMEL			:= "Compiling for Linux"
-IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR)
+IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 DFLAGS			:= -g -fsanitize=leak
-LFLAGS			:= -L$(MLX_DIR) -lmlx
+LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft
 
 
-all: $(MLX) $(OBJS_DIR) $(DEPS_DIR) $(NAME) 
+all: $(MLX) $(LIBFT) $(OBJS_DIR) $(DEPS_DIR) $(NAME) 
 
-$(NAME):: $(OBJS) $(MF) $(INCS) | $(MLX) 
+$(NAME):: $(OBJS) $(MF) $(INCS) | $(MLX) $(LIBFT)
 	@printf "\n$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(NAME)$(RESET)\n"
 	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME) $(LFLAGS)
-$(NAME):: $(OBJS) $(MF) | $(MLX)  
+$(NAME):: $(OBJS) $(MF) | $(MLX) $(LIBFT) 
 	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/*%.c $(MF) $(INCS) 
@@ -98,8 +98,8 @@ create_deps::
 	@chmod 755 $(DEPS_DIR)
 create_deps::
 	@printf " 🌟 $(WHITE) Dependencies Folders Created $(RESET) 🌟 \n\n" 
-
-$(MLX) : $(MLX_DIR)/Makefile $(MLX_DIR)/mlx.h
+	
+$(MLX) : 
 	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) Looking for Graphic Dependencies for $(MAGENTA)minilibx$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) This can take a while depending the state of your dependencies\n" 
@@ -119,6 +119,10 @@ $(MLX) : $(MLX_DIR)/Makefile $(MLX_DIR)/mlx.h
 		touch .mlx; \
 	fi
 	@$(MAKE) -C $(MLX_DIR)
+
+$(LIBFT) : 
+	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(LIBFT)$(RESET) library\n" 
+	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	@echo "\033[1;31mX\033[0m \033[1;37mRemoving Objects MLX\033[0m"
