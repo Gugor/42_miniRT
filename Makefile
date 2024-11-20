@@ -22,7 +22,8 @@ LIBS_DIR		:= libs
 MLX_DIR			:= libs/$(MLX)
 LIBFT_DIR		:= libs/$(LIBFT)
 SRCS_DIR		:= srcs
-LOG_DIR			:= $(SRCS_DIR)/log
+GETLINE_DIR		:= get_line
+LOG_DIR			:= log
 OBJS_CRT		:= create_objs
 DEPS_CRT		:= create_deps
 
@@ -40,6 +41,7 @@ INC_FILES		:= scene.h \
 				error-handler.h \
 				ray.h \
 				window.h \
+				get_next_line.h \
 				lights.h
 
 SRC_FILES		:= minirt.c \
@@ -52,6 +54,8 @@ SRC_FILES		:= minirt.c \
 				parse-rtfile-line.c \
 				math-in-range-utils.c \
 				math-convertions.c \
+				$(GETLINE_DIR)/get_next_line.c \
+				$(GETLINE_DIR)/get_next_line_utils.c \
 
 #create includes var with include names.
 OBJS_DIR		:= .objs
@@ -62,7 +66,7 @@ DEPS		 	:= $(patsubst $(SRCS_DIR)/%.c, $(DEPS_DIR)/%.d, $(SRCS))
 INCS			:= $(addprefix $(INCS_DIR)/, $(INC_FILES))
 
 # Compilation & flags
-CC 			:= cc
+CC 				:= cc
 GCC 			:= gcc
 CFLAGS			:= -Wall -Wextra -Werror -O3
 IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
@@ -92,9 +96,12 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/*%.c $(MF) $(INCS)
 
 $(OBJS_DIR):
 	@$(MAKE) create_objs
+
 create_objs::
 	@printf "\n$(GREEN)=>$(RESET) Creating $(WHITE)$(OBJS_DIR)$(RESET) dir\n" 
 	@mkdir -vp .objs 
+	@mkdir -vp .objs/get_line 
+	@mkdir -vp .objs/logger 
 	@chmod 755 $(OBJS_DIR)
 create_objs:: 
 	@printf " 🌟 $(WHITE) Objects Folders Created $(RESET)🌟 \n" 

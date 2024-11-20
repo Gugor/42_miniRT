@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 20:41:11 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:27:43 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "parsing.h"
 #include "error-handler.h"
 #include "libft.h"
-
+#include "get_next_line.h"
 
 /**
 * @brief 
@@ -37,7 +37,7 @@ int	is_rt_file(const char *filename)
 
 /**
 * @brief It parse rt file and create entities.
-*/
+*
 int	read_rtfile_to_scene(int fd, t_scene *scene)
 {
 	char		line[BUFF_SIZE + 1];
@@ -54,7 +54,7 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 		printf("Line: %s\n", line);
 		buff = ft_strjoin(&buff[len], (char *)line);
 		len += skip_spaces((char *)&buff);
-		while (buff[len] && buff[len] == '\n')
+		while (buff[++len] && buff[len] == '\n')
 			continue;
 		if (!buff[len] && len >= BUFF_SIZE)
 			return (-1);	//line too long
@@ -65,8 +65,31 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 	if (bytes_read < 0)
 		return (-2); //error_reading file
 	return (0);
-} 
+}*/ 
 
+/**
+* @brief It parse rt file and create entities.
+*/
+int	read_rtfile_to_scene(int fd, t_scene *scene)
+{
+	char	*line;
+	int	start;
+
+	line = NULL;
+	start = 0;
+	while ((line = get_next_line(fd)))
+	{
+		start = skip_spaces(line);
+		if(line[start] == '\n')
+		{
+			free(line);
+			continue;
+		}
+		parse_rtfile_line(line, scene);
+		free_simple((void *)&line);
+	}
+	return (0);
+}
 
 /**
 * @brief It parse the data form an .rt file into the t_scene structure statically by `scene_storage()`.

@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hmontoya <hmontoya@student.42barcel>       +#+  +:+       +#+         #
+#    By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 16:24:04 by hmontoya          #+#    #+#              #
-#    Updated: 2024/11/19 16:27:13 by hmontoya         ###   ########.fr        #
+#    Updated: 2024/11/20 15:24:03 by hmontoya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -I ./
 DEPS = libft.h Makefile 
 SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c ft_memset.c \
@@ -21,8 +21,10 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strle
 	  ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_itoa.c ft_strmapi.c \
 	  ft_striteri.c ft_strtrim.c ft_split.c ft_lstclear.c ft_lstadd_front.c ft_lstadd_back.c \
 	  ft_lstdelone.c ft_lstlast.c ft_lstnew.c ft_lstsize.c ft_lstmap.c ft_lstiter.c \
-	  ft_isspace.c ft_skipspaces.c
+	  ft_isspace.c ft_skipspaces.c ft_freesimple.c
+
 OBJS  = $(SRCS:.c=.o) 
+
 $(NAME) : $(OBJS) $(DEPS) 
 	@echo "\033[1;32m== \033[0m \033[1;37mCreating Library \033[1;35m$@\033[0m"
 	@printf "\033[1;37m|-> \033[0m"
@@ -40,6 +42,7 @@ clean: $(OBJS)
 
 fclean: clean
 	@rm -fv $(NAME)
+
 re: fclean all
 
 .PHONY : clean fclean re all
