@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 20:02:48 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:30:27 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@
 
 void	create_ambient_light(t_scene *scene, const char *line)
 {
-	int	indx;
-
 	if (!(scene->required_ents & REQ_AMBIENT))
 		err_rt_file_format("more than one ambient light.");
 	line += skip_spaces((char *)line);
 	if (!line || !ft_isdigit(*line))
 		err_rt_file_format("wrong ambien light format.");
-	indx = -1;
 	scene->alight.range = get_double((char *)line, 10, NULL);
 	if (!scene->alight.range || !in_range_dbl(scene->alight.range, 0.0, 1.0))
 		err_rt_file_format("wrong ambien light format [range].");
@@ -34,41 +31,57 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	scene->required_ents |= REQ_AMBIENT;
 }
 
-void create_light_source(t_scene *scene, char *line){
-	(void)scene;
-	(void)line;
+void	create_camera(t_scene *scene, char *line)
+{
+	if (!(scene->required_ents & REQ_CAMERA))
+		err_rt_file_format("more than one ambient light.");
+	line += skip_spaces((char *)line);
+	if (!line || !ft_isdigit(*line))
+		err_rt_file_format("wrong camera format.");
+	if (set_vec3(&scene->camera.pos, (char *)line, NULL))
+		err_rt_file_format("wrong camera format [xyz].");
+	if (set_vec3(&scene->camera.axis, (char *)line, NULL)
+		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
+		err_rt_file_format("wrong camera format [normal].");
+	scene->camera.fovH = get_double((char *)line, 10, NULL);
+	if (!scene->camera.fovH || !in_range_dbl(scene->camera.fovH, 0.0, 180.0))
+		err_rt_file_format("wrong ambien light format [FOVH].");
+	scene->required_ents |= REQ_CAMERA;
 }
 
-void create_camera(t_scene *scene, char *line)
+void	create_light_src(t_scene *scene, char *line)
+{
+	t_light *light;
+
+	light = get_light(scene->lights, scene->num_lights)
+	line += skip_spaces((char *)line);
+	if (!line || !ft_isdigit(*line))
+		err_rt_file_format("wrong camera format.");
+	if (set_vec3(&scene->camera.pos, (char *)line, NULL))
+		err_rt_file_format("wrong camera format [xyz].");
+	if (!scene->lights[scene->num_lights - 1] || !in_range_dbl(scene->camera.fovH, 0.0, 180.0))
+		err_rt_file_format("wrong ambien light format [FOVH].");
+	if (set_vec3(&scene->camera.axis, (char *)line, NULL)
+		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
+		err_rt_file_format("wrong camera format [normal].");
+	scene->camera.fovH = get_double((char *)line, 10, NULL);
+}
+
+
+int	create_plane(t_scene *scene, const char *line)
 {
 	(void)scene;
 	(void)line;
 }
 
-void create_entity(t_scene *scene, t_entid id, const char *line)
+int	create_sphere(t_scene *scene, const char *line)
 {
-	switch (id)
-	{
-		case AMBIENT:
-			create_ambient_light(scene, line);
-			break;
-		case LIGHT:
-		//	create_light();
-			break;
-		case CAMERA:
-		//	create_camera();
-			break;
-		case PLANE:
-		//	create_plane();
-			break;
-		case SPHERE:
-			//create_sphere();
-			break;
-		case CYLINDER:
-			//create_cylinder();
-			break;
-		case OTHER:
-			//create_ambient_light();
-			break;
-	}
+	(void)scene;
+	(void)line;
+}
+
+int	create_cylinder(t_scene *scene, const char *line)
+{
+	(void)scene;
+	(void)line;
 }

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/18 19:25:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/20 20:03:59 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@
 
 # define NUM_ENTITIES 7
 
+
+typedef enum e_ent_id
+{
+	AMBIENT,
+	LIGHT,
+	CAMERA,
+	PLANE,
+	SPHERE,
+	CYLINDER,
+	OTHER,
+}	t_entid;
+
 /**
 * @brief Its used for stablishing if a scene can be rendered
 * A series of values to mask an compare with, to stablish if all the
@@ -39,6 +51,11 @@ typedef enum e_req_ents
 	REQ_FULL = 3,
 }	t_reqents;
 
+
+typedef struct s_scene	t_scene;
+
+typedef int	(*t_create_entity)(t_scene *, char *line);
+
 typedef struct s_scene
 {
 	unsigned int		height;
@@ -46,12 +63,14 @@ typedef struct s_scene
 	int					rtfd;
 	uint8_t				required_ents;	
 	char				*entity_ids[NUM_ENTITIES + 1];
+	t_create_entity		create_ent[7];
 	t_camera			camera;
 	t_ambient			alight;
-	t_light				*lights;
-	t_plane				*planes;
-	t_sphere			*spheres;
-	t_cylinder			*cylinders;
+	t_shape_lst			*shapes;
+	//t_light_lst			*lights;
+	//t_plane				*planes;
+	//t_sphere			*spheres;
+	//t_cylinder			*cylinders;
 }	t_scene;
 
 t_scene		*scene_storage(t_scene *storage);

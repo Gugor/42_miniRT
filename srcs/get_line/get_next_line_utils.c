@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 16:06:54 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 15:44:39 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:57:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,6 @@ ssize_t	ft_strlenss(char *s)
 		i++;
 	return (i);
 }
-
-/*
-void	*ft_calloc(ssize_t count, ssize_t size)
-{
-	void			*ptr;
-	ssize_t			i;
-	unsigned char	*b;
-
-	ptr = (void *)malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	b = (unsigned char *)ptr;
-	while (i < count * size)
-	{
-		b[i] = 0;
-		i++;
-	}
-	ptr = (void *) b;
-	return ((void *)ptr);
-}
-
-char	*ft_strchr(char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	if (!s || !(*s))
-		return (NULL);
-	while (*(s + i))
-	{
-		if (*(s + i) == c)
-			return (s + i);
-		i++;
-	}
-	return (NULL);
-}
-*/
 
 char	*ft_strcut(char *s, ssize_t size)
 {

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 15:27:43 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/20 17:22:21 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,37 +35,6 @@ int	is_rt_file(const char *filename)
 	return (0);
 }
 
-/**
-* @brief It parse rt file and create entities.
-*
-int	read_rtfile_to_scene(int fd, t_scene *scene)
-{
-	char		line[BUFF_SIZE + 1];
-	char		*buff;
-	ssize_t		bytes_read;
-	unsigned int	len;
-
-	bytes_read = 1;
-	len = 0;
-	ft_memset((char *)&line, '\0', BUFF_SIZE + 1);
-	while ((bytes_read = read(fd, &line, BUFF_SIZE)) > 0)
-	{
-		line[BUFF_SIZE] = '\0';
-		printf("Line: %s\n", line);
-		buff = ft_strjoin(&buff[len], (char *)line);
-		len += skip_spaces((char *)&buff);
-		while (buff[++len] && buff[len] == '\n')
-			continue;
-		if (!buff[len] && len >= BUFF_SIZE)
-			return (-1);	//line too long
-		extract_line((char *)line, &buff);
-		parse_rtfile_line((char *)line, scene);	
-	}
-	free(buff);
-	if (bytes_read < 0)
-		return (-2); //error_reading file
-	return (0);
-}*/ 
 
 /**
 * @brief It parse rt file and create entities.
@@ -73,26 +42,31 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 int	read_rtfile_to_scene(int fd, t_scene *scene)
 {
 	char	*line;
-	int	start;
+	int		start;
 
 	line = NULL;
 	start = 0;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		start = skip_spaces(line);
-		if(line[start] == '\n')
+		if (line[start] == '\n')
 		{
-			free(line);
-			continue;
+			free_simple((void *)&line);
+			continue ;
 		}
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		parse_rtfile_line(line, scene);
 		free_simple((void *)&line);
+		line = get_next_line(fd);
 	}
 	return (0);
 }
 
 /**
-* @brief It parse the data form an .rt file into the t_scene structure statically by `scene_storage()`.
+* @brief It parse the data form an .rt file into the t_scene structure 
+* statically by `scene_storage()`.
 * @param filename `{const char*}` the pat
 * @returns `{int}`
 * `0 no errors`
@@ -100,7 +74,7 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 */
 int	parse_rtfile(const char *rt_path)
 {
-	t_scene *scene;
+	t_scene	*scene;
 
 	scene = get_scene();
 	if (!is_rt_file(rt_path))

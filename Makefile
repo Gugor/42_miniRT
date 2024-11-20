@@ -49,11 +49,14 @@ SRC_FILES		:= minirt.c \
 				parse-inputfile.c \
 				parse-errors.c \
 				parse-entities.c \
+				parse-shapes.c \
 				parse-entity-params.c \
 				rt-file.c \
 				parse-rtfile-line.c \
 				math-in-range-utils.c \
 				math-convertions.c \
+				shapes-get-node.c \
+				shapes-add-lst.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
 
