@@ -5,6 +5,7 @@
 
 
 # include "scene.h"
+# include "entity-data.h"
 
 typedef struct s_lst
 {
@@ -20,7 +21,7 @@ typedef struct s_lst
 /*                              Lists Creation                               */
 t_lst		*new_lst_node(int indx, void *shape, t_entid type);
 t_lst		*find_lst_last(t_lst *lst);
-void		add_node_to(t_lst *lst, void *content, t_entid type);
+void		add_node_to(t_lst **lst, void *content, t_entid type);
 /*                              Lists Iteration                              */
 void		*get_node_at(t_lst *shps, int indx);
 

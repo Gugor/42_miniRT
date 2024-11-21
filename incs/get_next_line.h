@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 15:36:58 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 15:43:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:16:10 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #  define BUFFER_SIZE 42
 # endif
 
-char	*memfree(char **s);
+char	*chr_memfree(char **s);
 char	*get_next_line(int fd);
 char	*read_line(int fd, char *buffer);
 char	*get_nline(char **buf);

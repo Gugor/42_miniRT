@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 18:47:21 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:44:41 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static void	set_entity_ids(char *entities[NUM_ENTITIES + 1])
 */
 static void	init_entity_delegates (t_scene *scene)
 {
-	scene->create_ent[AMBIENT] = create_ambient_light;
-	scene->create_ent[LIGHT] = create_light_src;
-	scene->create_ent[CAMERA] = create_camera;
-	scene->create_ent[PLANE] = create_plane;
-	scene->create_ent[SPHERE] = create_sphere;
-	scene->create_ent[CYLINDER] = create_cylinder;
+	scene->create_ent[AMBIENT] = &create_ambient_light;
+	scene->create_ent[LIGHT] = &create_light_src;
+	scene->create_ent[CAMERA] = &create_camera;
+	scene->create_ent[PLANE] = &create_plane;
+	scene->create_ent[SPHERE] = &create_sphere;
+	scene->create_ent[CYLINDER] = &create_cylinder;
 	//scene->create_ent[OTHER] = create_other;
 }
 
@@ -62,9 +62,6 @@ int	init_scene_data(t_scene *scene)
 	set_entity_ids(scene->entity_ids);
 	init_entity_delegates(scene);
 	scene->required_ents = 0b00000011;
-	scene->num_lights = 0;
-	scene->num_planes = 0;
-	scene->num_spheres = 0;
 	scene_storage(scene);
 	return (0);
 }

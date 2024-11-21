@@ -31,6 +31,7 @@ DEPS_CRT		:= create_deps
 # Files
 
 INC_FILES		:= scene.h \
+				entity-data.h \
 				camera.h \
 				colours.h \
 				file.h \
@@ -49,14 +50,14 @@ SRC_FILES		:= minirt.c \
 				parse-inputfile.c \
 				parse-errors.c \
 				parse-entities.c \
-				parse-shapes.c \
+				parse-entity-shapes.c \
 				parse-entity-params.c \
 				rt-file.c \
 				parse-rtfile-line.c \
 				math-in-range-utils.c \
 				math-convertions.c \
-				shapes-get-node.c \
-				shapes-add-lst.c \
+				list-creation.c \
+				list-iteration.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
 

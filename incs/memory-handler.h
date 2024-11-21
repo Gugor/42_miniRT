@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.c                                           :+:      :+:    :+:   */
+/*   memory-handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 14:50:22 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 19:47:01 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/21 19:08:19 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/21 19:11:02 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
-#include "parsing.h"
-#include "mrt-math.h"
+#ifndef MEMORY_HANDLER_H
+# define MEMORT_HANDLER_H
 
-int	main(int ac, char **av)
-{
-	char		*filename;
-	t_scene		scene;
 
-	if (ac != 2)
-	{
-		printf("Error: no .rt file provided\n");
-		return (1);
-	}
-	filename = av[1];
-	init_scene_data(&scene);
-	parse_rtfile(filename);
-	printf("Filename: %s\n", filename);
-	return (0);
-}
+
+#endif

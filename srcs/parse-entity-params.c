@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:11:19 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 19:16:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:01:23 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,50 @@
 #include "scene.h"
 #include "libft.h"
 
-double	get_double(const char *line, int base, int *outsize)
+
+uint8_t	get_uint8(const char *line, uint8_t base, int *outsize)
+{
+	uint8_t	num;
+	int		indx;
+	uint8_t	neg;
+
+	indx = -1;
+	num = 0;
+	neg = 1;
+	if (line[0] == '-')
+		neg = -1;
+	while (line[++indx] && line[indx] != ',')
+		num = num * base + (line[indx] - 48);
+	outsize += ++indx;
+	return (num);
+}
+
+double	get_double(const char *line, long double base, int *outsize)
 {
 	long double	num;
 	int			indx;
 	int			insize;
-	int			neg;
+	long double	neg;
 
 	indx = -1;
 	num = 0;
 	insize = 0;
-	neg = 0;
+	neg = 1;
 	if (line[0] == '-')
 		neg = -1;
-	while (line[++indx] && line[indx] != '.')
+	while (line[++indx] && line[indx] != '.' && !ft_isspace(line[indx]))
 		num = num * 10 + (line[indx] - 48);
-	if (line[indx] == '.')
-		indx++;
-	insize += indx;
-	while (line[++indx] && line[indx] != '.' && ft_isspace(line[indx]))
+	insize += ++indx;
+	while (line[indx] && line[indx] != '.' && !ft_isspace(line[indx]))
 	{
 		base *= 10;
 		num += (line[indx] - 48) / base;
+		++indx;
 	}
 	insize += indx;
 	if (outsize)
 		*outsize += insize;
-	return (num * neg);
+	return ((double)(num * neg));
 }
 
 /**
@@ -89,14 +106,15 @@ int	set_rgb(t_color *rgb, const char *line, int *outsize)
 		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
 				|| !ft_isdigit(line[indx + 1])))
 			return (1);
-		commas++;
+		if (line[indx] == ',')
+			commas++;
 	}
 	if (commas != 2)
 		return (2);
 	indx = 0;
-	rgb->r = get_double(&line[indx], 10, &indx);
-	rgb->g = get_double(&line[++indx], 10, &indx);
-	rgb->b = get_double(&line[++indx], 10, &indx);
+	rgb->r = (unsigned int)get_uint8(&line[indx], 10, &indx);
+	rgb->g = (unsigned int)get_uint8(&line[indx], 10, &indx);
+	rgb->b = (unsigned int)get_uint8(&line[indx], 10, &indx);
 	if (outsize)
 		*outsize += indx + commas;
 	return (0);

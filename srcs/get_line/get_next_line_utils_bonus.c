@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 16:06:54 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 15:29:17 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:15:51 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ char	*ft_bufjoin(char *b1, char *b2)
 	b2_len = ft_strlenss(b2);
 	newstr = (char *)ft_calloc((b1_len + b2_len + 1), sizeof(char));
 	if (!newstr)
-		return (memfree(&b1));
+		return (chr_memfree(&b1));
 	while (b1[++i])
 		*(newstr + i) = b1[i];
 	while (b2[++j])
 		*(newstr + i + j) = b2[j];
-	memfree(&b1);
+	chr_memfree(&b1);
 	return (newstr);
 }

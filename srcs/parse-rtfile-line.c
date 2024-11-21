@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 18:07:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:10:51 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	find_entity_id(char *buff)
 	{
 		if (ft_strncmp(scene->entity_ids[indx], id, len) == 0)
 		{
-			free_simple((void *)&id);
+			memfree((void *)&id);
 			return (indx);
 		}
-		free_simple((void *)&id);
+		memfree((void *)&id);
 	}
 	return (-1);
 }
@@ -63,6 +63,6 @@ void	parse_rtfile_line(char *line, t_scene *scene)
 		//throw err and exit 
 	}
 	id_offset = ft_strlen(scene->entity_ids[ent_id]);
-	scene->create_ent[ent_id](scene, line[id_offset]);
+	scene->create_ent[ent_id](scene, &line[id_offset]);
 }
 
