@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 20:03:59 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:43:51 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 # include "lights.h"
 # include "camera.h"
 # include "shapes.h"
+# include "lists.h"
 
 # define NUM_ENTITIES 7
 
 
-typedef enum e_ent_id
+typedef enum e_entid
 {
 	AMBIENT,
 	LIGHT,
@@ -56,6 +57,8 @@ typedef struct s_scene	t_scene;
 
 typedef int	(*t_create_entity)(t_scene *, char *line);
 
+typedef s_lst t_lst;
+
 typedef struct s_scene
 {
 	unsigned int		height;
@@ -63,14 +66,11 @@ typedef struct s_scene
 	int					rtfd;
 	uint8_t				required_ents;	
 	char				*entity_ids[NUM_ENTITIES + 1];
-	t_create_entity		create_ent[7];
+	t_create_entity		create_ent[NUM_ENTITIES];
 	t_camera			camera;
 	t_ambient			alight;
-	t_shape_lst			*shapes;
-	//t_light_lst			*lights;
-	//t_plane				*planes;
-	//t_sphere			*spheres;
-	//t_cylinder			*cylinders;
+	t_lst				*lights;
+	t_lst				*shapes;
 }	t_scene;
 
 t_scene		*scene_storage(t_scene *storage);

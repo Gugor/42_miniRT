@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 20:14:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:18:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,6 @@ typedef struct s_cylinder
 	t_color		rgb;
 	t_material	material;
 }	t_cylinder;
-
-typedef struct s_shape_lst
-{
-	int					indx;
-	t_entid				type;
-	void				*sp;
-	int					length;
-	struct s_shape_lst	*first;
-	struct s_shape_lst	*last;
-	struct s_shape_lst	*prev;
-	struct s_shape_lst	*next;
-}	t_shape_lst;
-
-void	*get_shape_at(t_shape_lst *shps, int indx);
 
 #endif
 
