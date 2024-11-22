@@ -47,7 +47,7 @@ INC_FILES		:= scene.h \
 
 SRC_FILES		:= minirt.c \
 				scene.c \
-				parse-inputfile.c \
+				parse-rtfile.c \
 				parse-errors.c \
 				parse-entities.c \
 				parse-entity-shapes.c \

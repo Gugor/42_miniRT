@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 19:04:20 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:57:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # include <stdint.h>
 # include "colours.h"
+#include <stdio.h>
 
 typedef struct s_vec2
 {
@@ -38,5 +39,5 @@ typedef t_vec3	t_p2;
 t_color		vec3_to_rgb(t_vec3 *v3);
 int			in_range_dbl(double val, double min, double max);
 int			in_range_vec3(t_vec3 val, double min, double max);
-int			in_range_rgb(t_color val, double min, double max);
+int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
 #endif

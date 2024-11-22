@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse-inputfile.c                                  :+:      :+:    :+:   */
+/*   parse-rtfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 19:10:51 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:44:07 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 
 	line = NULL;
 	start = 0;
-	line = get_next_line(fd);
-	while (line)
+	while (EOF < 1)
 	{
+		line = get_next_line(fd);
+		printf("Rtfile-line: %s\n", line);
+		if(!line)
+			break;
 		start = skip_spaces(line);
 		if (line[start] == '\n')
 		{
@@ -59,7 +62,6 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 			line[ft_strlen(line) - 1] = '\0';
 		parse_rtfile_line(line, scene);
 		memfree((void *)&line);
-		line = get_next_line(fd);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 19:10:51 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:09:37 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	parse_rtfile_line(char *line, t_scene *scene)
 		//throw err and exit 
 	}
 	id_offset = ft_strlen(scene->entity_ids[ent_id]);
+	printf("Id: %i offset: %i\n", ent_id, id_offset);
 	scene->create_ent[ent_id](scene, &line[id_offset]);
 }
 

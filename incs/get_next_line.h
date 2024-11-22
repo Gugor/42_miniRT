@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 15:36:58 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 19:16:10 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:29:28 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <limits.h>
 # include "libft.h"
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1024
 # endif
 
 char	*chr_memfree(char **s);

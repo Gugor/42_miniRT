@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:11:19 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 21:01:23 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:02:35 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ uint8_t	get_uint8(const char *line, uint8_t base, int *outsize)
 	while (line[++indx] && line[indx] != ',')
 		num = num * base + (line[indx] - 48);
 	outsize += ++indx;
-	return (num);
+	return (num * neg);
 }
 
 double	get_double(const char *line, long double base, int *outsize)
@@ -112,9 +112,10 @@ int	set_rgb(t_color *rgb, const char *line, int *outsize)
 	if (commas != 2)
 		return (2);
 	indx = 0;
-	rgb->r = (unsigned int)get_uint8(&line[indx], 10, &indx);
-	rgb->g = (unsigned int)get_uint8(&line[indx], 10, &indx);
-	rgb->b = (unsigned int)get_uint8(&line[indx], 10, &indx);
+	rgb->r = get_uint8(&line[indx], 10, &indx);
+	rgb->g = get_uint8(&line[indx], 10, &indx);
+	rgb->b = get_uint8(&line[indx], 10, &indx);
+	printf("rgb[%u,%u,%u]\n", rgb->r, rgb->g, rgb->b);
 	if (outsize)
 		*outsize += indx + commas;
 	return (0);

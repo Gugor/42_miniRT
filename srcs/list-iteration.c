@@ -26,16 +26,13 @@ static void	*go_lst_down(t_lst *lst, int indx)
 	return (lst);
 }
 
-void	*get_node_at(t_lst *shps, int indx)
+void	*get_node_at(t_lst *lst, int indx)
 {
-	void	*node;
-
-	if (indx >= shps->length)
+	if (indx >= lst->length)
 		return (NULL);
-	node = NULL;
-	if (shps->indx > indx)
-		return (go_lst_down(shps, indx));
+	if (lst->indx > indx)
+		return (go_lst_down(lst, indx));
 	else
-		return (go_lst_up(shps, indx));
+		return (go_lst_up(lst, indx));
 }
 

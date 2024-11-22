@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:25 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/19 19:09:14 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:59:16 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	in_range_vec3(t_vec3 val, double min, double max)
 /**
  * @brief It check if the given vec3 value are in range.
 */
-int	in_range_rgb(t_color val, double min, double max)
+int	in_range_rgb(t_color val, uint8_t  min, uint8_t max)
 {
 	if (val.r < min || val.r > max)
 		return (0);

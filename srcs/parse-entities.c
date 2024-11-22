@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 21:01:43 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:06:47 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 		err_rt_file_format("more than one ambient light.");
 	line += skip_spaces((char *)line);
 	if (!line || !ft_isdigit(*line))
-		err_rt_file_format("wrong ambien light format.");
+		err_rt_file_format("0 wrong ambien light format.");
 	scene->alight.range = get_double((char *)line, 10, &offset);
 	printf("Ambient light range: %f\n", scene->alight.range);
 	if (!scene->alight.range || !in_range_dbl(scene->alight.range, 0.0, 1.0))
@@ -32,9 +32,13 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	line += offset;
 	line += skip_spaces((char *)line);
 	printf("A-Light Start rgb:%s\n", line);
-	if (set_rgb(&scene->alight.rgb, (char *)line, NULL)
-		|| !in_range_rgb(scene->alight.rgb, 0, 255))
-		err_rt_file_format("wrong ambien light format [rgb].");
+	if (set_rgb(&scene->alight.rgb, (char *)line, NULL))
+		err_rt_file_format("1 wrong ambien light format [rgb].");
+		
+	if (!in_range_rgb(scene->alight.rgb, 0, 255))
+	{
+		err_rt_file_format("2 wrong ambien light format [rgb].");
+	}
 	scene->required_ents |= REQ_AMBIENT;
 }
 
@@ -52,7 +56,7 @@ void	create_camera(t_scene *scene, const char *line)
 		err_rt_file_format("wrong camera format [normal].");
 	scene->camera.fovH = get_double((char *)line, 10, NULL);
 	if (!scene->camera.fovH || !in_range_dbl(scene->camera.fovH, 0.0, 180.0))
-		err_rt_file_format("wrong ambien light format [FOVH].");
+		err_rt_file_format("wrong  camera format [FOVH].");
 	scene->required_ents |= REQ_CAMERA;
 }
 
