@@ -3,11 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   print-scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 16:43:15 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/20 16:43:32 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:16:17 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "scene.h"
 
+void p_vec3(t_vec3 *v3)
+{
+	printf("[%f,%f,%f]\n", v3->x, v3->y, v3->z);	
+}
+
+void p_p3(t_p3 *v3)
+{
+	printf("[%f,%f,%f]\n", v3->x, v3->y, v3->z);	
+}

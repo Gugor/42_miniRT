@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/22 13:57:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/25 15:14:37 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ typedef struct s_vec2
 
 typedef struct s_vec3
 {
-	int	x;
-	int	y;
-	int	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_vec3;
 
 typedef t_vec3	t_p3;

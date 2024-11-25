@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:00:21 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/22 14:47:52 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/25 19:30:17 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,11 @@ char	*get_nline(char **buf)
 
 	ln_size = 0;
 	tmp = NULL;
-	printf("gtln-Buff: %s\n", *buf);
 	while ((*buf)[ln_size] && (*buf)[ln_size] != '\n')
 		ln_size++;
 	if ((*buf)[ln_size] == '\n')
 		ln_size++;
 	line = ft_strcut(*buf, ln_size);
-	printf("gtln-Line: %s\n", line);
 	if (!line)
 		return (chr_memfree(buf));
 	if ((*buf)[ln_size] != '\0')
@@ -71,7 +69,6 @@ char	*get_nline(char **buf)
 		if (!tmp && !chr_memfree(&line))
 			return (chr_memfree(buf));
 	}
-	printf("gtln-Line: %s\n", line);
 	chr_memfree(buf);
 	*buf = tmp;
 	return (line);
@@ -82,7 +79,6 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	printf("Buff: %s\n", buffer);
 	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
 		return (chr_memfree(&buffer));
 	line = NULL;
@@ -98,7 +94,6 @@ char	*get_next_line(int fd)
 	if (!buffer || !buffer[0])
 		return (chr_memfree(&buffer));
 	line = get_nline(&buffer);
-	printf("Get_line: %s\n", line);
 	if (!line)
 		return (chr_memfree(&buffer));
 	return (line);

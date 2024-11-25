@@ -23,7 +23,7 @@ MLX_DIR			:= libs/$(MLX)
 LIBFT_DIR		:= libs/$(LIBFT)
 SRCS_DIR		:= srcs
 GETLINE_DIR		:= get_line
-LOG_DIR			:= log
+LOGGER_DIR		:= logger
 OBJS_CRT		:= create_objs
 DEPS_CRT		:= create_deps
 
@@ -43,7 +43,8 @@ INC_FILES		:= scene.h \
 				ray.h \
 				window.h \
 				get_next_line.h \
-				lights.h
+				lights.h \
+				logger.h
 
 SRC_FILES		:= minirt.c \
 				scene.c \
@@ -60,6 +61,7 @@ SRC_FILES		:= minirt.c \
 				list-iteration.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
+				$(LOGGER_DIR)/print-scene.c \
 
 #create includes var with include names.
 OBJS_DIR		:= .objs
@@ -72,7 +74,8 @@ INCS			:= $(addprefix $(INCS_DIR)/, $(INC_FILES))
 # Compilation & flags
 CC 				:= cc
 GCC 			:= gcc
-CFLAGS			:= -Wall -Wextra -Werror -O3
+CFLAGS			:= -Wall -Wextra -Werror
+OFLAGS			:= -O3
 IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 DFLAGS			:= -g -fsanitize=leak
 LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft
@@ -82,14 +85,14 @@ all: $(MLX) $(LIBFT) $(OBJS_DIR) $(DEPS_DIR) $(NAME)
 
 $(NAME):: $(OBJS) $(MF) $(INCS) | $(MLX) $(LIBFT)
 	@printf "\n$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(NAME)$(RESET)\n"
-	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME) $(LFLAGS)
+	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) $(OFLAGS) $(OBJS) -o $(NAME) $(LFLAGS)
 $(NAME):: $(OBJS) $(MF) | $(MLX) $(LIBFT) 
 	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
 
 debug:: $(OBJS) $(MF) $(INCS) | $(MLX) $(LIBFT)
 	@printf "\n$(YELLOW)=======+++++  DEBUG MODE  +++==========$(RESET)\n"
 	@printf "\n$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(NAME)$(RESET)\n"
-	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME) $(LFLAGS)
+	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS)  $(OBJS) -o $(NAME)-deb $(LFLAGS)
 debug:: $(OBJS) $(MF) | $(MLX) $(LIBFT) 
 	@printf "\n$(GREEN)⭐⭐⭐ $(RESET) Compilation $(MAGENTA)$(NAME)$(RESET) completed ‍🖖 $(GREEN)⭐⭐⭐ $(RESET)\n\n"
 	@printf "\n$(YELLOW)=======+++++  DEBUG MODE  +++==========$(RESET)\n"
@@ -152,7 +155,7 @@ clean:
 
 fclean: clean
 	@printf "$(RED)X$(RESET) Removing $(RED)$(NAME)$(RESET) exec\n"
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME)-deb
 	@rm -vRf .objs
 	@rm -vRf .deps
 
