@@ -6,12 +6,13 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/26 19:16:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:30:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "libft.h"
+#include "error-handler.h"
 
 /**
 * @brief It finds the entity id in the buffer passed and return it integer id.
@@ -59,11 +60,7 @@ void	parse_rtfile_line(char *line, t_scene *scene)
 
 	ent_id = find_entity_id(line);
 	if (ent_id == -1)
-	{
-		//throw err and exit 
-		printf("Wrong Id not entity found\n");
-		exit (1);
-	}
+		err_rt_file_format("wrong Id not entity found\n");
 	id_offset = ft_strlen(scene->entity_ids[ent_id]);
 	scene->create_ent[ent_id](scene, &line[id_offset]);
 }

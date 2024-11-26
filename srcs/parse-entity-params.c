@@ -37,10 +37,9 @@ uint8_t	get_uint8(const char *line, uint16_t base, int *outsize)
 		return (0);
 	while (line[indx] && ft_isdigit(line[indx]))
 		num = num * base + (line[indx++] - 48);
-	printf("	Uint8 Num%i", num);
 	if (num > 255)
 		return ((uint8_t)(*outsize = -1));
-	if (!ft_isdigit(line[indx]) && line[indx] != ',' && !ft_isspace(line[indx]))
+	if (line[indx] && !ft_isdigit(line[indx]) && line[indx] != ',' && !ft_isspace(line[indx]))
 		return ((uint8_t)(*outsize = -1));
 	if (outsize)
 		*outsize += indx;
@@ -65,51 +64,17 @@ double	get_double(const char *line, long double base, int *outsize)
 		++indx;
 	while (line[indx] && ft_isdigit(line[indx]))
 	{
-		base *= 10;
 		num += (line[indx++] - 48) / base;
+		base *= 10;
 	}
-	if (!ft_isdigit(line[indx]) && line[indx] != ',' && !ft_isspace(line[indx]))
+	if (line[indx] && !ft_isdigit(line[indx]) && line[indx] != ',' && !ft_isspace(line[indx]))
 		return ((double)(*outsize = -1));
 	if (outsize)
 		*outsize += indx;
 	return ((double)(num * neg));
 }
 
-/**
- * @brief It search for a vec3 format inside of a string.
- * @param
- */
-int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
-{
-	int		indx;
-	int		commas;
-
-	indx = 0;
-	commas = 0;
-	printf("	    Vec3 BSP Line[0] = %s\n", &line[0]);
-	indx += skip_spaces((char *)&line[0]);
-	printf("	    Vec3 Line[%i] = %s\n", indx, &line[indx]);
-	while (line[indx] && !ft_isspace(line[indx]))
-	{
-		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
-				|| !ft_isdigit(line[indx + 1])))
-			return (1);
-		if (line[indx++] == ',')
-			commas++;
-	}
-	if (commas != 2)
-		return (2);
-	indx = 0;
-	vec3->x = get_double(&line[indx], 10, &indx);
-	vec3->y = get_double(&line[++indx], 10, &indx);
-	vec3->z = get_double(&line[++indx], 10, &indx);
-	if (outsize)
-		*outsize += indx;
-	return (0);
-}
-
-
-static int verify_commas(const char * line)
+static int	verify_commas(const char *line)
 {
 	int	commas;
 	int	indx;
@@ -126,6 +91,31 @@ static int verify_commas(const char * line)
 	}
 	return (commas);
 }
+
+/**
+ * @brief It search for a vec3 format inside of a string.
+ * @param
+ */
+int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
+{
+	int		indx;
+	int		commas;
+
+	indx = 0;
+	commas = 0;
+	indx += skip_spaces((char *)&line[0]);
+	if (verify_commas(&line[indx]) != 2)
+		return (2);
+	indx = 0;
+	vec3->x = get_double(&line[indx], 10, &indx);
+	vec3->y = get_double(&line[++indx], 10, &indx);
+	vec3->z = get_double(&line[++indx], 10, &indx);
+	if (outsize)
+		*outsize += indx;
+	return (0);
+}
+
+
 
 /**
  * @brief It search for a vec3 format inside of a string.
@@ -151,7 +141,6 @@ int	set_rgb(t_color *rgb, const char *line, int *outsize)
 	rgb->b = get_uint8(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (3);
-	printf("rgb[%u,%u,%u]\n", rgb->r, rgb->g, rgb->b);
 	if (outsize)
 		*outsize += indx;
 	return (0);

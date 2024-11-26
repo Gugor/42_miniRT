@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/26 18:44:06 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:45:25 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	if (!scene->alight.range || !in_range_dbl(scene->alight.range, 0.0, 1.0)
 		|| line[offset] == ',' || offset == -1)
 		err_rt_file_format("wrong ambient light format [range].");
-	printf("	Ambient light range: %f\n", scene->alight.range);
-	printf("	Ambient light line: %s\n", &line[offset]);
+	printf("	Range: %f\n", scene->alight.range);
 	line += offset;
 	offset = 0;
 	if (set_rgb(&scene->alight.rgb, (char *)line, &offset)
@@ -38,6 +37,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 		printf("	Error RGB[%d,%d,%d]\n", scene->alight.rgb.r, scene->alight.rgb.g, scene->alight.rgb.b);
 		err_rt_file_format("wrong ambient light format [rgb].");
 	}
+	printf("	RGB: [%hhu,%hhu,%hhu]\n", scene->alight.rgb.r, scene->alight.rgb.g, scene->alight.rgb.b);
 	scene->required_ents |= REQ_AMBIENT;
 }
 
@@ -50,7 +50,6 @@ void	create_camera(t_scene *scene, const char *line)
 	if (set_vec3(&scene->camera.pos, (char *)line, &offset))
 		err_rt_file_format("wrong camera format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
-	printf("	Line[%i]: %s\n", offset, &line[offset] );
 	line += offset;
 	offset = 0;
 	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
@@ -60,7 +59,6 @@ void	create_camera(t_scene *scene, const char *line)
 		err_rt_file_format("wrong camera format [normal].");
 	}
 	printf("	Axis: [%f,%f,%f]\n", scene->camera.axis.x, scene->camera.axis.y, scene->camera.axis.z);
-	printf("	Line[%i]: %s\n", offset, &line[offset] );
 	line += offset;
 	offset = 0;
 	scene->camera.fovH = get_double((char *)line, 10, &offset);

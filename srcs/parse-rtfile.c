@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/26 17:12:47 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:41:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 	while (EOF < 1)
 	{
 		line = get_next_line(fd);
-		if(!line)
-			break;
+		if (!line)
+			break ;
 		start = skip_spaces(line);
 		if (line[start] && line[start] == '\n')
 		{
