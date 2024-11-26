@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/25 19:29:38 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:16:05 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	parse_rtfile_line(char *line, t_scene *scene)
 	{
 		//throw err and exit 
 		printf("Wrong Id not entity found\n");
+		exit (1);
 	}
 	id_offset = ft_strlen(scene->entity_ids[ent_id]);
 	scene->create_ent[ent_id](scene, &line[id_offset]);

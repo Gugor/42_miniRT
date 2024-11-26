@@ -25,48 +25,53 @@ static int is_chneg(const char *line, int *offset)
 	return (1);
 }
 
-uint8_t	get_uint8(const char *line, uint8_t base, int *outsize)
+uint8_t	get_uint8(const char *line, uint16_t base, int *outsize)
 {
-	uint8_t	num;
-	int		indx;
-	int		offset;
+	uint16_t	num;
+	int			indx;
 
-	indx = -1;
+	indx = 0;
 	num = 0;
-	offset = 0;
-	if (is_chneg(line, &indx) == -1)	
+	indx += skip_spaces((char *)&line[0]);
+	if (is_chneg(line, &indx) == -1)
 		return (0);
-	while (line[++indx] && line[indx] != ',')
-		num = num * base + (line[indx] - 48);
+	while (line[indx] && ft_isdigit(line[indx]))
+		num = num * base + (line[indx++] - 48);
+	printf("	Uint8 Num%i", num);
+	if (num > 255)
+		return ((uint8_t)(*outsize = -1));
+	if (!ft_isdigit(line[indx]) && line[indx] != ',' && !ft_isspace(line[indx]))
+		return ((uint8_t)(*outsize = -1));
 	if (outsize)
-		*outsize += indx + offset;
-	return (num);
+		*outsize += indx;
+	return ((uint8_t)num);
 }
 
 double	get_double(const char *line, long double base, int *outsize)
 {
 	long double	num;
 	int			indx;
-	int			offset;
 	long double	neg;
 
-	indx = -1;
+	indx = 0;
 	num = 0;
-	offset = 0;
-	neg = is_chneg(line, &indx);	
-	if (neg == -1)
-		offset++;
-	while (line[++indx] && ft_isdigit(line[indx]))
-		num = num * 10 + (line[indx] - 48);
-	if (line[indx] != '.')
-		return ((*outsize += offset + indx), (double)(num * neg));
-	while (line[++indx] && ft_isdigit(line[indx]))
+	indx += skip_spaces((char *)&line[0]);
+	neg = is_chneg(&line[indx], &indx);
+	while (line[indx] && ft_isdigit(line[indx]))
+		num = num * 10 + (line[indx++] - 48);
+	if (line[indx] != '.' && (ft_isspace(line[indx]) || !line[indx]))
+		return ((*outsize += indx), (double)(num * neg));
+	if (line[indx] == '.')
+		++indx;
+	while (line[indx] && ft_isdigit(line[indx]))
 	{
 		base *= 10;
-		num += (line[indx] - 48) / base;
+		num += (line[indx++] - 48) / base;
 	}
+	if (!ft_isdigit(line[indx]) && line[indx] != ',' && !ft_isspace(line[indx]))
+		return ((double)(*outsize = -1));
 	if (outsize)
-		*outsize += indx + ++offset;
+		*outsize += indx;
 	return ((double)(num * neg));
 }
 
@@ -76,21 +81,20 @@ double	get_double(const char *line, long double base, int *outsize)
  */
 int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 {
-	int	indx;
-	int	commas;
+	int		indx;
+	int		commas;
 
-	indx = -1;
+	indx = 0;
 	commas = 0;
 	printf("	    Vec3 BSP Line[0] = %s\n", &line[0]);
-	*outsize = skip_spaces((char *)&line[*outsize]);
-	indx += *outsize;
-	printf("	    Vec3 Line[%i] = %s\n", indx + 1, &line[indx + 1]);
-	while (line[++indx] && !ft_isspace(line[indx]))
+	indx += skip_spaces((char *)&line[0]);
+	printf("	    Vec3 Line[%i] = %s\n", indx, &line[indx]);
+	while (line[indx] && !ft_isspace(line[indx]))
 	{
 		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
 				|| !ft_isdigit(line[indx + 1])))
 			return (1);
-		if (line[indx] == ',')
+		if (line[indx++] == ',')
 			commas++;
 	}
 	if (commas != 2)
@@ -104,6 +108,25 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 	return (0);
 }
 
+
+static int verify_commas(const char * line)
+{
+	int	commas;
+	int	indx;
+
+	commas = 0;
+	indx = 0;
+	while (line[indx] && !ft_isspace(line[indx]))
+	{
+		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
+				|| !ft_isdigit(line[indx + 1])))
+			return (1);
+		if (line[indx++] == ',')
+			commas++;
+	}
+	return (commas);
+}
+
 /**
  * @brief It search for a vec3 format inside of a string.
  * @param
@@ -111,32 +134,25 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 int	set_rgb(t_color *rgb, const char *line, int *outsize)
 {
 	int	indx;
-	int	commas;
 
-	indx = -1;
-	commas = 0;
-	while (line[++indx] && !ft_isspace(line[indx]))
-	{
-		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
-				|| !ft_isdigit(line[indx + 1])))
-			return (1);
-		if (line[indx] == ',')
-			commas++;
-	}
-	if (commas != 2)
-		return (2);
 	indx = 0;
-	if (line[indx] == '-')	
+	indx += skip_spaces((char *)&line[0]);
+	if (verify_commas(&line[indx]) != 2)
+		return (2);
+	indx = skip_spaces((char *)&line[0]);
+	if (line[indx] == '-')
 		return (3);
 	rgb->r = get_uint8(&line[indx], 10, &indx);
-	if (line[++indx] == '-')	
+	if ( indx == -1 || line[++indx] == '-' )
 		return (3);
 	rgb->g = get_uint8(&line[indx], 10, &indx);
-	if (line[++indx] == '-')	
+	if ( indx == -1 || line[++indx] == '-' )
 		return (3);
 	rgb->b = get_uint8(&line[indx], 10, &indx);
+	if (indx == -1)
+		return (3);
 	printf("rgb[%u,%u,%u]\n", rgb->r, rgb->g, rgb->b);
 	if (outsize)
-		*outsize += indx + commas;
+		*outsize += indx;
 	return (0);
 }
