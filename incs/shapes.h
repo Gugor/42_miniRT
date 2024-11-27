@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 14:18:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/27 18:29:21 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 typedef struct s_plane
 {
 	t_vec3		pos;		
-	t_vec2		axis;		
+	t_vec3		axis;		
 	t_color		rgb;
 	t_material	material;
 }	t_plane;

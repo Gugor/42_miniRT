@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entity-data.h                                      :+:      :+:    :+:   */
+/*   memory-creation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 18:27:36 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 15:05:17 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/11/27 13:35:48 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/11/27 14:16:33 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENTITY_DATA_H
-# define ENTITY_DATA_H
+#include <errno.h>
+#include "memory-handler.h"
 
-typedef enum e_entid
+void	*xmalloc(int size)
 {
-	AMBIENT,
-	LIGHT,
-	CAMERA,
-	PLANE,
-	SPHERE,
-	CYLINDER,
-	OTHER,
-	EOS
-}	t_entid;
+	void	*mem;
 
-#endif
+	mem = malloc(size);
+	if (!mem)
+	{
+		clear_scene();
+		perror("Error: ");
+		exit(ENOMEM);
+	}
+	return (mem);
+}

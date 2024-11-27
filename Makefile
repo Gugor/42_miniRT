@@ -1,5 +1,5 @@
 BLACK		:= \033[1;30m
-RED		:= \033[1;31m
+RED			:= \033[1;31m
 GREEN		:= \033[1;32m
 YELLOW		:= \033[1;33m
 BLUE		:= \033[1;34m
@@ -11,10 +11,10 @@ RESET		:= \033[1;0m
 
 # Targets
 NAME 			:= miniRT
-MLX			:= mlx	
+MLX				:= mlx	
 LIBFT			:= libft	
 
-MF			:= Makefile
+MF				:= Makefile
 
 # Directories
 INCS_DIR		:= incs
@@ -59,6 +59,8 @@ SRC_FILES		:= minirt.c \
 				math-convertions.c \
 				list-creation.c \
 				list-iteration.c \
+				memory-creation.c \
+				memory-free.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
 				$(LOGGER_DIR)/print-scene.c \

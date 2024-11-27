@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/26 19:30:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:07:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 
 /**
 * @brief It finds the entity id in the buffer passed and return it integer id.
-* NOTE: The id returned is the index of the array that stores the identifier ids in
-* scene struct (`scene->entity_ids[]`). There is an `enum` called `ent_id`
+* NOTE: The id returned is the index of the array that stores the identifier 
+* ids in scene struct (`scene->entity_ids[]`). There is an `enum` called 
+* `ent_id`.
 * @returns `{int}`
 * the entity id [0 - (NUM_ENTITIES - 1)]
 */
@@ -34,6 +35,7 @@ int	find_entity_id(char *buff)
 	while (buff[len] && !ft_isspace(buff[len]))
 		len++;
 	id = ft_substr(buff, 0, len);
+	printf(" Find id: %s\n", id);
 	while (scene->entity_ids[++indx])
 	{
 		if (ft_strcmp(scene->entity_ids[indx], id) == 0)
@@ -56,12 +58,13 @@ int	find_entity_id(char *buff)
 void	parse_rtfile_line(char *line, t_scene *scene)
 {
 	int	ent_id;
-	int id_offset;
+	int	id_offset;
 
 	ent_id = find_entity_id(line);
 	if (ent_id == -1)
 		err_rt_file_format("wrong Id not entity found\n");
 	id_offset = ft_strlen(scene->entity_ids[ent_id]);
+	printf("Create %i\n", ent_id);
 	scene->create_ent[ent_id](scene, &line[id_offset]);
 }
 

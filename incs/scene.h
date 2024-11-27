@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 18:58:13 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:06:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "lists.h"
 # include "entity-data.h"
 
-# define NUM_ENTITIES 7
+# define NUM_ENTITIES 8
 
 /**
 * @brief Its used for stablishing if a scene can be rendered
@@ -38,15 +38,14 @@ typedef enum e_req_ents
 {
 	REQ_AMBIENT = 1,
 	REQ_CAMERA = 2,
-	REQ_FULL = 3,
+	REQ_LIGHT = 3,
+	REQ_FULL = 4,
 }	t_reqents;
 
 
 typedef struct s_scene	t_scene;
-
-typedef void	(*t_create_entity)(t_scene *, const char *line);
-
-typedef struct s_lst t_lst;
+typedef struct s_lst	t_lst;
+typedef void			(*t_create_entity)(t_scene *, const char *line);
 
 typedef struct s_scene
 {
@@ -59,7 +58,9 @@ typedef struct s_scene
 	t_camera			camera;
 	t_ambient			alight;
 	t_lst				*lights;
+	int					num_lights;
 	t_lst				*shapes;
+	int					num_shapes;
 }	t_scene;
 
 t_scene		*scene_storage(t_scene *storage);

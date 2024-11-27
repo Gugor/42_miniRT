@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/21 18:44:41 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:25:33 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_scene *get_scene(void)
 static void	set_entity_ids(char *entities[NUM_ENTITIES + 1])
 {
 	entities[0] = "A";
-	entities[1] = "L";
+	entities[1] = "l";
 	entities[2] = "C";
 	entities[3] = "pl";
 	entities[4] = "sp";
@@ -51,6 +51,7 @@ static void	init_entity_delegates (t_scene *scene)
 	scene->create_ent[PLANE] = &create_plane;
 	scene->create_ent[SPHERE] = &create_sphere;
 	scene->create_ent[CYLINDER] = &create_cylinder;
+	scene->create_ent[EOS]	= NULL;
 	//scene->create_ent[OTHER] = create_other;
 }
 
@@ -62,6 +63,8 @@ int	init_scene_data(t_scene *scene)
 	set_entity_ids(scene->entity_ids);
 	init_entity_delegates(scene);
 	scene->required_ents = 0b00000011;
+	scene->num_lights = 0;
+	scene->num_shapes = 0;
 	scene_storage(scene);
 	return (0);
 }
