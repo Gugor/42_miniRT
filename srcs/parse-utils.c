@@ -2,6 +2,20 @@
 #include "parsing.h"
 #include "libft.h"
 
+/**
+ * @brief Another silly function to contempt norminette.
+ */
+void update_line_offset(char **line, int *offset)
+{
+	*line += *offset;
+	*offset = 0;
+}
+
+/**
+ * @brief It checks if the current char is '-' and returns a value to be used
+ * with a neg variable. This functios is just a silly fucntion to skip 
+ * norminette 25 lines limit.
+ */
 int	is_chneg(const char *line, int *offset)
 {
 	if (line[0] == '-')
@@ -12,7 +26,13 @@ int	is_chneg(const char *line, int *offset)
 	return (1);
 }
 
-int	eval_vec_type(int commas, int type)
+/**
+ * @brief It evaluates if the number of commas passed correspond with the vector type specified. This
+ * fucntion is multipourpouse, you can check VEC2 and VEC3 formats.
+ * @param commas `{int}` the number of commas the format has.
+ * @param type ´{t_vec_type}´ the vector type VEC2 or VEC3 types. 
+ */
+static int	eval_vec_type(int commas, t_vec_type type)
 {
 	if (type)
 	{

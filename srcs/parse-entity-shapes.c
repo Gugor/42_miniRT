@@ -17,14 +17,12 @@ void	create_plane(t_scene *scene, const char *line)
 	if (set_vec3(&plane->pos, (char *)line, &offset))
 		err_rt_file_format("wrong plane format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", plane->pos.x, plane->pos.y, plane->pos.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&plane->axis, (char *)line, &offset)
 		|| !in_range_vec3(plane->axis, -1, 1))
 		err_rt_file_format("wrong plane format [normal]");
 	printf("	Normal: [%f,%f,%f]\n", plane->axis.x, plane->axis.y, plane->axis.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&plane->rgb, (char *)line, &offset)
 		|| !in_range_rgb(plane->rgb, 0, 255))
 		err_rt_file_format("wrong plane format [rgb]");
@@ -44,14 +42,12 @@ void	create_sphere(t_scene *scene, const char *line)
 	if (set_vec3(&sphere->pos, (char *)line, &offset))
 		err_rt_file_format("wrong sphere format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	sphere->size = get_double((char *)line, 10, &offset);
 	if (line[offset] == ',' || offset == -1 || sphere->size < 0)
 		err_rt_file_format("wrong sphere format [size]");
 	printf("	Diameter: %f\n", sphere->size);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&sphere->rgb, (char *)line, &offset)
 		|| !in_range_rgb(sphere->rgb, 0, 255))
 		err_rt_file_format("wrong sphere format [rgb]");
@@ -71,18 +67,15 @@ void	create_cylinder(t_scene *scene, const char *line)
 	if (set_vec3(&cylinder->pos, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", cylinder->pos.x, cylinder->pos.y, cylinder->pos.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&cylinder->axis, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [normal]");
 	printf("	Axis: [%f,%f,%f]\n", cylinder->axis.x, cylinder->axis.y, cylinder->axis.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_cylinder_size(&cylinder->size, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [size]");
 	printf("	Size: [%f,%f]\n", cylinder->size.x, cylinder->size.y);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&cylinder->rgb, (char *)line, &offset) || !in_range_rgb(cylinder->rgb, 0, 255))
 		err_rt_file_format("wrong cylinder format [rgb]");
 	printf("	RGB: [%hhu,%hhu,%hhu]\n", cylinder->rgb.r, cylinder->rgb.g, cylinder->rgb.b);

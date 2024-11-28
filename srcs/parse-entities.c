@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 12:07:01 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:43:23 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 		|| line[offset] == ',' || offset == -1)
 		err_rt_file_format("wrong ambient light format [range].");
 	printf("	Range: %f\n", scene->alight.range);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&scene->alight.rgb, (char *)line, &offset)
 		|| !in_range_rgb(scene->alight.rgb, 0, 255))
 	{
@@ -53,8 +52,7 @@ void	create_camera(t_scene *scene, const char *line)
 	if (set_vec3(&scene->camera.pos, (char *)line, &offset))
 		err_rt_file_format("wrong camera format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
 		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
 	{
@@ -83,8 +81,7 @@ void	create_light_src(t_scene *scene, const char *line)
 	if (set_vec3(&light->pos, (char *)line, &offset))
 		err_rt_file_format("wrong source light format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
-	line += offset;
-	offset = 0;
+	update_line_offset((char **)&line, &offset);
 	light->brghtnss = get_double((char *)line, 10, &offset);
 	if (!light || !in_range_dbl(light->brghtnss, 0.0, 180.0) || offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
