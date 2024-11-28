@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/15 15:48:40 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:00:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "mrt-math.h"
+#include "vectors.h"
 
 typedef struct	s_camera
 {
-	t_p3	pos;
-	t_vec3	axis;
 	double	fovH;
 	double	fovV;
+	t_vec3	axis;
+	t_p3	pos;
+	t_p3	center;
 }	t_camera;
 
 #endif

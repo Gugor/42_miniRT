@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 15:06:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:47:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "shapes.h"
 # include "lists.h"
 # include "entity-data.h"
+# include "window.h"
 
 # define NUM_ENTITIES 8
 
@@ -49,18 +50,18 @@ typedef void			(*t_create_entity)(t_scene *, const char *line);
 
 typedef struct s_scene
 {
-	unsigned int		height;
-	unsigned int		width;
-	int					rtfd;
 	uint8_t				required_ents;	
-	char				*entity_ids[NUM_ENTITIES + 1];
-	t_create_entity		create_ent[NUM_ENTITIES];
-	t_camera			camera;
-	t_ambient			alight;
-	t_lst				*lights;
+	t_window			*win;
+	int					rtfd;
 	int					num_lights;
-	t_lst				*shapes;
 	int					num_shapes;
+	char				*entity_ids[NUM_ENTITIES + 1];
+	t_color				*img_pixels;
+	t_ambient			alight;
+	t_camera			camera;
+	t_create_entity		create_ent[NUM_ENTITIES];
+	t_lst				*lights;
+	t_lst				*shapes;
 }	t_scene;
 
 t_scene		*scene_storage(t_scene *storage);

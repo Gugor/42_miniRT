@@ -10,11 +10,11 @@
 typedef struct s_lst
 {
 	int					indx;
-	t_entid				type;
-	void				*cnt;
 	int					length;
+	void				*cnt;
 	struct s_lst		*prev;
 	struct s_lst		*next;
+	t_entid				type;
 }	t_lst;
 
 /*****************************************************************************/

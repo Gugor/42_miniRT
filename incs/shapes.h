@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 18:29:21 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:01:52 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #ifndef SHAPES_H
 # define SHAPES_H
 
-# include "mrt-math.h"
+# include "vectors.h"
 # include "materials.h"
 # include "scene.h"
 
@@ -25,7 +25,7 @@ typedef struct s_plane
 	t_vec3		pos;		
 	t_vec3		axis;		
 	t_color		rgb;
-	t_material	material;
+	t_material	*material;
 }	t_plane;
 
 typedef struct s_sphere
@@ -33,7 +33,7 @@ typedef struct s_sphere
 	t_vec3		pos;		
 	double		size;
 	t_color		rgb;
-	t_material	material;
+	t_material	*material;
 }	t_sphere;
 
 typedef struct s_cylinder
@@ -43,7 +43,7 @@ typedef struct s_cylinder
 	t_vec3		axis;		
 	t_vec2		size;
 	t_color		rgb;
-	t_material	material;
+	t_material	*material;
 }	t_cylinder;
 
 #endif

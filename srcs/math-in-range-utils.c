@@ -6,12 +6,12 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:25 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/22 13:59:16 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:00:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "mrt-math.h"
+#include "vectors.h"
 
 /**
  * @brief It check if the given value is in range.

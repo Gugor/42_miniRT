@@ -6,14 +6,14 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:25:40 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/25 19:28:26 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:01:54 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLOURS_H
 #define COLOURS_H
 
-# include "mrt-math.h"
+# include "vectors.h"
 
 typedef struct s_color
 {

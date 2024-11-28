@@ -35,7 +35,7 @@ INC_FILES		:= scene.h \
 				camera.h \
 				colours.h \
 				file.h \
-				mrt-math.h \
+				vectors.h \
 				materials.h \
 				shapes.h \
 				parsing.h \
@@ -55,9 +55,13 @@ SRC_FILES		:= minirt.c \
 				parse-entity-params.c \
 				parse-rtfile-line.c \
 				parse-utils.c \
+				window-init.c \
 				rt-file.c \
 				math-in-range-utils.c \
 				math-convertions.c \
+				vec3-operations.c \
+				vec3-double-operations.c \
+				vec3-position-ops.c \
 				list-creation.c \
 				list-iteration.c \
 				memory-creation.c \
@@ -81,7 +85,7 @@ CFLAGS			:= -Wall -Wextra -Werror
 OFLAGS			:= -O3
 IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 DFLAGS			:= -g -fsanitize=leak
-LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft
+LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft  -lX11 -lXext
 
 
 all: $(MLX) $(LIBFT) $(OBJS_DIR) $(DEPS_DIR) $(NAME) 
