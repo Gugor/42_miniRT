@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 18:58:35 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 18:09:10 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:14:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,8 @@ int			set_rgb(t_color *rgb, const char *line, int *outsize);
 double		get_double(const char *line, long double base, int *outsize);
 uint8_t		get_uint8(const char *line, uint16_t base, int *outsize);
 int			set_cylinder_size(t_vec2 *size, const char *line, int *outsize);
+
+/*               Parse Utils                                                 */
+int			is_chneg(const char *line, int *offset);
+int			is_vec_format(const char *line, t_vec_type type);
 #endif

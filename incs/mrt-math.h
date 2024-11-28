@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 18:30:07 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:01:07 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <stdint.h>
 # include "colours.h"
 #include <stdio.h>
+
+typedef enum e_vec_type
+{
+	VEC2,
+	VEC3
+}	t_vec_type;
 
 typedef struct s_vec2
 {

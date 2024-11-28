@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:45:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 18:59:09 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:23:52 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ void	add_node_to(t_lst **lst, void *content, t_entid type)
 	t_lst	*last;
 
 	last = NULL;
-	last = find_lst_last(*lst);
-	if (!lst || !content)
+	if (!content)
 		return ;
-	if (!*lst)
+	if (!lst || !*lst)
 	{
 		new = new_lst_node(0, content, type);
 		new->prev = NULL;
@@ -56,6 +55,6 @@ void	add_node_to(t_lst **lst, void *content, t_entid type)
 		last = find_lst_last(*lst);
 		last->next = new_lst_node(last->indx + 1, content, type);
 		last->next->prev = last;
-		*lst = last;
 	}
+	(*lst)->length++;
 }

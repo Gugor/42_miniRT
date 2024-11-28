@@ -13,7 +13,7 @@ void	create_plane(t_scene *scene, const char *line)
 
 	offset = 0;
 	plane = (t_plane *)xmalloc(sizeof(t_plane));
-	printf("=> Create Plane: %s \n", line);
+	printf("=> Create Plane: \"%s\" \n", line);
 	if (set_vec3(&plane->pos, (char *)line, &offset))
 		err_rt_file_format("wrong plane format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", plane->pos.x, plane->pos.y, plane->pos.z);
@@ -40,7 +40,7 @@ void	create_sphere(t_scene *scene, const char *line)
 
 	offset = 0;
 	sphere = (t_sphere *)xmalloc(sizeof(t_sphere));
-	printf("=> Create Sphere: %s \n", line);
+	printf("=> Create Sphere: \"%s\" \n", line);
 	if (set_vec3(&sphere->pos, (char *)line, &offset))
 		err_rt_file_format("wrong sphere format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
@@ -67,6 +67,7 @@ void	create_cylinder(t_scene *scene, const char *line)
 
 	offset = 0;
 	cylinder = (t_cylinder *)xmalloc(sizeof(t_cylinder));
+	printf("=> Create Cylinder: \"%s\" \n", line);
 	if (set_vec3(&cylinder->pos, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", cylinder->pos.x, cylinder->pos.y, cylinder->pos.z);

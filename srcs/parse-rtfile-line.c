@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 15:07:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:25:35 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	find_entity_id(char *buff)
 	while (buff[len] && !ft_isspace(buff[len]))
 		len++;
 	id = ft_substr(buff, 0, len);
-	printf(" Find id: %s\n", id);
-	while (scene->entity_ids[++indx])
+	printf("\n::Find id: %s\n", id);
+	if (*id == 'L')
+		*id = 'l';
+	while (indx < NUM_ENTITIES && scene->entity_ids[++indx])
 	{
 		if (ft_strcmp(scene->entity_ids[indx], id) == 0)
 		{
@@ -64,7 +66,7 @@ void	parse_rtfile_line(char *line, t_scene *scene)
 	if (ent_id == -1)
 		err_rt_file_format("wrong Id not entity found\n");
 	id_offset = ft_strlen(scene->entity_ids[ent_id]);
-	printf("Create %i\n", ent_id);
+	printf("::Create entity %i\n", ent_id);
 	scene->create_ent[ent_id](scene, &line[id_offset]);
 }
 

@@ -47,14 +47,15 @@ INC_FILES		:= scene.h \
 				logger.h
 
 SRC_FILES		:= minirt.c \
-				scene.c \
+				init-scene.c \
 				parse-rtfile.c \
 				parse-errors.c \
 				parse-entities.c \
 				parse-entity-shapes.c \
 				parse-entity-params.c \
-				rt-file.c \
 				parse-rtfile-line.c \
+				parse-utils.c \
+				rt-file.c \
 				math-in-range-utils.c \
 				math-convertions.c \
 				list-creation.c \

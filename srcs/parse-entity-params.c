@@ -14,34 +14,9 @@
 #include "string.h"
 #include "scene.h"
 #include "libft.h"
+#include "mrt-math.h"
 
-static int	is_chneg(const char *line, int *offset)
-{
-	if (line[0] == '-')
-	{
-		(*offset)++;
-		return (-1);
-	}
-	return (1);
-}
 
-static int	verify_commas(const char *line)
-{
-	int	commas;
-	int	indx;
-
-	commas = 0;
-	indx = 0;
-	while (line[indx] && !ft_isspace(line[indx]))
-	{
-		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
-				|| !ft_isdigit(line[indx + 1])))
-			return (1);
-		if (line[indx++] == ',')
-			commas++;
-	}
-	return (commas);
-}
 
 uint8_t	get_uint8(const char *line, uint16_t base, int *outsize)
 {
@@ -103,12 +78,10 @@ double	get_double(const char *line, long double base, int *outsize)
 int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 {
 	int		indx;
-	int		commas;
 
 	indx = 0;
-	commas = 0;
 	indx += skip_spaces((char *)&line[0]);
-	if (verify_commas(&line[indx]) != 2)
+	if (is_vec_format(&line[indx], VEC3))
 		return (2);
 	indx = 0;
 	vec3->x = get_double(&line[indx], 10, &indx);
@@ -152,7 +125,7 @@ int set_rgb(t_color *rgb, const char *line, int *outsize)
 
 	indx = 0;
 	indx += skip_spaces((char *)&line[0]);
-	if (verify_commas(&line[indx]) != 2)
+	if (is_vec_format(&line[indx], VEC3))
 		return (2);
 	indx = skip_spaces((char *)&line[0]);
 	if (line[indx] == '-')

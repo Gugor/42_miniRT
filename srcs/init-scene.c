@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scene.c                                            :+:      :+:    :+:   */
+/*   init-scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/27 16:25:33 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:11:31 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "parsing.h"
+#include "memory-handler.h"
 
 /**
 * @brief It gets the scene stored statically by `scene_storage()`.
@@ -63,7 +64,9 @@ int	init_scene_data(t_scene *scene)
 	set_entity_ids(scene->entity_ids);
 	init_entity_delegates(scene);
 	scene->required_ents = 0b00000011;
+	scene->lights = NULL;
 	scene->num_lights = 0;
+	scene->shapes = NULL;
 	scene->num_shapes = 0;
 	scene_storage(scene);
 	return (0);
