@@ -56,7 +56,7 @@ SRC_FILES		:= minirt.c \
 				parse-entity-params.c \
 				parse-rtfile-line.c \
 				parse-utils.c \
-				render-ui.c \
+				render-scene.c \
 				window-init.c \
 				rt-file.c \
 				math-in-range-utils.c \
