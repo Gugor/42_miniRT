@@ -39,6 +39,7 @@ INC_FILES		:= scene.h \
 				materials.h \
 				shapes.h \
 				parsing.h \
+				rendering.h \
 				error-handler.h \
 				ray.h \
 				window.h \
@@ -55,6 +56,7 @@ SRC_FILES		:= minirt.c \
 				parse-entity-params.c \
 				parse-rtfile-line.c \
 				parse-utils.c \
+				render-ui.c \
 				window-init.c \
 				rt-file.c \
 				math-in-range-utils.c \

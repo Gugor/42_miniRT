@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 13:36:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 19:48:25 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:18:49 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,8 @@ void	clear_scene(void)
 		clear_list(scene->lights, &delete_node);
 	if (scene->shapes)
 		clear_list(scene->shapes, &delete_node);
-	mlx_destroy_window(scene->win->mlx, scene->win);
+	if (scene->win && scene->win->mlx && scene->win->mlx_win)
+		mlx_destroy_window(scene->win->mlx, scene->win->mlx_win);
+	if (scene->win)
+		memfree((void **)&scene->win);
 }

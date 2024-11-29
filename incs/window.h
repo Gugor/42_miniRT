@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 19:46:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:29:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_window
 	int					img_height;
 	void				*mlx;
 	void				*mlx_win;
-	t_img				*img;
+	t_img				img;
 	t_vec3				viewport_u;
 	t_vec3				viewport_v;
 

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 19:30:47 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:47:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	init_entity_delegates (t_scene *scene)
 	scene->create_ent[PLANE] = &create_plane;
 	scene->create_ent[SPHERE] = &create_sphere;
 	scene->create_ent[CYLINDER] = &create_cylinder;
-	scene->create_ent[EOS]	= NULL;
 	//scene->create_ent[OTHER] = create_other;
+	scene->create_ent[EOS]	= NULL;
 }
 
 /**
@@ -69,7 +69,6 @@ int	init_scene_data(t_scene *scene)
 	scene->num_lights = 0;
 	scene->shapes = NULL;
 	scene->num_shapes = 0;
-	init_window(scene);
 	scene_storage(scene);
 	return (0);
 }
