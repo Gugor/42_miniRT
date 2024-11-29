@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/29 17:29:50 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:37:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ typedef struct s_window
 typedef struct s_scene t_scene;
 
 void	init_window(t_scene *scn);
+
+void	listen_events(void);
 
 #endif

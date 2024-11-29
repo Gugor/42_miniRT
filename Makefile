@@ -43,6 +43,7 @@ INC_FILES		:= scene.h \
 				error-handler.h \
 				ray.h \
 				window.h \
+				events.h \
 				get_next_line.h \
 				lights.h \
 				logger.h
@@ -58,6 +59,7 @@ SRC_FILES		:= minirt.c \
 				parse-utils.c \
 				render-scene.c \
 				window-init.c \
+				events-window.c \
 				rt-file.c \
 				math-in-range-utils.c \
 				math-convertions.c \

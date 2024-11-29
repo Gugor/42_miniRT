@@ -26,4 +26,5 @@ void init_window(t_scene *scn)
 	win->img.addr = mlx_get_data_addr(win->img.img, &win->img.bpp, &win->img.line_length,
 								&win->img.endian);
 	scn->win = win;
+	listen_events();
 }
