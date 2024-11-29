@@ -6,7 +6,6 @@
 
 int	close(int keycode)
 {
-	printf("Key pressed: %i\n", keycode);
 	if (keycode == KEY_ESCAPE || keycode == 0)
 	{
 		clear_scene();

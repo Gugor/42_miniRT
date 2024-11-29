@@ -10,9 +10,12 @@ void init_window(t_scene *scn)
 
 	win = (t_window *)xmalloc(sizeof(t_window));
 	win->mlx = mlx_init();
-	win->img_width = 1024;
-	win->aspect_ratio = (16 / 9);
+	win->img_width = 1920;
+	win->aspect_ratio = 16.0 / 9.0;
+	printf("Win Height: %f\nAR: %f\n", win->img_width / win->aspect_ratio, win->aspect_ratio );
+
 	win->img_height = win->img_width / win->aspect_ratio; //575.9px
+	printf("Win Height: %i\n", win->img_height);
 	if (win->img_height < 1)
 		win->img_height = 1;
 	win->viewport_height = 2.0;
