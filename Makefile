@@ -38,6 +38,7 @@ INC_FILES		:= scene.h \
 				vectors.h \
 				materials.h \
 				shapes.h \
+				shape-maths.h \
 				parsing.h \
 				rendering.h \
 				error-handler.h \
@@ -63,7 +64,9 @@ SRC_FILES		:= minirt.c \
 				rt-file.c \
 				math-in-range-utils.c \
 				math-convertions.c \
+				math-shapes-calculations.c \
 				vec3-operations.c \
+				vec3-operations-2.c \
 				vec3-double-operations.c \
 				vec3-position-ops.c \
 				list-creation.c \

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/29 19:37:50 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:25:05 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ typedef struct s_window
 	double				pixel_delta_v;
 	double				viewport_height;
 	double				viewport_width;
-	int					img_width;
-	int					img_height;
+	double				img_width;
+	double				img_height;
 	void				*mlx;
 	void				*mlx_win;
 	t_img				img;
+	t_vec3				viewport_pivot;
 	t_vec3				viewport_u;
 	t_vec3				viewport_v;
 

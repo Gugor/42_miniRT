@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 17:00:50 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:19:15 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct	s_camera
 	t_vec3	axis;
 	t_p3	pos;
 	t_p3	center;
+	double	focal_length;
 }	t_camera;
 
 #endif
