@@ -65,6 +65,7 @@ SRC_FILES		:= minirt.c \
 				math-in-range-utils.c \
 				math-convertions.c \
 				math-shapes-calculations.c \
+				colours-utils.c \
 				vec3-operations.c \
 				vec3-operations-2.c \
 				vec3-double-operations.c \

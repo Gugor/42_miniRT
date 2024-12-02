@@ -10,21 +10,29 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 	*(unsigned int*)dst = color;
 }
-
+/**
+ * @brief 
+ * Sky Blue: 20, 109, 252 White Sky: 247, 250, 255
+ */
 static void render_image(t_window *win)
 {
 	int w;
 	int h;	
 	int color;
+	int skbl;
+	int skwt;
 
 	w = -1;
 	h = -1;
 	color = 0;
+	skbl = 0 << 24 | 20 << 16 | 109 << 8 | 252;
+	skwt = 0 << 24 | 247 << 16 | 250 << 8 | 255;
 	while (++h < win->img_height)
 	{
 		while (++w < win->img_width)
 		{
-			color = ((255*(int)(w * h) / (win->img_width * win->img_height) )<< 24) | (255*(int)(w * h) / (win->img_width * win->img_height) ) << 16 | (255*(w*h) / (win->img_width * win->img_height))<< 8;
+//			color = ((255*(int)(w * h) / (win->img_width * win->img_height) )<< 24) | (255*(int)(w * h) / (win->img_width * win->img_height) ) << 16 | (255*(w*h) / (win->img_width * win->img_height))<< 8;
+			color = lerpRGB((h * w) / (win->img_width * win->img_height), skwt, skbl, 0, win->img_width * win->img_height);
 			printf("P(%i,%i) from (%i,%i)(%i)\n", w, h, win->img_width, win->img_height, color);
 			my_mlx_pixel_put(&win->img, w, h, color);
 		}

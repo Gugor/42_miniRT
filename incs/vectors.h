@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/30 17:50:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/02 22:27:33 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 # include <stdint.h>
 # include <math.h>
+# include <stdio.h>
 # include "colours.h"
-#include <stdio.h>
 
 typedef enum e_vec_type
 {
@@ -46,7 +46,8 @@ typedef t_vec3	t_p2;
 /*							Math in Range									  */
 int			in_range_dbl(double val, double min, double max);
 int			in_range_vec3(t_vec3 val, double min, double max);
-int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
+
+
 /*							Math Convertions								  */
 t_color		vec3_to_rgb(t_vec3 *v3);
 /*							Vec3 Operations 1								  */

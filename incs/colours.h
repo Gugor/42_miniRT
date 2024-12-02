@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:25:40 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 17:01:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/02 22:26:00 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ typedef struct s_acolor
 	uint32_t (*normalize)(unsigned int, unsigned int, unsigned int, unsigned int);
 }	t_acolor;
 
-
+int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
+double 		lerpRGB(double unscaled, double min_limit,
+			double max_limit, double min, double max);
 #endif
