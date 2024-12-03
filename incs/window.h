@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/02 17:58:00 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:41:17 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_window
 	void				*mlx_win;
 	t_img				img;
 	t_vec3				viewport_pivot;
+	t_vec3				p00;
 	t_vec3				viewport_u;
 	t_vec3				viewport_v;
 

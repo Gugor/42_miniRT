@@ -65,11 +65,13 @@ SRC_FILES		:= minirt.c \
 				math-in-range-utils.c \
 				math-convertions.c \
 				math-shapes-calculations.c \
+				ray-cast.c \
 				colours-utils.c \
 				vec3-operations.c \
 				vec3-operations-2.c \
 				vec3-double-operations.c \
 				vec3-position-ops.c \
+				pixel-operations.c \
 				list-creation.c \
 				list-iteration.c \
 				memory-creation.c \
@@ -93,7 +95,7 @@ CFLAGS			:= -Wall -Wextra -Werror
 OFLAGS			:= -O3
 IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 DFLAGS			:= -g -fsanitize=leak
-LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft  -lX11 -lXext
+LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft  -lX11 -lXext -lm
 
 
 all: $(MLX) $(LIBFT) $(OBJS_DIR) $(DEPS_DIR) $(NAME) 
