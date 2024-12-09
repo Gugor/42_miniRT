@@ -83,6 +83,7 @@ int hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *r
 	double sqrtd;
 	double root;
 
+	printf("Drawing Sphere...\n");
 	s = (t_sphere *)shp;
 	hit.oc = rest_v3(s->pos, ray->origin);	
 	hit.a = dot(&ray->direction, &ray->direction);

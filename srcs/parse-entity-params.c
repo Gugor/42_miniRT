@@ -130,13 +130,13 @@ int set_rgb(t_color *rgb, const char *line, int *outsize)
 	indx = skip_spaces((char *)&line[0]);
 	if (line[indx] == '-')
 		return (3);
-	rgb->r = get_uint8(&line[indx], 10, &indx);
+	rgb->clr |= get_uint8(&line[indx], 10, &indx) << 16;
 	if (indx == -1 || line[++indx] == '-')
 		return (3);
-	rgb->g = get_uint8(&line[indx], 10, &indx);
+	rgb->clr |= get_uint8(&line[indx], 10, &indx) << 8;
 	if (indx == -1 || line[++indx] == '-')
 		return (3);
-	rgb->b = get_uint8(&line[indx], 10, &indx);
+	rgb->clr |= get_uint8(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (3);
 	if (outsize)

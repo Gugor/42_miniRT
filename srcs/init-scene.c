@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/08 18:55:23 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:58:02 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void init_hit_shape_delegates(t_scene *scene)
 	scene->check_hit[PLANE - 3] = &hit_plane;
 	scene->check_hit[SPHERE - 3] = &hit_sphere;
 	scene->check_hit[CYLINDER - 3] = &hit_cylinder;
-	scene->check_hit[EOS - 3]	= NULL;
+	scene->check_hit[4]	= NULL;
 }
 
 

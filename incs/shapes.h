@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/08 18:58:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/09 18:55:35 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ typedef struct s_cylinder
 }	t_cylinder;
 
 void set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_data *rec);
+int		get_SHP_pos(t_vec3 *pos, void *shp, t_entid type);
 #endif
 

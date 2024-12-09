@@ -36,7 +36,8 @@ t_color tst_ray_color(const t_ray *r)
 		t_vec3 rest = rest_v3(sdet, sp);
 		t_vec3 N = normalize_v3(rest);
 		t_color c;
-		c.clr = (uint8_t)(255.999 * ((N.x + 1) * 0.5)) << 16 | (uint8_t)(255.999 * ((N.y + 1) * 0.5)) << 8 | (uint8_t)(255.999 * ((N.z + 1) * 0.5));
+		c = scale_rgb((N.x + 1) * 0.5, (N.y + 1) * 0.5, (N.z + 1) * 0.5);
+		//c.clr = (uint8_t)(255.999 * ((N.x + 1) * 0.5)) << 16 | (uint8_t)(255.999 * ((N.y + 1) * 0.5)) << 8 | (uint8_t)(255.999 * ((N.z + 1) * 0.5));
         return (c);
 	}
 	norm = (*r).norm;
@@ -47,14 +48,29 @@ t_color tst_ray_color(const t_ray *r)
 
 }
 
-t_color ray_color(const t_ray *, void *shp, t_entid type)
+t_color ray_color(const t_ray *ray, void *shp, t_entid type)
 {
-	t_scene *scn;
-	double limits[2];
+	t_scene		*scn;
+	t_vec3		pos;
+	t_hit_data	hitd;
 
 	scn = get_scene();
-	init_limits(&limits, 0, INFINITY);
-	scn->check_hit[type](shp, ray, );
+	init_limits((double (*)[2])&ray->lim, 0, INFINITY);
+	get_SHP_pos(&pos, shp, type);
+	hitd.t = scn->check_hit[1](shp, ray, (double *)ray->lim, &hitd);
+	if (hitd.t > 0.0)
+	{
+		hitd.det = at((t_ray*)ray, hitd.t);
+		hitd.trans = rest_v3(hitd.det, pos);
+		hitd.N = normalize_v3(hitd.trans);
+		hitd.rgb = scale_rgb((hitd.N.x + 1) * 0.5, (hitd.N.y + 1) * 0.5, (hitd.N.z + 1) * 0.5);
+		return (hitd.rgb);
+	}
+	hitd.N = (*ray).norm;
+	printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->mag, hitd.N.x, hitd.N.y, hitd.N.z);
+	hitd.rgb.clr = lerpRGB(hitd.N.y, scale_rgb(1.0, 1.0,1.0), scale_rgb(0.5, 0.7, 1.0));
+	printf("	::A [%f]RGB[%u,%u,%u][%i]\n", hitd.N.y, (hitd.rgb.clr >> 16) & 0xFF, (hitd.rgb.clr >> 8) & 0xFF , hitd.rgb.clr & 0xFF, hitd.rgb.clr);
+	return (hitd.rgb);
 }
 
 /**
@@ -65,6 +81,7 @@ void update_ray(t_ray *r, t_vec3 *dir)
 	*r = init_ray((t_vec3)&r->origin, dir);
 }
 */
+
 
 t_vec3			at(t_ray *r, double t)
 {

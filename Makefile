@@ -67,6 +67,7 @@ SRC_FILES		:= minirt.c \
 				math-shapes-calculations.c \
 				math-shapes-normals.c \
 				math-colours.c \
+				shapes-convertions.c \
 				ray-cast.c \
 				colours-utils.c \
 				vec3-operations.c \

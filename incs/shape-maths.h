@@ -9,11 +9,12 @@
 
 typedef struct s_spheric_hit
 {
-	t_vec3 oc;
-	double a;
-	double h;
-	double c;
-	double discriminant;
+	t_vec3	oc;
+	double	a;
+	double	h;
+	double	c;
+	double	discriminant;
+
 
 }	t_sph_hit;
 

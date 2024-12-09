@@ -11,6 +11,10 @@ typedef struct s_hit_data
 	t_vec3	normal;
 	double	t;
 	int		is_front;
+	t_vec3	det;
+	t_vec3	trans;
+	t_vec3	N;
+	t_color	rgb;
 }	t_hit_data;
 
 typedef struct s_ray
@@ -21,6 +25,7 @@ typedef struct s_ray
 	t_color		rgb;
 	double		mag;
 	t_vec3		norm;
+	double		lim[2];
 	double	(*cast)(struct s_ray *ray);
 }	t_ray;
 

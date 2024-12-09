@@ -13,6 +13,16 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 	*(unsigned int*)dst = color;
 }
+
+/**
+ * @brief 
+ *
+void cast_ray(t_scene *scn)
+{
+	return ;
+}
+*/
+
 /**
  * @brief 
  * Sky Blue: 20, 109, 252 White Sky: 247, 250, 255
@@ -50,7 +60,7 @@ static void render_image(t_scene *scn, t_window *win)
 			printf("Cam pos[%f,%f,%f]\n", scn->camera.center.x, scn->camera.center.y, scn->camera.center.z);
 			ray = init_ray((t_vec3 *)&scn->camera.center, &ray_dir);
 			printf("Pos[%i,%i] ", h, w);
-			color = ray_color(&ray, &sp, SPHERE);
+			color = ray_color(&ray, scn->shapes->next->cnt, scn->shapes->next->type);
 			//printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
 			//color.clr = lerpRGB(ray.direction, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5,0.7, 1.0));
 			printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
