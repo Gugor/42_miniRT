@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/03 20:03:09 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:23:58 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,19 @@ int			in_range_vec3(t_vec3 val, double min, double max);
 
 /*							Vec3 Operations 1								  */
 void		vec3(t_vec3 *v3, double x, double y, double z);
-t_vec3		mult_v3(t_vec3 *v1, t_vec3 *v2);
-t_vec3		div_v3(t_vec3 *v1, t_vec3 *v2);
-t_vec3		sum_v3(t_vec3 *v1, t_vec3 *v2);
-t_vec3		rest_v3(t_vec3 *v1, t_vec3 *v2);
+t_vec3		mult_v3(t_vec3 v1, t_vec3 v2);
+t_vec3		div_v3(t_vec3 v1, t_vec3 v2);
+t_vec3		sum_v3(t_vec3 v1, t_vec3 v2);
+t_vec3		rest_v3(t_vec3 v1, t_vec3 v2);
 /*							Vec3 Operations 2								  */
-double		sqr_v3(t_vec3 *v3);
-double		length_v3(t_vec3 *v3);
-t_vec3		normalize_v3(t_vec3 *v3);
+double		sqr_v3(t_vec3 v3);
+double		length_v3(t_vec3 v3);
+t_vec3		normalize_v3(t_vec3 v3);
 /*							Vec3 Operation Double							  */
-t_vec3		mult_v3_dbl(t_vec3 *v1, double t);
-t_vec3		div_v3_dbl(t_vec3 *v1, double t);
-t_vec3		sum_v3_dbl(t_vec3 *v1, double t);
-t_vec3		rest_v3_dbl(t_vec3 *v1, double t);
+t_vec3		mult_v3_dbl(t_vec3 v1, double t);
+t_vec3		div_v3_dbl(t_vec3 v1, double t);
+t_vec3		sum_v3_dbl(t_vec3 v1, double t);
+t_vec3		rest_v3_dbl(t_vec3 v1, double t);
 double		vec3_to_dbl(t_vec3 v3);
 /*							Vec3 Operation Double							  */
 double		dot(const t_vec3 *v1, const t_vec3 *v2);

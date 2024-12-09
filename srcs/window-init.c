@@ -13,15 +13,15 @@ static void set_win_pivot(t_camera *camera, t_window *win)
 	t_vec3 rest2;
 
 	printf("	=> Calc Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
-	half_vwp_u = div_v3_dbl(&win->viewport_u, 2.0);
+	half_vwp_u = div_v3_dbl(win->viewport_u, 2.0);
 	printf("	=> Calc UCL Half Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
 	printf("	=> Calc Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
-	half_vwp_v = div_v3_dbl(&win->viewport_v, 2.0);
+	half_vwp_v = div_v3_dbl(win->viewport_v, 2.0);
 	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n", half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
 	vec3(&dir_flnght, 0, 0, camera->focal_length);
-	rest1 = rest_v3(&camera->center, &dir_flnght);
-	rest2 = rest_v3(&rest1, &half_vwp_u);
-	win->viewport_pivot = rest_v3(&rest2, &half_vwp_v); 
+	rest1 = rest_v3(camera->center, dir_flnght);
+	rest2 = rest_v3(rest1, half_vwp_u);
+	win->viewport_pivot = rest_v3(rest2, half_vwp_v); 
 	printf("	=> Upper Left Corener[%f,%f,%f]\n", win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
 }
 
@@ -35,12 +35,12 @@ static void init_viewport(t_scene *scn, t_window *win)
 	vec3(&win->viewport_u, win->viewport_width, 0, 0);
 	vec3(&win->viewport_v, 0, -win->viewport_height, 0);
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.x, win->viewport_v.z);
-	win->pixel_delta_u =  div_v3_dbl(&win->viewport_u, win->img_width);
-	win->pixel_delta_v =  div_v3_dbl(&win->viewport_v, win->img_height);
+	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
+	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);
 	set_win_pivot(&scn->camera, win);
-	init_pixel = sum_v3(&win->pixel_delta_u, &win->pixel_delta_v);
-	init_pixel = mult_v3_dbl(&init_pixel, 0.5);
-	init_pixel = sum_v3(&win->viewport_pivot, &init_pixel);
+	init_pixel = sum_v3(win->pixel_delta_u, win->pixel_delta_v);
+	init_pixel = mult_v3_dbl(init_pixel, 0.5);
+	init_pixel = sum_v3(win->viewport_pivot, init_pixel);
 	win->p00 = init_pixel;
 	printf("=> Viewport data:\n");
 	printf("	:: Resolution: %fx%f\n", win->viewport_width, win->viewport_height);

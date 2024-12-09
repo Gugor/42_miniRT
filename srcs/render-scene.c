@@ -36,7 +36,7 @@ static void render_image(t_scene *scn, t_window *win)
 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
 	// sp = (t_sphere *)scn->shapes->next->cnt;
 	vec3(&sp.pos, 0, 0, -0.5);
-	sp.size = 0.2;
+	sp.rad = 0.2;
 	(void)scn;
 	while (++h < win->img_height)
 	{
@@ -46,11 +46,11 @@ static void render_image(t_scene *scn, t_window *win)
 			indx[1] = h;
 			pixel_center = get_pix_center(&win->p00, &win->pixel_delta_u, &win->pixel_delta_v, indx);
 			printf("[%i,%i] - P00[%f,%f,%f]\n", w, h, pixel_center.x, pixel_center.y, pixel_center.z);
-			ray_dir = rest_v3(&pixel_center, &scn->camera.center);
+			ray_dir = rest_v3(pixel_center, scn->camera.center);
 			printf("Cam pos[%f,%f,%f]\n", scn->camera.center.x, scn->camera.center.y, scn->camera.center.z);
 			ray = init_ray((t_vec3 *)&scn->camera.center, &ray_dir);
 			printf("Pos[%i,%i] ", h, w);
-			color = ray_color(&ray);
+			color = ray_color(&ray, &sp, SPHERE);
 			//printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
 			//color.clr = lerpRGB(ray.direction, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5,0.7, 1.0));
 			printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);

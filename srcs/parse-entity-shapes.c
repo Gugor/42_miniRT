@@ -43,10 +43,10 @@ void	create_sphere(t_scene *scene, const char *line)
 		err_rt_file_format("wrong sphere format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
 	update_line_offset((char **)&line, &offset);
-	sphere->size = get_double((char *)line, 10, &offset);
-	if (line[offset] == ',' || offset == -1 || sphere->size < 0)
+	sphere->rad = get_double((char *)line, 10, &offset);
+	if (line[offset] == ',' || offset == -1 || sphere->rad < 0)
 		err_rt_file_format("wrong sphere format [size]");
-	printf("	Diameter: %f\n", sphere->size);
+	printf("	Radius: %f\n", sphere->rad);
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&sphere->rgb, (char *)line, &offset)
 		|| !in_range_rgb(sphere->rgb, 0, 255))

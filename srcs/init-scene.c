@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/03 13:09:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:55:23 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "scene.h"
 #include "parsing.h"
 #include "window.h"
+#include "shape-maths.h"
 
 /**
 * @brief It gets the scene stored statically by `scene_storage()`.
@@ -58,12 +59,26 @@ static void	init_entity_delegates (t_scene *scene)
 }
 
 /**
+ * @brief It initialize the and array of functions used
+ * to check the hits on the different available shapes in scene.
+ */
+static void init_hit_shape_delegates(t_scene *scene)
+{
+	scene->check_hit[PLANE - 3] = &hit_plane;
+	scene->check_hit[SPHERE - 3] = &hit_sphere;
+	scene->check_hit[CYLINDER - 3] = &hit_cylinder;
+	scene->check_hit[EOS - 3]	= NULL;
+}
+
+
+/**
 * @brief Initialize the scene and entities with default data.
 */
 int	init_scene_data(t_scene *scene)
 {
 	set_entity_ids(scene->entity_ids);
 	init_entity_delegates(scene);
+	init_hit_shape_delegates(scene);
 	scene->required_ents = 0b00000011;
 	scene->lights = NULL;
 	scene->num_lights = 0;

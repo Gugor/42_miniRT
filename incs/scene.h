@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 19:47:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:57:44 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@
 # include "camera.h"
 # include "shapes.h"
 # include "lists.h"
+# include "ray.h"
 # include "entity-data.h"
 # include "window.h"
 
 # define NUM_ENTITIES 8
+# define NUM_SHAPES 4
 
 /**
 * @brief Its used for stablishing if a scene can be rendered
@@ -39,14 +41,14 @@ typedef enum e_req_ents
 {
 	REQ_AMBIENT = 1,
 	REQ_CAMERA = 2,
-	REQ_LIGHT = 3,
-	REQ_FULL = 4,
+	REQ_FULL = 3,
 }	t_reqents;
 
-
+//hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec)
 typedef struct s_scene	t_scene;
 typedef struct s_lst	t_lst;
 typedef void			(*t_create_entity)(t_scene *, const char *line);
+typedef int				(*t_is_hit)(void *, const t_ray *, double [2], t_hit_data *);
 
 typedef struct s_scene
 {
@@ -60,6 +62,7 @@ typedef struct s_scene
 	t_ambient			alight;
 	t_camera			camera;
 	t_create_entity		create_ent[NUM_ENTITIES];
+	t_is_hit			check_hit[NUM_SHAPES];
 	t_lst				*lights;
 	t_lst				*shapes;
 }	t_scene;

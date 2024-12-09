@@ -65,6 +65,7 @@ SRC_FILES		:= minirt.c \
 				math-in-range-utils.c \
 				math-convertions.c \
 				math-shapes-calculations.c \
+				math-shapes-normals.c \
 				math-colours.c \
 				ray-cast.c \
 				colours-utils.c \

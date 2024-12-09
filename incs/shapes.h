@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 17:01:52 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:58:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define SHAPES_H
 
 # include "vectors.h"
+# include "ray.h"
 # include "materials.h"
 # include "scene.h"
 
@@ -31,7 +32,7 @@ typedef struct s_plane
 typedef struct s_sphere
 {
 	t_vec3		pos;		
-	double		size;
+	double		rad;
 	t_color		rgb;
 	t_material	*material;
 }	t_sphere;
@@ -46,5 +47,6 @@ typedef struct s_cylinder
 	t_material	*material;
 }	t_cylinder;
 
+void set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_data *rec);
 #endif
 

@@ -7,30 +7,28 @@
 /**
  * @brief 
  */
-int in_plane (t_plane *pl, t_vec3 *p)
+int	hit_plane (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec)
 {
 	//Fake calculations
-	(void)p;
-	(void)pl;
+	(void)shp;
+	(void)ray;
+	(void)ray_limits;
+	(void)rec;
 	return (0);
 }
 
 /**
- * @brief [x2+y2+z2=r2]
- * bool hit_sphere(const point3& center, double radius, const ray& r) {
-    vec3 oc = center - r.origin();
-    auto a = dot(r.direction(), r.direction());
-    auto b = -2.0 * dot(r.direction(), oc);
-    auto c = dot(oc, oc) - radius*radius;
-    auto discriminant = b*b - 4*a*c;
-	    if (discriminant < 0) {
-        return -1.0;
-    } else {
-        return (-b - std::sqrt(discriminant) ) / (2.0*a);
-    }
- *}
+ * @brief It verifiys if a given ray intersects with the given sphere
+ *
+ *  `a = Representa el coeficiente cuadrático de la ecuación cuadrática que describe la intersección del rayo con la esfera.
+ *	Matemáticamente, es igual a la magnitud al cuadrado del vector de dirección del rayo.`
+ *	`h = Es el término lineal de la ecuación cuadrática.
+ *	Representa el producto escalar entre la dirección del rayo (dd) y el vector que va desde el origen del rayo (oo) al centro de la esfera (ococ):
+ *	h=d⋅oc.`
+ *	`c = `
+ *	`discriminant = `
  */
-double hit_sphere (const t_p3 *center, double r, const t_ray *ray)
+double tst_hit_sphere (const t_p3 *center, double r, const t_ray *ray)
 {
 	t_vec3 oc;
 	double a;
@@ -42,7 +40,7 @@ double hit_sphere (const t_p3 *center, double r, const t_ray *ray)
 	// 		center->x, center->y, center->z,
 	// 		ray->origin.x, ray->origin.y, ray->origin.z,
 	// 		ray->direction.x, ray->direction.y, ray->direction.z);
-	oc = rest_v3((t_vec3 *)center, (t_vec3 *)&ray->origin);	
+	oc = rest_v3(*center, ray->origin);	
 	// printf ("oc[%f,%f,%f] ", oc.x, oc.y, oc.z);
 	a = dot(&ray->direction, &ray->direction);
 	// printf("a = \"%f\" ", a);
@@ -60,13 +58,63 @@ double hit_sphere (const t_p3 *center, double r, const t_ray *ray)
 }
 
 /**
- * @brief [x2+y2+z2=r2]
- */
-int in_cylinder (t_cylinder *cy, t_vec3 *p)
+ * @brief It verifies if a given ray intersects with the given sphere
+ *	a = Represents the quadratic coefficient of the quadratic equation that
+ *	describes the ray's intersection with the sphere.
+ *	Mathematically, it is equal to the squared magnitude of the ray's
+ *	direction vector.
+ *	h = Is the linear term of the quadratic equation. Represents the dot
+ *	product between the ray direction (dd) and the vector from the ray's
+ *	origin (oo) to the sphere's center (ococ): h=d⋅oc.
+ *	c = Represents the constant term of the quadratic equation.
+ *	It is the squared magnitude of the ococ vector minus the sphere's
+ *	radius squared (r2r2).
+ *	discriminant = where oc=center−ooc=center−o (the vector from the ray's
+ *	origin to the sphere's center) and rr is the sphere's radius.
+ *	It has 3 different states: < 0 no hit, 0 one hit(tangent), > 0 2-hits (travese the sphere). 	 
+*/
+
+
+int hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec)
 {
-	//Fake calculations
-	(void)p;
-	(void)cy;
-	return (0);
+	t_sph_hit hit;
+	t_sphere *s;
+	t_vec3 outward_normal;
+	double sqrtd;
+	double root;
+
+	s = (t_sphere *)shp;
+	hit.oc = rest_v3(s->pos, ray->origin);	
+	hit.a = dot(&ray->direction, &ray->direction);
+	hit.h = -2.0 * dot(&ray->direction, &hit.oc);
+	hit.c = dot(&hit.oc, &hit.oc) - s->rad * s->rad;
+	hit.discriminant = hit.h * hit.h - 4 * hit.a * hit.c;
+	if (hit.discriminant < 0)
+		return (0);
+	sqrtd = sqrt(hit.discriminant); 	
+	root = (hit.h - sqrtd) / hit.a / hit.a;
+	if (root <= ray_limits[0] || ray_limits[1] <= root)
+	{
+		root = (hit.h + sqrtd) / hit.a;
+		if (root <= ray_limits[0] || ray_limits[1] <= root)
+			return (0);
+	}
+	rec->t = root;
+	rec->hit = at((t_ray *)ray, rec->t);
+	rec->normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
+	outward_normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
+	set_face_normal(ray, &outward_normal, rec);
+	return (1);
 }
 
+/**
+ * @brief  
+ */
+int			hit_cylinder (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec)
+{	
+	(void)shp;
+	(void)ray;
+	(void)ray_limits;
+	(void)rec;
+	return (0);
+}
