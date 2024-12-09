@@ -57,9 +57,11 @@ t_color ray_color(const t_ray *ray, void *shp, t_entid type)
 	scn = get_scene();
 	init_limits((double (*)[2])&ray->lim, 0, INFINITY);
 	get_SHP_pos(&pos, shp, type);
-	hitd.t = scn->check_hit[1](shp, ray, (double *)ray->lim, &hitd);
+	hitd.t = scn->check_hit[type](shp, ray, (double *)ray->lim, &hitd);
+	printf("Hit Det %f\n", hitd.t);
 	if (hitd.t > 0.0)
 	{
+		printf("====== Hit shape: %i\n", type);
 		hitd.det = at((t_ray*)ray, hitd.t);
 		hitd.trans = rest_v3(hitd.det, pos);
 		hitd.N = normalize_v3(hitd.trans);
