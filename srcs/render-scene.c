@@ -56,11 +56,12 @@ static void render_image(t_scene *scn, t_window *win)
 			indx[1] = h;
 			pixel_center = get_pix_center(&win->p00, &win->pixel_delta_u, &win->pixel_delta_v, indx);
 			printf("[%i,%i] - P00[%f,%f,%f]\n", w, h, pixel_center.x, pixel_center.y, pixel_center.z);
-			ray_dir = rest_v3(pixel_center, scn->camera.center);
-			printf("Cam pos[%f,%f,%f]\n", scn->camera.center.x, scn->camera.center.y, scn->camera.center.z);
-			ray = init_ray((t_vec3 *)&scn->camera.center, &ray_dir);
+			ray_dir = rest_v3(pixel_center, scn->camera.pos);
+			printf("Cam pos[%f,%f,%f]\n", scn->camera.pos.x, scn->camera.pos.y, scn->camera.pos.z);
+			ray = init_ray((t_vec3 *)&scn->camera.pos, &ray_dir);
 			printf("Pos[%i,%i] ", h, w);
-			color = ray_color(&ray, scn->shapes->next->cnt, scn->shapes->next->type - SHAPE_TYPE_OFFSET);
+			// color = tst_ray_color(&ray);
+			color = ray_color(&ray, scn->shapes->cnt, scn->shapes->type - SHAPE_TYPE_OFFSET);
 			//printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
 			//color.clr = lerpRGB(ray.direction, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5,0.7, 1.0));
 			printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);

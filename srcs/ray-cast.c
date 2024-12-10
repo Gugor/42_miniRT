@@ -53,25 +53,26 @@ t_color ray_color(const t_ray *ray, void *shp, t_entid type)
 	t_scene		*scn;
 	t_vec3		pos;
 	t_hit_data	hitd;
+	int			hit;
 
+	hit = 0;
 	scn = get_scene();
-	init_limits((double (*)[2])&ray->lim, 0, INFINITY);
+	init_limits((t_interval *)&ray->lim, 0, INFINITY);
 	get_SHP_pos(&pos, shp, type);
-	hitd.t = scn->check_hit[type](shp, ray, (double *)ray->lim, &hitd);
-	printf("Hit Det %f\n", hitd.t);
-	if (hitd.t > 0.0)
+	hit = scn->check_hit[type](shp, ray, (t_interval *)&ray->lim, &hitd);
+	if (hit)
 	{
 		printf("====== Hit shape: %i\n", type);
-		hitd.det = at((t_ray*)ray, hitd.t);
-		hitd.trans = rest_v3(hitd.det, pos);
-		hitd.N = normalize_v3(hitd.trans);
-		hitd.rgb = scale_rgb((hitd.N.x + 1) * 0.5, (hitd.N.y + 1) * 0.5, (hitd.N.z + 1) * 0.5);
+		// hitd.det = at((t_ray*)ray, hitd.t);
+		// hitd.trans = rest_v3(hitd.det, pos);
+		// hitd.N = normalize_v3(hitd.trans);
+		hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
 		return (hitd.rgb);
 	}
-	hitd.N = (*ray).norm;
-	printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->mag, hitd.N.x, hitd.N.y, hitd.N.z);
-	hitd.rgb.clr = lerpRGB(hitd.N.y, scale_rgb(1.0, 1.0,1.0), scale_rgb(0.5, 0.7, 1.0));
-	printf("	::A [%f]RGB[%u,%u,%u][%i]\n", hitd.N.y, (hitd.rgb.clr >> 16) & 0xFF, (hitd.rgb.clr >> 8) & 0xFF , hitd.rgb.clr & 0xFF, hitd.rgb.clr);
+	hitd.normal = (*ray).norm;
+	printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->mag, hitd.normal.x, hitd.normal.y, hitd.normal.z);
+	hitd.rgb.clr = lerpRGB(hitd.normal.y, scale_rgb(1.0, 1.0,1.0), scale_rgb(0.5, 0.7, 1.0));
+	printf("	::A [%f]RGB[%u,%u,%u][%i]\n", hitd.normal.y, (hitd.rgb.clr >> 16) & 0xFF, (hitd.rgb.clr >> 8) & 0xFF , hitd.rgb.clr & 0xFF, hitd.rgb.clr);
 	return (hitd.rgb);
 }
 
@@ -84,7 +85,10 @@ void update_ray(t_ray *r, t_vec3 *dir)
 }
 */
 
-
+/**
+ * @brief It finds a a point in a ray. T is a scalar that set the distance
+ * to scale form origin.
+ */
 t_vec3			at(t_ray *r, double t)
 {
 	t_vec3 dt;

@@ -4,6 +4,7 @@
 
 #include "entity-data.h"
 #include "vectors.h"
+#include "maths.h"
 
 typedef struct s_hit_data 
 {
@@ -25,7 +26,7 @@ typedef struct s_ray
 	t_color		rgb;
 	double		mag;
 	t_vec3		norm;
-	double		lim[2];
+	t_interval	lim;
 	double	(*cast)(struct s_ray *ray);
 }	t_ray;
 

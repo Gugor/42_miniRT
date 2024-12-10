@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/08 18:57:44 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:59:08 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef enum e_req_ents
 typedef struct s_scene	t_scene;
 typedef struct s_lst	t_lst;
 typedef void			(*t_create_entity)(t_scene *, const char *line);
-typedef int				(*t_is_hit)(void *, const t_ray *, double [2], t_hit_data *);
+typedef int				(*t_is_hit)(void *, const t_ray *, t_interval *, t_hit_data *);
 
 typedef struct s_scene
 {

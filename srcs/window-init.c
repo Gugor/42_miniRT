@@ -19,15 +19,26 @@ static void set_win_pivot(t_camera *camera, t_window *win)
 	half_vwp_v = div_v3_dbl(win->viewport_v, 2.0);
 	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n", half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
 	vec3(&dir_flnght, 0, 0, camera->focal_length);
-	rest1 = rest_v3(camera->center, dir_flnght);
+	rest1 = rest_v3(camera->pos, dir_flnght);
 	rest2 = rest_v3(rest1, half_vwp_u);
 	win->viewport_pivot = rest_v3(rest2, half_vwp_v); 
 	printf("	=> Upper Left Corener[%f,%f,%f]\n", win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
 }
 
-static void init_viewport(t_scene *scn, t_window *win)
+/**
+ * @brief PX00 is the initial pixel in the top left part of the viewport. This
+ * function initialize it with the window data.
+ */
+static void set_px00(t_window *win)
 {
 	t_vec3 init_pixel;
+	init_pixel = sum_v3(win->pixel_delta_u, win->pixel_delta_v);
+	init_pixel = mult_v3_dbl(init_pixel, 0.5);
+	init_pixel = sum_v3(win->viewport_pivot, init_pixel);
+	win->p00 = init_pixel;
+}
+static void init_viewport(t_scene *scn, t_window *win)
+{
 	printf("Initializing Viewport(%ix%i)...\n", (int)win->img_width, (int)win->img_height);
 	win->viewport_height = 2.0;
 	win->viewport_width = win->viewport_height * (double)win->img_width / (double)win->img_height; //3.55556ratio
@@ -38,10 +49,7 @@ static void init_viewport(t_scene *scn, t_window *win)
 	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);
 	set_win_pivot(&scn->camera, win);
-	init_pixel = sum_v3(win->pixel_delta_u, win->pixel_delta_v);
-	init_pixel = mult_v3_dbl(init_pixel, 0.5);
-	init_pixel = sum_v3(win->viewport_pivot, init_pixel);
-	win->p00 = init_pixel;
+	set_px00(win);
 	printf("=> Viewport data:\n");
 	printf("	:: Resolution: %fx%f\n", win->viewport_width, win->viewport_height);
 	printf("	:: UV: U[%f,%f, %f] | V[%f,%f, %f]\n",
@@ -51,7 +59,7 @@ static void init_viewport(t_scene *scn, t_window *win)
 			win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z,
 			win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
 	printf("	:: Upper Left Pivot: [%f,%f,%f]\n", win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
-	printf("	:: 00 Pixel: [%f,%f,%f]\n", init_pixel.x, init_pixel.y, init_pixel.z);
+	printf("	:: 00 Pixel: [%f,%f,%f]\n", win->p00.x, win->p00.y, win->p00.z);
 }
 
 void init_window(t_scene *scn)

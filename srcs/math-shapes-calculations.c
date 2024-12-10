@@ -7,7 +7,7 @@
 /**
  * @brief 
  */
-int	hit_plane (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec)
+int	hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {
 	//Fake calculations
 	(void)shp;
@@ -59,23 +59,23 @@ double tst_hit_sphere (const t_p3 *center, double r, const t_ray *ray)
 
 /**
  * @brief It verifies if a given ray intersects with the given sphere
- *	a = Represents the quadratic coefficient of the quadratic equation that
+ *	- a = Represents the quadratic coefficient of the quadratic equation that
  *	describes the ray's intersection with the sphere.
  *	Mathematically, it is equal to the squared magnitude of the ray's
  *	direction vector.
- *	h = Is the linear term of the quadratic equation. Represents the dot
+ *	- b = Is the linear term of the quadratic equation. Represents the dot
  *	product between the ray direction (dd) and the vector from the ray's
  *	origin (oo) to the sphere's center (ococ): h=d⋅oc.
- *	c = Represents the constant term of the quadratic equation.
+ *	- h = Represents the constant term of the quadratic equation.
  *	It is the squared magnitude of the ococ vector minus the sphere's
  *	radius squared (r2r2).
- *	discriminant = where oc=center−ooc=center−o (the vector from the ray's
+ *	- discriminant = where oc=center−ooc=center−o (the vector from the ray's
  *	origin to the sphere's center) and rr is the sphere's radius.
  *	It has 3 different states: < 0 no hit, 0 one hit(tangent), > 0 2-hits (travese the sphere). 	 
 */
 
 
-int hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec)
+int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {
 	t_sph_hit hit;
 	t_sphere *s;
@@ -83,7 +83,7 @@ int hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *r
 	double sqrtd;
 	double root;
 
-	printf("Drawing Sphere...\n");
+	printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
 	s = (t_sphere *)shp;
 	hit.oc = rest_v3(s->pos, ray->origin);	
 	hit.a = dot(&ray->direction, &ray->direction);
@@ -93,11 +93,11 @@ int hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *r
 	if (hit.discriminant < 0)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
-	root = (hit.h - sqrtd) / hit.a / hit.a;
-	if (root <= ray_limits[0] || ray_limits[1] <= root)
+	root = (hit.h - sqrtd) / hit.a;
+	if (root <= ray_limits->min || ray_limits->max <= root)
 	{
 		root = (hit.h + sqrtd) / hit.a;
-		if (root <= ray_limits[0] || ray_limits[1] <= root)
+		if (root <= ray_limits->min || ray_limits->max <= root)
 			return (0);
 	}
 	rec->t = root;
@@ -111,7 +111,7 @@ int hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *r
 /**
  * @brief  
  */
-int			hit_cylinder (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec)
+int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {	
 	(void)shp;
 	(void)ray;

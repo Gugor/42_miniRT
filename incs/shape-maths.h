@@ -18,8 +18,8 @@ typedef struct s_spheric_hit
 
 }	t_sph_hit;
 
-int			hit_plane (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec);
+int			hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 double		tst_hit_sphere (const t_p3 *p, double r, const t_ray *ray);
-int 		hit_sphere (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec);
-int			hit_cylinder (void *shp, const t_ray *ray, double ray_limits[2], t_hit_data *rec);
+int 		hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
+int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 #endif

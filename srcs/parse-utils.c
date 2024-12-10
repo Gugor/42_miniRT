@@ -59,14 +59,19 @@ int	is_vec_format(const char *line, t_vec_type type)
 
 	commas = 0;
 	indx = 0;
+	/*
 	while (line[indx] && (ft_isdigit(line[indx]) || line[indx] == '.' 
-		|| line[indx] == ',') && !ft_isspace(line[indx]))
+		|| line[indx] == ',' || line[indx] == '-') && !ft_isspace(line[indx]))
 	{
 		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
-				|| !ft_isdigit(line[indx + 1])))
+				|| (!ft_isdigit(line[indx + 1] && line[indx] != '-'))))
 			return (1);
 		if (line[indx++] == ',')
 			commas++;
 	}
+	*/
+	while (line[indx] && line[indx] != 32)
+		if (line[indx++] == ',')
+			commas++;
 	return (eval_vec_type(commas, type));
 }

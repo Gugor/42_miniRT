@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/09 20:32:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:01:24 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,7 @@
 #include "window.h"
 #include "shape-maths.h"
 
-/**
-* @brief It gets the scene stored statically by `scene_storage()`.
-* @returns `{t_scene *}`
-*/
-t_scene *get_scene(void)
-{
-	return (scene_storage(NULL));
-}
+
 
 /**
 * @brief It fill entity_id field in scene with the entiy identifiers
@@ -86,6 +79,15 @@ int	init_scene_data(t_scene *scene)
 	scene->num_shapes = 0;
 	scene_storage(scene);
 	return (0);
+}
+
+/**
+* @brief It gets the scene stored statically by `scene_storage()`.
+* @returns `{t_scene *}`
+*/
+t_scene *get_scene(void)
+{
+	return (scene_storage(NULL));
 }
 
 /**
