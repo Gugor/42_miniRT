@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/10 12:38:11 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:22:49 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "ray.h"
 # include "materials.h"
 # include "scene.h"
+# include "shape-maths.h"
 
 typedef struct s_plane
 {

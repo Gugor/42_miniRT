@@ -73,38 +73,35 @@ double tst_hit_sphere (const t_p3 *center, double r, const t_ray *ray)
  *	origin to the sphere's center) and rr is the sphere's radius.
  *	It has 3 different states: < 0 no hit, 0 one hit(tangent), > 0 2-hits (travese the sphere). 	 
 */
-
-
 int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {
 	t_sph_hit hit;
 	t_sphere *s;
-	t_vec3 outward_normal;
 	double sqrtd;
 	double root;
 
 	printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
 	s = (t_sphere *)shp;
 	hit.oc = rest_v3(s->pos, ray->origin);	
-	hit.a = dot(&ray->direction, &ray->direction);
-	hit.h = -2.0 * dot(&ray->direction, &hit.oc);
-	hit.c = dot(&hit.oc, &hit.oc) - s->rad * s->rad;
-	hit.discriminant = hit.h * hit.h - 4 * hit.a * hit.c;
+	hit.a = ray->length * ray->length;
+	hit.h = dot(&ray->direction, &hit.oc);
+	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
+
+	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
 	if (hit.discriminant < 0)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
-	if (root <= ray_limits->min || ray_limits->max <= root)
+	if (!interval_sourrounds(ray_limits, root))// (root <= ray_limits->min || ray_limits->max <= root)
 	{
 		root = (hit.h + sqrtd) / hit.a;
-		if (root <= ray_limits->min || ray_limits->max <= root)
+		if (!interval_sourrounds(ray_limits, root))//(root <= ray_limits->min || ray_limits->max <= root)
 			return (0);
 	}
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
-	outward_normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
-	set_face_normal(ray, &outward_normal, rec);
+	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
 
@@ -118,4 +115,30 @@ int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_d
 	(void)ray_limits;
 	(void)rec;
 	return (0);
+}
+
+bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
+{
+	t_scene		*scn;
+	t_lst		*shapes;
+	t_hit_data	hitd;
+	double		closest;
+	bool		hit_anything;
+
+	hit_anything = false;
+	scn = get_scene();
+	shapes = scn->shapes;
+	while (shapes)
+	{
+		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)&ray->lim, &hitd))
+		{
+			closest = hitd.t;
+			printf("====== Hit[%f] shape: %i\n", hitd.t, shapes->type);
+			hit_anything = true;
+			*rec = hitd;
+			init_limits(lim, 0, closest);
+		}
+		shapes = shapes->next;
+	}
+	return (hit_anything);
 }

@@ -64,6 +64,8 @@ SRC_FILES		:= minirt.c \
 				rt-file.c \
 				math-in-range-utils.c \
 				math-convertions.c \
+				math-interval.c \
+				math-interval-absolutes.c \
 				math-shapes-calculations.c \
 				math-shapes-normals.c \
 				math-colours.c \

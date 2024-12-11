@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/30 18:21:06 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:43:38 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	create_camera(t_scene *scene, const char *line)
 		err_rt_file_format("wrong  camera format [FOVH].");
 	printf("	FoVH: %f\n", scene->camera.fovH);
 	vec3(&scene->camera.center, 0, 0, 0);
-	scene->camera.focal_length = 1.0;
+	scene->camera.focal_length = 1;
 	scene->required_ents |= REQ_CAMERA;
 }
 

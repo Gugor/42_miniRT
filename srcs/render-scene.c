@@ -36,7 +36,6 @@ static void render_image(t_scene *scn, t_window *win)
 	t_vec3	ray_dir;
 	t_ray	ray;
 	t_color color;
-	t_sphere sp;
 
 	w = -1;
 	h = -1;
@@ -44,10 +43,6 @@ static void render_image(t_scene *scn, t_window *win)
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
-	// sp = (t_sphere *)scn->shapes->next->cnt;
-	vec3(&sp.pos, 0, 0, -0.5);
-	sp.rad = 0.2;
-	(void)scn;
 	while (++h < win->img_height)
 	{
 		while (++w < win->img_width)
@@ -61,9 +56,8 @@ static void render_image(t_scene *scn, t_window *win)
 			ray = init_ray((t_vec3 *)&scn->camera.pos, &ray_dir);
 			printf("Pos[%i,%i] ", h, w);
 			// color = tst_ray_color(&ray);
-			color = ray_color(&ray, scn->shapes->cnt, scn->shapes->type - SHAPE_TYPE_OFFSET);
+			color = ray_color(&ray);
 			//printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
-			//color.clr = lerpRGB(ray.direction, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5,0.7, 1.0));
 			printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
 			my_mlx_pixel_put(&win->img, w, h, color.clr);
 			// usleep(70000);

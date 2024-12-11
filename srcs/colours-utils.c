@@ -33,30 +33,14 @@ int	in_range_rgb(t_color val, uint8_t  min, uint8_t max)
 /**
  * @brief It converst from vec3 to t_color
 */
-t_color	vec3_to_rgb(t_vec3 *v3)
+t_color	vec3_to_rgb(t_vec3 v3)
 {
 	t_color	rgb;
 
-	rgb.clr = 0;
-	rgb.r = v3->x;
-	rgb.g = v3->y;
-	rgb.b = v3->z;
+	rgb.clr = ((uint8_t)v3.x << 16) | ((uint8_t)v3.y << 8) | (uint8_t)v3.z;
 	return (rgb);
 }
-/**
- * @brief This function scales a color with the given params.
- * RGB chanels are scalars numbers between 0 and 1. You need to see
- * this values as the percentage this channel is going to be activated.
- * 0 is 0 and 1.0 is 255.
- */
-t_color scale_rgb(double r, double g, double b)
-{
-	t_color c;
 
-	c.clr = (uint8_t)(255.999 * r) << 16 | (uint8_t)(255.999 * g) << 8 | (uint8_t)(255.999 * b);
-	printf("Scale RGB[%u,%u,%u][%i]\n", (c.clr >> 16) & 0xFF, (c.clr >> 8) & 0xFF , c.clr & 0xFF, c.clr);
-	return (c);
-}
 
 /**
  * Maps the a dimention into another by scaling it.
