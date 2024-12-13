@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/06 13:23:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:52:49 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ typedef struct s_vec2
 	double	y;
 }	t_vec2;
 
+typedef struct s_ivec2
+{
+	int	x;
+	int	y;
+}	t_ivec2;
+
+
 typedef struct s_vec3
 {
 	double	x;
@@ -51,7 +58,8 @@ int			in_range_vec3(t_vec3 val, double min, double max);
 /*							Math Convertions								  */
 
 /*							Vec3 Operations 1								  */
-void		vec3(t_vec3 *v3, double x, double y, double z);
+// void		vec3(t_vec3 *v3, double x, double y, double z);
+t_vec3		vec3(double x, double y, double z);
 t_vec3		mult_v3(t_vec3 v1, t_vec3 v2);
 t_vec3		div_v3(t_vec3 v1, t_vec3 v2);
 t_vec3		sum_v3(t_vec3 v1, t_vec3 v2);

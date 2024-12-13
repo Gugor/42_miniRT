@@ -1,5 +1,6 @@
 
 
+#include "maths.h"
 #include "vectors.h"
 #include "colours.h"
 
@@ -72,4 +73,17 @@ int lerpRGB(double pos, t_color from, t_color to)
 	// printf("			-> B[%d][%u]\n", i.clr & 0xFF, (uint8_t)((1.0 - a) * f.b + a * t.b));
 	// printf("		::->[%f]Interpolated RGB[%u,%u,%u][%i]\n",a, (i.clr >> 16) & 0xFF, (i.clr >> 8) & 0xFF , i.clr & 0xFF, i.clr);
 	return(i.clr);
+}
+
+int clamp_intensity(t_vec3 d)
+{
+	t_interval inter;
+	int bytes; 
+
+	inter.min = 0.0;
+	inter.max = 0.999;
+	bytes = (uint8_t)(256 * clamp(&inter, d.x)) << 16 
+			| (uint8_t)(256 * clamp(&inter, d.y)) << 8
+			| (uint8_t)(256 * clamp(&inter, d.z));
+	return (bytes);
 }

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:50:22 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/04 13:29:47 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:35:51 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	main(int ac, char **av)
 	print_struct_sizes();
 	filename = av[1];
 	printf("Filename: %s\n", filename);
-	init_scene_data(&scene);
-	scene.win = &win;
+	init_scene_data(&scene, &win);
 	parse_rtfile(filename);
 	init_window(&scene);
 	printf("Open window...\n");

@@ -5,7 +5,10 @@
 # include "entity-data.h"
 # include "vectors.h"
 # include "maths.h"
+# include "window.h"
 
+
+typedef struct s_window t_window;
 
 typedef struct s_hit_data 
 {
@@ -36,7 +39,7 @@ typedef struct s_lst t_lst;
 t_ray  			init_ray(t_vec3 *origin, t_vec3 *dir);
 t_color			tst_ray_color(const t_ray *r);
 t_color			ray_color(const t_ray *r);
-double			cast_ray(t_ray *ray);
+t_ray			get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos);
 t_vec3			at(t_ray *r, double t);
 
 #endif

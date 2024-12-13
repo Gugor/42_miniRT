@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:25:40 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/11 18:48:47 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:02:31 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ t_color		set_color(uint8_t r, uint8_t g, uint8_t b);
 t_color		vec3_to_rgb(t_vec3 v3);
 int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
 int			lerpRGB(double pos, t_color from, t_color to);
+int			clamp_intensity(t_vec3 d);
 /*							Math Colours								  */
-t_color		sum_rgb(t_color v1, t_color v2);
+double		sum_rgb(t_color v1, t_color v2);
 t_color		mult_rgb_dbl(t_color rgb, double scale);
 t_color		scale_rgb(double r, double g, double b);
+
+t_color		color(uint8_t r, uint8_t g, uint8_t b);
 			
 #endif

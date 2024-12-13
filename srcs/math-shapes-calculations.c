@@ -100,6 +100,7 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	}
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
+	//rec->rgb = s->rgb;
 	rec->normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
 	set_face_normal(ray, &rec->normal, rec);
 	return (1);
@@ -130,7 +131,7 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 	shapes = scn->shapes;
 	while (shapes)
 	{
-		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)&ray->lim, &hitd))
+		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
 		{
 			closest = hitd.t;
 			printf("====== Hit[%f] shape: %i\n", hitd.t, shapes->type);

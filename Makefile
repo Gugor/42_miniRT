@@ -59,16 +59,18 @@ SRC_FILES		:= minirt.c \
 				parse-rtfile-line.c \
 				parse-utils.c \
 				render-scene.c \
-				window-init.c \
+				init-window.c \
+				init-camera.c \
 				events-window.c \
 				rt-file.c \
-				math-in-range-utils.c \
+				math-colours.c \
 				math-convertions.c \
-				math-interval.c \
+				math-in-range-utils.c \
 				math-interval-absolutes.c \
+				math-interval.c \
+				math-rand-generation.c \
 				math-shapes-calculations.c \
 				math-shapes-normals.c \
-				math-colours.c \
 				shapes-convertions.c \
 				ray-cast.c \
 				colours-utils.c \
@@ -84,6 +86,7 @@ SRC_FILES		:= minirt.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
 				$(LOGGER_DIR)/print-scene.c \
+				$(LOGGER_DIR)/log-viewport-data.c \
 
 #create includes var with include names.
 OBJS_DIR		:= .objs

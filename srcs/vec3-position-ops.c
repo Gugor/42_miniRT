@@ -1,5 +1,6 @@
 
 #include "vectors.h"
+#include "maths.h"
 
 double dot(const t_vec3 *v1, const t_vec3 *v2)
 {

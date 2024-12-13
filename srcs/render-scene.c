@@ -31,11 +31,12 @@ static void render_image(t_scene *scn, t_window *win)
 {
 	int		w;
 	int		h;	
-	int		indx[2];
-	t_vec3	pixel_center;
-	t_vec3	ray_dir;
+	int		samples;
+	t_ivec2	pix_pos;
 	t_ray	ray;
-	t_color color;
+	double	new_color;
+	// t_color	new_color;
+	// t_color	prev_color;
 
 	w = -1;
 	h = -1;
@@ -47,19 +48,19 @@ static void render_image(t_scene *scn, t_window *win)
 	{
 		while (++w < win->img_width)
 		{
-			indx[0] = w;
-			indx[1] = h;
-			pixel_center = get_pix_center(&win->p00, &win->pixel_delta_u, &win->pixel_delta_v, indx);
-			printf("[%i,%i] - P00[%f,%f,%f]\n", w, h, pixel_center.x, pixel_center.y, pixel_center.z);
-			ray_dir = rest_v3(pixel_center, scn->camera.pos);
-			printf("Cam pos[%f,%f,%f]\n", scn->camera.pos.x, scn->camera.pos.y, scn->camera.pos.z);
-			ray = init_ray((t_vec3 *)&scn->camera.pos, &ray_dir);
-			printf("Pos[%i,%i] ", h, w);
-			// color = tst_ray_color(&ray);
-			color = ray_color(&ray);
-			//printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
-			printf("	::CLR RGB[%u,%u,%u][%i]\n", (color.clr >> 16) & 0xFF, (color.clr >> 8) & 0xFF , color.clr & 0xFF, color.clr);
-			my_mlx_pixel_put(&win->img, w, h, color.clr);
+			pix_pos.x = w;
+			pix_pos.y = h;
+			// new_color = color(0,0,0).clr; 
+			new_color = color(0,0,0).clr; 
+			samples = -1;
+			while (++samples < scn->camera.samples_per_pixel)
+			{
+				ray = get_ray(win, &scn->camera, &pix_pos);
+				printf("Pos[%i,%i] ", h, w);
+				new_color = ray_color(&ray).clr;
+				// prev_color.clr = new_color;
+			}
+			my_mlx_pixel_put(&win->img, w, h, new_color * scn->camera.pixel_sample_scale);// * scn->camera.pixel_sample_scale);//scn->camera.pixel_sample_scale);// * scn->camera.pixel_sample_scale);
 			// usleep(70000);
 		}
 		w = -1;
@@ -69,11 +70,8 @@ static void render_image(t_scene *scn, t_window *win)
 void render_scene(t_scene *scn)
 {
 	printf("=> Rendering Scene(%p)...\n", scn);
-	// char *win_size_ui;
 	render_image(scn, scn->win);
 	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win, scn->win->img.img, 0, 0);
-	//win_size_ui = ft_strjoin(ft_itoa(scn->win->img_width), "x");
-	//win_size_ui = ft_strjoin(win_size_ui, ft_itoa(scn->win->img_height));
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 15, 0x00FF0000, "16/9");
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 30, 0x00FF0000, "1920x1080");
 }

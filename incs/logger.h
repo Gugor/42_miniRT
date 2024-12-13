@@ -6,5 +6,6 @@
 
 void p_vec3(t_vec3 *v3);
 void p_p3(t_p3 *v3);
+void log_vwp_data(t_window *win);
 
 #endif

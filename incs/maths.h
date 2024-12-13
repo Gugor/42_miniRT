@@ -5,6 +5,7 @@
 
 # include <math.h>
 # include <stdbool.h>
+# include "vectors.h"
 
 # define PI 3.1415926535897932385
 
@@ -23,4 +24,12 @@ double		interval_size(t_interval *inter);
 
 void		universe(t_interval *inter);
 void		empty(t_interval *inter);
+double		clamp(t_interval *inter, double x) ;
+
+double		random_double();
+double		random_range_db(double min, double max);
+t_vec3		random_v3();
+t_vec3		random_range_v3(double min, double max);
+t_vec3		random_unit_vector();
+t_vec3		random_on_hemisphere(const t_vec3 normal);
 #endif

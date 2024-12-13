@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/10 12:59:08 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:35:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ typedef enum e_req_ents
 }	t_reqents;
 
 //hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec)
-typedef struct s_scene	t_scene;
-typedef struct s_lst	t_lst;
+typedef struct s_scene		t_scene;
+typedef struct s_lst		t_lst;
+typedef struct s_ray		t_ray;
+typedef struct s_hit_data	t_hit_data;
+
 typedef void			(*t_create_entity)(t_scene *, const char *line);
 typedef int				(*t_is_hit)(void *, const t_ray *, t_interval *, t_hit_data *);
+typedef struct s_window t_window;
 
 typedef struct s_scene
 {
@@ -68,7 +72,7 @@ typedef struct s_scene
 }	t_scene;
 
 t_scene		*scene_storage(t_scene *storage);
-int			init_scene_data(t_scene *scene);
+int			init_scene_data(t_scene *scene, t_window *win);
 t_scene		*get_scene(void);
 
 #endif

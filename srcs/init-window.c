@@ -1,5 +1,7 @@
 
 #include "scene.h"
+#include "camera.h"
+// #include "logger.h"
 #include "window.h"
 #include "vectors.h"
 #include "memory-handler.h"
@@ -18,7 +20,7 @@ static void set_win_pivot(t_camera *camera, t_window *win)
 	printf("	=> Calc Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	half_vwp_v = div_v3_dbl(win->viewport_v, 2.0);
 	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n", half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
-	vec3(&dir_flnght, 0, 0, camera->focal_length);
+	dir_flnght = vec3(0, 0, camera->focal_length);
 	rest1 = rest_v3(camera->pos, dir_flnght);
 	rest2 = rest_v3(rest1, half_vwp_u);
 	win->viewport_pivot = rest_v3(rest2, half_vwp_v); 
@@ -43,23 +45,14 @@ static void init_viewport(t_scene *scn, t_window *win)
 	win->viewport_height = 2.0;
 	win->viewport_width = win->viewport_height * (double)win->img_width / (double)win->img_height; //3.55556ratio
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
-	vec3(&win->viewport_u, win->viewport_width, 0, 0);
-	vec3(&win->viewport_v, 0, -win->viewport_height, 0);
+	win->viewport_u = vec3(win->viewport_width, 0, 0);
+	win->viewport_v = vec3(0, -win->viewport_height, 0);
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.x, win->viewport_v.z);
 	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);
 	set_win_pivot(&scn->camera, win);
 	set_px00(win);
-	printf("=> Viewport data:\n");
-	printf("	:: Resolution: %fx%f\n", win->viewport_width, win->viewport_height);
-	printf("	:: UV: U[%f,%f, %f] | V[%f,%f, %f]\n",
-			win->viewport_u.x, win->viewport_u.y, win->viewport_u.z,
-			win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);	
-	printf("	:: Delta UV: U[%f, %f, %f] | V[%f, %f, %f]\n",
-			win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z,
-			win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
-	printf("	:: Upper Left Pivot: [%f,%f,%f]\n", win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
-	printf("	:: 00 Pixel: [%f,%f,%f]\n", win->p00.x, win->p00.y, win->p00.z);
+	// log_vwp_data(win);
 }
 
 void init_window(t_scene *scn)

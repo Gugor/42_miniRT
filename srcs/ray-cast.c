@@ -6,6 +6,7 @@
 #include "colours.h"
 #include "shapes.h"
 #include "shape-maths.h"
+#include "rendering.h"
 
 t_color tst_ray_color(const t_ray *r)
 {
@@ -34,16 +35,23 @@ t_color tst_ray_color(const t_ray *r)
 	return (res);
 
 }
+typedef struct s_interval t_interval;
 
 t_color ray_color(const t_ray *ray)
 {
 	t_hit_data	hitd;
+	t_vec3		dir;
+	t_ray		new;
 
 	init_limits((t_interval *)&ray->lim, 0, INFINITY);
 	hitd.rgb.clr = 0;
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
-		hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
+		dir = random_on_hemisphere(hitd.normal);
+		// hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
+		// return (hitd.rgb);
+		new = init_ray(&hitd.hit, &dir);
+		hitd.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
 		return (hitd.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
@@ -55,12 +63,20 @@ t_color ray_color(const t_ray *ray)
 
 /**
  * @brief It updates the direction of a ray
- *
-void update_ray(t_ray *r, t_vec3 *dir)
+ */
+t_ray get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
 {
-	*r = init_ray((t_vec3)&r->origin, dir);
+	t_vec3	pixel_sample;
+	t_ray	ray;
+	t_vec3	ray_dir;
+
+	pixel_sample = get_pix_rand_pos(&win->p00, &win->pixel_delta_u, &win->pixel_delta_v, pix_pos);
+	printf("[%i,%i] - P00[%f,%f,%f]\n", pix_pos->x, pix_pos->y, pixel_sample.x, pixel_sample.y, pixel_sample.z);
+	ray_dir = rest_v3(pixel_sample, camera->pos);
+	printf("Cam pos[%f,%f,%f]\n", camera->pos.x, camera->pos.y, camera->pos.z);
+	ray = init_ray((t_vec3 *)&camera->pos, &ray_dir);
+	return (ray);
 }
-*/
 
 /**
  * @brief It finds a a point in a ray. T is a scalar that set the distance

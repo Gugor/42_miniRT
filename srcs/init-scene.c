@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/10 13:01:24 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:34:54 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void init_hit_shape_delegates(t_scene *scene)
 /**
 * @brief Initialize the scene and entities with default data.
 */
-int	init_scene_data(t_scene *scene)
+int	init_scene_data(t_scene *scene, t_window *win)
 {
 	set_entity_ids(scene->entity_ids);
 	init_entity_delegates(scene);
@@ -77,6 +77,7 @@ int	init_scene_data(t_scene *scene)
 	scene->num_lights = 0;
 	scene->shapes = NULL;
 	scene->num_shapes = 0;
+	scene->win = win;
 	scene_storage(scene);
 	return (0);
 }
