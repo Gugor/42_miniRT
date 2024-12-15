@@ -100,7 +100,7 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	}
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
-	//rec->rgb = s->rgb;
+	// rec->rgb = s->rgb;
 	rec->normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
 	set_face_normal(ray, &rec->normal, rec);
 	return (1);

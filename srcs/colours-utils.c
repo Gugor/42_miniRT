@@ -75,15 +75,19 @@ int lerpRGB(double pos, t_color from, t_color to)
 	return(i.clr);
 }
 
-int clamp_intensity(t_vec3 d)
+t_color clamp_intensity(t_color d)
 {
 	t_interval inter;
-	int bytes; 
+	t_color new; 
+	int r;
+	int g;
+	int b;
 
 	inter.min = 0.0;
 	inter.max = 0.999;
-	bytes = (uint8_t)(256 * clamp(&inter, d.x)) << 16 
-			| (uint8_t)(256 * clamp(&inter, d.y)) << 8
-			| (uint8_t)(256 * clamp(&inter, d.z));
-	return (bytes);
+	r = (int)(256 * clamp(&inter, (d.clr >> 16) & 0xFF));
+	g =	(int)(256 * clamp(&inter, (d.clr >> 8) & 0xFF));
+	b = (int)(256 * clamp(&inter, d.clr & 0xFF));
+	new.clr = r << 16 | g << 8 | b;
+	return (new);
 }

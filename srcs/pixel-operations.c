@@ -4,11 +4,12 @@
 
 /*
 * @brief Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
-*/
+*
 static t_vec3 random_square()
 {
 	return vec3((random_double() - 0.5), (random_double() - 0.5), 0);
 }
+*/
 
 /*
 * @brief
@@ -19,12 +20,13 @@ t_vec3 get_pix_rand_pos(t_vec3 *pix00, t_vec3 *dlt_u, t_vec3 *dlt_v, t_ivec2 *pi
 	t_vec3	pu;
 	t_vec3	pv;
 	t_vec3	delta;
-	t_vec3	offset;
+	// t_vec3	offset;
 
-	offset = random_square();
-	pu = mult_v3_dbl(*dlt_u, (double)pix_pos->x + offset.x);
-	pv = mult_v3_dbl(*dlt_v, (double)pix_pos->y + offset.y);
-	delta = sum_v3(pu, pv);
-	return(sum_v3(*pix00, delta));
+	// offset = random_square(dlt_u->x, dlt_v->y);
+	// printf("Pixel center offset[%f,%f,%f]\n", offset.x, offset.y, offset.z);
+	pu = mult_v3_dbl(*dlt_u, (double)pix_pos->x); //  + offset.x);
+	pv = mult_v3_dbl(*dlt_v, (double)pix_pos->y); // + offset.y);
+	delta = sum_v3(*pix00, pu);
+	return(sum_v3(delta, pv));
 }
 

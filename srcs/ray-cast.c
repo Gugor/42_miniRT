@@ -48,11 +48,13 @@ t_color ray_color(const t_ray *ray)
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
 		dir = random_on_hemisphere(hitd.normal);
-		// hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
-		// return (hitd.rgb);
+		//hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
+		//return (hitd.rgb);
 		new = init_ray(&hitd.hit, &dir);
 		hitd.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
-		return (hitd.rgb);
+		// new.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
+		// return (hitd.rgb);
+		return (new.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
 	printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);

@@ -2,21 +2,20 @@
 #include "colours.h"
 #include "maths.h"
 
-/*
-double	sum_rgb(t_color v1, t_color v2)
+t_color	sum_rgb(t_color v1, t_color v2)
 {
-	double new;
-	double r;
-	double g;
-	double b;
+	t_color		new;
+	int			r;
+	int			g;
+	int			b;
 
-
-	r = (double)((v1.r + v2.r));
-	g = (double)((v1.g + v2.g));
-	b = (double)((v1.b + v2.b));
-	new = r << 16.0 | g << 8.0 | b;
+	r = (int)((v1.r + v2.r) * 0.5);
+	g = (int)((v1.g + v2.g) * 0.5);
+	b = (int)((v1.b + v2.b) * 0.5);
+	new.clr = r << 16 | g << 8 | b;
+	// new = clamp_intensity(new);
 	return (new);
-}*/
+}
 
 t_color mult_rgb_dbl(t_color rgb, double scale)
 {
@@ -24,11 +23,11 @@ t_color mult_rgb_dbl(t_color rgb, double scale)
 	int r;
 	int g;
 	int b;
-	
-	r = rgb.r * scale;
-	g = rgb.g * scale;
-	b = rgb.b * scale;
-	new.clr = (r << 16)	| (g << 8) | b;
+
+	r = ((rgb.clr >> 16) & 0xFF) * scale;
+	g = ((rgb.clr >> 8) & 0xFF) * scale;
+	b = (rgb.clr & 0xFF) * scale;
+	new.clr = r << 16	| g << 8 | b;
 	return (new);
 }
 
@@ -70,4 +69,21 @@ t_color color(uint8_t r, uint8_t g, uint8_t b)
 
 	c.clr = (uint8_t)(r) << 16 | (uint8_t)(g) << 8 | (uint8_t)(b);
 	return (c);
+}
+
+t_color clamp_color(uint32_t c)
+{
+	uint8_t		r;
+	uint8_t		g;
+	uint8_t		b;
+	t_interval	inter;
+	t_color		new;
+
+	inter.min = 0;
+	inter.max = 255;
+	r = (uint8_t)clamp(&inter, ((c >> 16) & 0xFF));
+	g = (uint8_t)clamp(&inter, ((c >> 8) & 0xFF));
+	b = (uint8_t)clamp(&inter, (c) & 0xFF);
+	new.clr = (r << 16) | (g << 8) | (b);
+	return (new);
 }

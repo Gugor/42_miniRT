@@ -29,14 +29,13 @@ void cast_ray(t_scene *scn)
  */
 static void render_image(t_scene *scn, t_window *win)
 {
-	int		w;
-	int		h;	
-	int		samples;
-	t_ivec2	pix_pos;
-	t_ray	ray;
-	double	new_color;
-	// t_color	new_color;
-	// t_color	prev_color;
+	int			w;
+	int			h;	
+	int			samples;
+	t_ivec2		pix_pos;
+	t_ray		ray;
+	t_color		new_color;
+	t_color		prev_color;
 
 	w = -1;
 	h = -1;
@@ -44,23 +43,28 @@ static void render_image(t_scene *scn, t_window *win)
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
+	prev_color = color(0,0,0);
 	while (++h < win->img_height)
 	{
 		while (++w < win->img_width)
 		{
 			pix_pos.x = w;
 			pix_pos.y = h;
-			// new_color = color(0,0,0).clr; 
-			new_color = color(0,0,0).clr; 
+			new_color = color(0,0,0); 
 			samples = -1;
 			while (++samples < scn->camera.samples_per_pixel)
 			{
 				ray = get_ray(win, &scn->camera, &pix_pos);
 				printf("Pos[%i,%i] ", h, w);
-				new_color = ray_color(&ray).clr;
-				// prev_color.clr = new_color;
+				if (w < 1)
+					new_color = ray_color(&ray);
+				else
+					new_color = sum_rgb(ray_color(&ray), prev_color);
+				prev_color = new_color;
 			}
-			my_mlx_pixel_put(&win->img, w, h, new_color * scn->camera.pixel_sample_scale);// * scn->camera.pixel_sample_scale);//scn->camera.pixel_sample_scale);// * scn->camera.pixel_sample_scale);
+			new_color = mult_rgb_dbl(new_color, scn->camera.pixel_sample_scale);
+			my_mlx_pixel_put(&win->img, w, h, new_color.clr);
+			// my_mlx_pixel_put(&win->img, w, h, new_color.clr * scn->camera.pixel_sample_scale);
 			// usleep(70000);
 		}
 		w = -1;

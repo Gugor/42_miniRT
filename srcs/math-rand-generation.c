@@ -28,7 +28,8 @@ t_vec3 random_range_v3(double min, double max)
 
 t_vec3 random_unit_vector()
 {
-    while (true) {
+    while (true)
+    {
         t_vec3 p = random_range_v3(-1,1);
         double lensq = length_v3(p) * length_v3(p);
          if (1e-160 < lensq && lensq <= 1)
