@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse-entity-shapes.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/12/16 14:49:52 by hmontoya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 #include "scene.h"
 #include "memory-handler.h"
@@ -51,7 +63,7 @@ void	create_sphere(t_scene *scene, const char *line)
 	if (set_rgb(&sphere->rgb, (char *)line, &offset)
 		|| !in_range_rgb(sphere->rgb, 0, 255))
 		err_rt_file_format("wrong sphere format [rgb]");
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", (sphere->rgb.clr >> 16) & 0xFF, (sphere->rgb.clr >> 8) & 0xFF, (sphere->rgb.clr) & 0xFF);
+	// printf("	RGB: [%hhu,%hhu,%hhu]\n", (sphere->rgb.clr >> 16) & 0xFF, (sphere->rgb.clr >> 8) & 0xFF, (sphere->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)sphere, SPHERE);
 }
@@ -78,7 +90,7 @@ void	create_cylinder(t_scene *scene, const char *line)
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&cylinder->rgb, (char *)line, &offset) || !in_range_rgb(cylinder->rgb, 0, 255))
 		err_rt_file_format("wrong cylinder format [rgb]");
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", cylinder->rgb.r, cylinder->rgb.g, cylinder->rgb.b);
+	// printf("	RGB: [%hhu,%hhu,%hhu]\n", cylinder->rgb.r, cylinder->rgb.g, cylinder->rgb.b);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
 }

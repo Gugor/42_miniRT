@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math-colours.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 14:47:00 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/12/16 14:47:02 by hmontoya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "colours.h"
 #include "maths.h"
@@ -42,7 +53,6 @@ t_color scale_rgb(double r, double g, double b)
 	t_color c;
 
 	c.clr = (uint8_t)(255.999 * r) << 16 | (uint8_t)(255.999 * g) << 8 | (uint8_t)(255.999 * b);
-	printf("Scale RGB[%u,%u,%u][%i]\n", (c.clr >> 16) & 0xFF, (c.clr >> 8) & 0xFF , c.clr & 0xFF, c.clr);
 	return (c);
 }
 /*

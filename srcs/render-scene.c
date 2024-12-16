@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render-scene.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/12/16 14:43:57 by hmontoya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "rendering.h"
 #include "ray.h"
@@ -55,7 +65,7 @@ static void render_image(t_scene *scn, t_window *win)
 			while (++samples < scn->camera.samples_per_pixel)
 			{
 				ray = get_ray(win, &scn->camera, &pix_pos);
-				printf("Pos[%i,%i] ", h, w);
+				//printf("Pos[%i,%i] ", h, w);
 				if (w < 1)
 					new_color = ray_color(&ray);
 				else
@@ -63,6 +73,8 @@ static void render_image(t_scene *scn, t_window *win)
 				prev_color = new_color;
 			}
 			new_color = mult_rgb_dbl(new_color, scn->camera.pixel_sample_scale);
+			// ray = get_ray(win, &scn->camera, &pix_pos);
+			// new_color = tst_ray_color(&ray);
 			my_mlx_pixel_put(&win->img, w, h, new_color.clr);
 			// my_mlx_pixel_put(&win->img, w, h, new_color.clr * scn->camera.pixel_sample_scale);
 			// usleep(70000);

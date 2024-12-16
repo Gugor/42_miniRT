@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray-cast.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/12/16 14:44:10 by hmontoya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 
 #include "ray.h"
@@ -28,10 +40,11 @@ t_color tst_ray_color(const t_ray *r)
 		c = scale_rgb((N.x + 1) * 0.5, (N.y + 1) * 0.5, (N.z + 1) * 0.5);
         return (c);
 	}
+	// printf("Drawing Backround\n");
 	norm = (*r).norm;
-	printf("=> Ray[%f] Norm[%f,%f,%f]\n", r->length, norm.x, norm.y, norm.z);
+	//printf("=> Ray[%f] Norm[%f,%f,%f]\n", r->length, norm.x, norm.y, norm.z);
 	res.clr = lerpRGB(norm.y, scale_rgb(1.0, 1.0,1.0), scale_rgb(0.5, 0.7, 1.0));
-	printf("	::A [%f]RGB[%u,%u,%u][%i]\n", norm.y, (res.clr >> 16) & 0xFF, (res.clr >> 8) & 0xFF , res.clr & 0xFF, res.clr);
+	// printf("	::A [%f]RGB[%u,%u,%u][%i]\n", norm.y, (res.clr >> 16) & 0xFF, (res.clr >> 8) & 0xFF , res.clr & 0xFF, res.clr);
 	return (res);
 
 }
@@ -57,9 +70,9 @@ t_color ray_color(const t_ray *ray)
 		return (new.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
-	printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);
+	// printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);
 	hitd.rgb.clr = lerpRGB(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5, 0.7, 1.0));
-	printf("	::A [%f]RGB[%u,%u,%u][%i]\n", hitd.normal.y, (hitd.rgb.clr >> 16) & 0xFF, (hitd.rgb.clr >> 8) & 0xFF , hitd.rgb.clr & 0xFF, hitd.rgb.clr);
+	// printf("	::A [%f]RGB[%u,%u,%u][%i]\n", hitd.normal.y, (hitd.rgb.clr >> 16) & 0xFF, (hitd.rgb.clr >> 8) & 0xFF , hitd.rgb.clr & 0xFF, hitd.rgb.clr);
 	return (hitd.rgb);
 }
 
@@ -73,9 +86,9 @@ t_ray get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
 	t_vec3	ray_dir;
 
 	pixel_sample = get_pix_rand_pos(&win->p00, &win->pixel_delta_u, &win->pixel_delta_v, pix_pos);
-	printf("[%i,%i] - P00[%f,%f,%f]\n", pix_pos->x, pix_pos->y, pixel_sample.x, pixel_sample.y, pixel_sample.z);
+	// printf("[%i,%i] - P00[%f,%f,%f]\n", pix_pos->x, pix_pos->y, pixel_sample.x, pixel_sample.y, pixel_sample.z);
 	ray_dir = rest_v3(pixel_sample, camera->pos);
-	printf("Cam pos[%f,%f,%f]\n", camera->pos.x, camera->pos.y, camera->pos.z);
+	// printf("Cam pos[%f,%f,%f]\n", camera->pos.x, camera->pos.y, camera->pos.z);
 	ray = init_ray((t_vec3 *)&camera->pos, &ray_dir);
 	return (ray);
 }
@@ -97,11 +110,11 @@ t_vec3			at(t_ray *r, double t)
 t_ray  init_ray(t_vec3 *origin, t_vec3 *dir)
 {
 	t_ray ray;
-	printf("=> Init ray:\n");
+	// printf("=> Init ray:\n");
 	ray.origin = *origin;
-	printf("	::or[%f,%f,%f]\n ", ray.origin.x, ray.origin.y, ray.origin.z);
+	// printf("	::or[%f,%f,%f]\n ", ray.origin.x, ray.origin.y, ray.origin.z);
 	ray.direction = *dir;
-	printf("	::dir[%f,%f,%f]\n", ray.direction.x, ray.direction.y, ray.direction.z);
+	// printf("	::dir[%f,%f,%f]\n", ray.direction.x, ray.direction.y, ray.direction.z);
 	ray.ray = rest_v3(*dir, *origin);
 	ray.length = length_v3(ray.ray);
 	ray.norm = normalize_v3(ray.ray);

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math-shapes-calculations.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/12/16 14:48:40 by hmontoya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "shapes.h"
 #include "shape-maths.h"
@@ -134,7 +145,7 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
 		{
 			closest = hitd.t;
-			printf("====== Hit[%f] shape: %i\n", hitd.t, shapes->type);
+			// printf("====== Hit[%f] shape: %i\n", hitd.t, shapes->type);
 			hit_anything = true;
 			*rec = hitd;
 			init_limits(lim, 0, closest);
