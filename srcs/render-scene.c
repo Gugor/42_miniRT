@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render-scene.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:43:57 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:22:34 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,48 @@ static void render_image(t_scene *scn, t_window *win)
 			while (++samples < scn->camera.samples_per_pixel)
 			{
 				ray = get_ray(win, &scn->camera, &pix_pos);
-				//printf("Pos[%i,%i] ", h, w);
-				if (w < 1)
-					new_color = ray_color(&ray);
-				else
-					new_color = sum_rgb(ray_color(&ray), prev_color);
-				prev_color = new_color;
+				new_color.clr += ray_color(&ray).clr;
 			}
-			new_color = mult_rgb_dbl(new_color, scn->camera.pixel_sample_scale);
-			// ray = get_ray(win, &scn->camera, &pix_pos);
-			// new_color = tst_ray_color(&ray);
-			my_mlx_pixel_put(&win->img, w, h, new_color.clr);
-			// my_mlx_pixel_put(&win->img, w, h, new_color.clr * scn->camera.pixel_sample_scale);
+			// new_color = clamp_intensity(new_color);
+			// my_mlx_pixel_put(&win->img, w, h, new_color.clr);
+			my_mlx_pixel_put(&win->img, w, h, new_color.clr * scn->camera.pixel_sample_scale);
 			// usleep(70000);
 		}
 		w = -1;
 	}
 }
+/*
+static void tst_render_image(t_scene *scn, t_window *win)
+{
+	int			w;
+	int			h;	
+	t_ivec2		pix_pos;
+	t_ray		ray;
+	t_color		new_color;
+
+	w = -1;
+	h = -1;
+	printf("	=> Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
+	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
+	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
+	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
+	while (++h < win->img_height)
+	{
+		while (++w < win->img_width)
+		{
+			pix_pos.x = w;
+			pix_pos.y = h;
+
+			ray = get_ray(win, &scn->camera, &pix_pos);
+			// ray = get_ray(win, &scn->camera, &pix_pos);
+			new_color = tst_ray_color(&ray);
+			my_mlx_pixel_put(&win->img, w, h, new_color.clr);
+			// my_mlx_pixel_put(&win->img, w, h, new_color.clr * scn->camera.pixel_sample_scale);
+			// usleep(70000);
+		}
+	}
+}
+*/
 
 void render_scene(t_scene *scn)
 {

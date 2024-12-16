@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray-cast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:44:10 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:44:42 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_color tst_ray_color(const t_ray *r)
 	sp.x = 0;
 	sp.y = 0;
 	sp.z = 0;
+
 	t = tst_hit_sphere((void *)&sp, 0.5, r) >= 0;
 	if (t > 0.0)
 	{
@@ -57,17 +58,18 @@ t_color ray_color(const t_ray *ray)
 	t_ray		new;
 
 	init_limits((t_interval *)&ray->lim, 0, INFINITY);
-	hitd.rgb.clr = 0;
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
+		// printf("Hiting object\n");
+		// hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
+		// hitd.rgb = clamp_color((uint32_t)hitd.rgb.clr);
+		// return (hitd.rgb);
+		// dir = hitd.normal;
 		dir = random_on_hemisphere(hitd.normal);
-		//hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
-		//return (hitd.rgb);
 		new = init_ray(&hitd.hit, &dir);
 		hitd.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
-		// new.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
-		// return (hitd.rgb);
-		return (new.rgb);
+		// hitd.rgb = color(1,0,0);
+		return (hitd.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
 	// printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);

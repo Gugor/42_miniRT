@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math-colours.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:47:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:47:02 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:42:16 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_color	sum_rgb(t_color v1, t_color v2)
 	g = (int)((v1.g + v2.g) * 0.5);
 	b = (int)((v1.b + v2.b) * 0.5);
 	new.clr = r << 16 | g << 8 | b;
-	// new = clamp_intensity(new);
 	return (new);
 }
 
@@ -34,10 +33,14 @@ t_color mult_rgb_dbl(t_color rgb, double scale)
 	int r;
 	int g;
 	int b;
+	t_interval inter;
 
-	r = ((rgb.clr >> 16) & 0xFF) * scale;
-	g = ((rgb.clr >> 8) & 0xFF) * scale;
-	b = (rgb.clr & 0xFF) * scale;
+	inter.min = 0;
+	inter.min = 255;
+
+	r = clamp(&inter, ((rgb.clr >> 16) & 0xFF) * scale);
+	g = clamp(&inter, ((rgb.clr >> 8) & 0xFF) * scale);
+	b = clamp(&inter, (rgb.clr & 0xFF) * scale);
 	new.clr = r << 16	| g << 8 | b;
 	return (new);
 }
@@ -51,8 +54,12 @@ t_color mult_rgb_dbl(t_color rgb, double scale)
 t_color scale_rgb(double r, double g, double b)
 {
 	t_color c;
+	t_interval inter;
 
-	c.clr = (uint8_t)(255.999 * r) << 16 | (uint8_t)(255.999 * g) << 8 | (uint8_t)(255.999 * b);
+	inter.min = 0;
+	inter.max = 0.9999;
+
+	c.clr = ((uint8_t)(255.999 * clamp(&inter, r)) << 16 | (uint8_t)(255.999 * clamp(&inter, g)) << 8 | (uint8_t)(255.999 * clamp(&inter,b)));
 	return (c);
 }
 /*

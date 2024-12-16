@@ -12,13 +12,12 @@ typedef struct s_window t_window;
 
 typedef struct s_hit_data 
 {
-	t_p3	hit;
-	t_vec3	normal;
 	double	t;
 	int		is_front;
+	t_p3	hit;
+	t_vec3	normal;
+	t_vec3	out_normal;
 	t_vec3	det;
-	t_vec3	trans;
-	t_vec3	N;
 	t_color	rgb;
 }	t_hit_data;
 

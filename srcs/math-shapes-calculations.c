@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math-shapes-calculations.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:48:40 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:12:47 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	t_sphere *s;
 	double sqrtd;
 	double root;
-
-	printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
+	// printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
 	s = (t_sphere *)shp;
 	hit.oc = rest_v3(s->pos, ray->origin);	
 	hit.a = ray->length * ray->length;
@@ -112,10 +111,11 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
 	// rec->rgb = s->rgb;
-	rec->normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
-	set_face_normal(ray, &rec->normal, rec);
+	rec->out_normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
+	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
 }
+
 
 /**
  * @brief  
