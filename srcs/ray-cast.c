@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 19:44:42 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_color tst_ray_color(const t_ray *r)
     t_vec3 norm;
 	t_p3	sp;
 	t_color res;
-	double	t;
+	float	t;
 	
 	sp.x = 0;
 	sp.y = 0;
@@ -99,7 +99,7 @@ t_ray get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
  * @brief It finds a a point in a ray. T is a scalar that set the distance
  * to scale form origin.
  */
-t_vec3			at(t_ray *r, double t)
+t_vec3			at(t_ray *r, float t)
 {
 	t_vec3 dt;
 	dt = mult_v3_dbl(r->direction, t);

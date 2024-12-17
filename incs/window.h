@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/12 16:56:09 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ typedef struct	s_img {
 
 typedef struct s_window
 {
-	double				aspect_ratio;
+	float				aspect_ratio;
 	t_vec3				pixel_delta_u;
 	t_vec3				pixel_delta_v;
-	double				viewport_height;
-	double				viewport_width;
+	float				viewport_height;
+	float				viewport_width;
 	int					img_width;
 	int					img_height;
 	void				*mlx;

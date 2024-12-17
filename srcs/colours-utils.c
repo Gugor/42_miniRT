@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:45:13 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 17:12:29 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_color	vec3_to_rgb(t_vec3 v3)
  * Maps the a dimention into another by scaling it.
  *  
 */
-int lerpRGB(double pos, t_color from, t_color to)
+int lerpRGB(float pos, t_color from, t_color to)
 {
-	double		a;
+	float		a;
 	t_ncolor	f;
 	t_ncolor	t;
 	t_color 	i;

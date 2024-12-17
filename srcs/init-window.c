@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init-window.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:46:34 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void init_viewport(t_scene *scn, t_window *win)
 {
 	printf("Initializing Viewport(%ix%i)...\n", (int)win->img_width, (int)win->img_height);
 	win->viewport_height = 2.0;
-	win->viewport_width = win->viewport_height * (double)win->img_width / (double)win->img_height; //3.55556ratio
+	win->viewport_width = win->viewport_height * (float)win->img_width / (float)win->img_height; //3.55556ratio
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
 	win->viewport_u = vec3(win->viewport_width, 0, 0);
 	win->viewport_v = vec3(0, -win->viewport_height, 0);
@@ -72,7 +72,7 @@ void init_window(t_scene *scn)
 
 	win = (t_window *)xmalloc(sizeof(t_window));
 	win->mlx = mlx_init();
-	win->img_width = 1920;
+	win->img_width = 920;
 	win->aspect_ratio = 16.0 / 9.0;
 	win->img_height = win->img_width / win->aspect_ratio; //575.9px
 	printf("=> Window data\n");

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:47:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 19:42:16 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_color	sum_rgb(t_color v1, t_color v2)
 	return (new);
 }
 
-t_color mult_rgb_dbl(t_color rgb, double scale)
+t_color mult_rgb_dbl(t_color rgb, float scale)
 {
 	t_color new;
 	int r;
@@ -51,7 +51,7 @@ t_color mult_rgb_dbl(t_color rgb, double scale)
  * this values as the percentage this channel is going to be activated.
  * 0 is 0 and 1.0 is 255.
  */
-t_color scale_rgb(double r, double g, double b)
+t_color scale_rgb(float r, float g, float b)
 {
 	t_color c;
 	t_interval inter;
@@ -63,12 +63,12 @@ t_color scale_rgb(double r, double g, double b)
 	return (c);
 }
 /*
-t_color color_scale(t_color rgb, double scale)
+t_color color_scale(t_color rgb, float scale)
 {
 	t_color	new;
-	double	r;
-	double	g;
-	double	b;
+	float	r;
+	float	g;
+	float	b;
 	t_interval inter;
 
 	inter.min = 0;

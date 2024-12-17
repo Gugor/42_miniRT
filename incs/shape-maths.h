@@ -14,10 +14,10 @@ typedef struct s_hit_data t_hit_data;
 typedef struct s_spheric_hit
 {
 	t_vec3	oc;
-	double	a;
-	double	h;
-	double	c;
-	double	discriminant;
+	float	a;
+	float	h;
+	float	c;
+	float	discriminant;
 	int		is_front;
 	t_vec3	normal;
 
@@ -25,7 +25,7 @@ typedef struct s_spheric_hit
 }	t_sph_hit;
 
 int			hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
-double		tst_hit_sphere (const t_p3 *p, double r, const t_ray *ray);
+float		tst_hit_sphere (const t_p3 *p, float r, const t_ray *ray);
 int 		hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 bool		hit(const t_ray *ray, t_interval *lim, t_hit_data *rec);

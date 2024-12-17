@@ -40,11 +40,11 @@ uint8_t	get_uint8(const char *line, uint16_t base, int *outsize)
 	return ((uint8_t)num);
 }
 
-double	get_double(const char *line, long double base, int *outsize)
+float	get_float(const char *line, double base, int *outsize)
 {
-	long double	num;
+	double	num;
 	int			indx;
-	long double	neg;
+	double	neg;
 
 	indx = 0;
 	num = 0;
@@ -53,7 +53,7 @@ double	get_double(const char *line, long double base, int *outsize)
 	while (line[indx] && ft_isdigit(line[indx]))
 		num = num * 10 + (line[indx++] - 48);
 	if (line[indx] != '.' && (ft_isspace(line[indx]) || !line[indx]))
-		return ((*outsize += indx), (double)(num * neg));
+		return ((*outsize += indx), (float)(num * neg));
 	if (line[indx] == '.')
 		++indx;
 	while (line[indx] && ft_isdigit(line[indx]))
@@ -63,10 +63,10 @@ double	get_double(const char *line, long double base, int *outsize)
 	}
 	if (line[indx] && !ft_isdigit(line[indx]) && line[indx] != ','
 		&& !ft_isspace(line[indx]))
-		return ((double)(*outsize = -1));
+		return ((float)(*outsize = -1));
 	if (outsize)
 		*outsize += indx;
-	return ((double)(num * neg));
+	return ((float)(num * neg));
 }
 
 
@@ -84,13 +84,13 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 	if (is_vec_format(&line[indx], VEC3))
 		return (2);
 	indx = 0;
-	vec3->x = get_double(&line[indx], 10, &indx);
+	vec3->x = get_float(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (1);
-	vec3->y = get_double(&line[++indx], 10, &indx);
+	vec3->y = get_float(&line[++indx], 10, &indx);
 	if (indx == -1)
 		return (1);
-	vec3->z = get_double(&line[++indx], 10, &indx);
+	vec3->z = get_float(&line[++indx], 10, &indx);
 	if (indx == -1)
 		return (1);
 	if (outsize)
@@ -103,11 +103,11 @@ int	set_cylinder_size(t_vec2 *size, const char *line, int *outsize)
 	int	indx;
 
 	indx = skip_spaces((char *)&line[0]);
-	size->x = get_double(&line[indx], 10, &indx);
+	size->x = get_float(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (1);
 	indx += skip_spaces((char *)&line[indx]);
-	size->y = get_double(&line[indx], 10, &indx);
+	size->y = get_float(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (1);
 	if (outsize)

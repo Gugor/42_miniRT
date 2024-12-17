@@ -12,7 +12,7 @@ typedef struct s_window t_window;
 
 typedef struct s_hit_data 
 {
-	double	t;
+	float	t;
 	int		is_front;
 	t_p3	hit;
 	t_vec3	normal;
@@ -27,10 +27,10 @@ typedef struct s_ray
 	t_vec3		direction;
 	t_vec3		ray;
 	t_color		rgb;
-	double		length;
+	float		length;
 	t_vec3		norm;
 	t_interval	lim;
-	double	(*cast)(struct s_ray *ray);
+	float	(*cast)(struct s_ray *ray);
 }	t_ray;
 
 typedef struct s_lst t_lst;
@@ -39,6 +39,6 @@ t_ray  			init_ray(t_vec3 *origin, t_vec3 *dir);
 t_color			tst_ray_color(const t_ray *r);
 t_color			ray_color(const t_ray *r);
 t_ray			get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos);
-t_vec3			at(t_ray *r, double t);
+t_vec3			at(t_ray *r, float t);
 
 #endif

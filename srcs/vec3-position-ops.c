@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   vec3-position-ops.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:52:26 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:52:31 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 #include "maths.h"
 
-double dot(const t_vec3 *v1, const t_vec3 *v2)
+float dot(const t_vec3 *v1, const t_vec3 *v2)
 {
 	return ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v1->z));
 }

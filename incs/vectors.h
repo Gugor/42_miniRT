@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:19:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/12 13:52:49 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef enum e_vec_type
 
 typedef struct s_vec2
 {
-	double	x;
-	double	y;
+	float	x;
+	float	y;
 }	t_vec2;
 
 typedef struct s_ivec2
@@ -42,40 +42,40 @@ typedef struct s_ivec2
 
 typedef struct s_vec3
 {
-	double	x;
-	double	y;
-	double	z;
+	float	x;
+	float	y;
+	float	z;
 }	t_vec3;
 
 typedef t_vec3	t_p3;
 typedef t_vec3	t_p2;
 
 /*							Math in Range									  */
-int			in_range_dbl(double val, double min, double max);
-int			in_range_vec3(t_vec3 val, double min, double max);
+int			in_range_dbl(float val, float min, float max);
+int			in_range_vec3(t_vec3 val, float min, float max);
 
 
 /*							Math Convertions								  */
 
 /*							Vec3 Operations 1								  */
-// void		vec3(t_vec3 *v3, double x, double y, double z);
-t_vec3		vec3(double x, double y, double z);
+// void		vec3(t_vec3 *v3, float x, float y, float z);
+t_vec3		vec3(float x, float y, float z);
 t_vec3		mult_v3(t_vec3 v1, t_vec3 v2);
 t_vec3		div_v3(t_vec3 v1, t_vec3 v2);
 t_vec3		sum_v3(t_vec3 v1, t_vec3 v2);
 t_vec3		rest_v3(t_vec3 v1, t_vec3 v2);
 /*							Vec3 Operations 2								  */
-double		sqr_v3(t_vec3 v3);
-double		length_v3(t_vec3 v3);
+float		sqr_v3(t_vec3 v3);
+float		length_v3(t_vec3 v3);
 t_vec3		normalize_v3(t_vec3 v3);
-/*							Vec3 Operation Double							  */
-t_vec3		mult_v3_dbl(t_vec3 v1, double t);
-t_vec3		div_v3_dbl(t_vec3 v1, double t);
-t_vec3		sum_v3_dbl(t_vec3 v1, double t);
-t_vec3		rest_v3_dbl(t_vec3 v1, double t);
-double		vec3_to_dbl(t_vec3 v3);
-/*							Vec3 Operation Double							  */
-double		dot(const t_vec3 *v1, const t_vec3 *v2);
+/*							Vec3 Operation float							  */
+t_vec3		mult_v3_dbl(t_vec3 v1, float t);
+t_vec3		div_v3_dbl(t_vec3 v1, float t);
+t_vec3		sum_v3_dbl(t_vec3 v1, float t);
+t_vec3		rest_v3_dbl(t_vec3 v1, float t);
+float		vec3_to_dbl(t_vec3 v3);
+/*							Vec3 Operation float							  */
+float		dot(const t_vec3 *v1, const t_vec3 *v2);
 t_vec3		cross(const t_vec3 *v1, const t_vec3 *v2);
 
 #endif

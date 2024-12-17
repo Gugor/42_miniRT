@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 18:22:34 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:10:00 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void render_image(t_scene *scn, t_window *win)
 	t_ivec2		pix_pos;
 	t_ray		ray;
 	t_color		new_color;
-	t_color		prev_color;
+	// t_color		prev_color;
 
 	w = -1;
 	h = -1;
@@ -53,7 +53,7 @@ static void render_image(t_scene *scn, t_window *win)
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
-	prev_color = color(0,0,0);
+	// prev_color = color(0,0,0);
 	while (++h < win->img_height)
 	{
 		while (++w < win->img_width)

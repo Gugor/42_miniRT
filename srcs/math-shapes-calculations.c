@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 18:12:47 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 12:59:01 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *
  *	`c = `
  *	`discriminant = `
  */
-double tst_hit_sphere (const t_p3 *center, double r, const t_ray *ray)
+float tst_hit_sphere (const t_p3 *center, float r, const t_ray *ray)
 {
 	t_vec3 oc;
-	double a;
-	double b;
-	double c;
-	double discriminant;
+	float a;
+	float b;
+	float c;
+	float discriminant;
 
 	// printf("Sphere c[%f,%f,%f] => Ray or[%f,%f,%f] - dir[%f,%f,%f]\n",
 	// 		center->x, center->y, center->z,
@@ -88,17 +88,17 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 {
 	t_sph_hit hit;
 	t_sphere *s;
-	double sqrtd;
-	double root;
+	float sqrtd;
+	float root;
 	// printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
 	s = (t_sphere *)shp;
 	hit.oc = rest_v3(s->pos, ray->origin);	
-	hit.a = ray->length * ray->length;
+	hit.a =  length_v3(ray->direction) * length_v3(ray->direction);
 	hit.h = dot(&ray->direction, &hit.oc);
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
 
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
-	if (hit.discriminant < 0)
+	if (hit.discriminant < -1e-8)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
@@ -134,7 +134,7 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 	t_scene		*scn;
 	t_lst		*shapes;
 	t_hit_data	hitd;
-	double		closest;
+	float		closest;
 	bool		hit_anything;
 
 	hit_anything = false;

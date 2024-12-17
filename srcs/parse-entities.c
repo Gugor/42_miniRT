@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/12 16:59:29 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	printf("=> Create Ambient Light: \"%s\" \n", line);
 	if (!(scene->required_ents & REQ_AMBIENT))
 		err_rt_file_format("more than one ambient light.");
-	scene->alight.range = get_double((char *)line, 10, &offset);
+	scene->alight.range = get_float((char *)line, 10, &offset);
 	if (!in_range_dbl(scene->alight.range, 0.0, 1.0)
 		|| line[offset] == ',' || offset == -1)
 		err_rt_file_format("wrong ambient light format [range].");
@@ -62,7 +62,7 @@ void	create_camera(t_scene *scene, const char *line)
 	printf("	Axis: [%f,%f,%f]\n", scene->camera.axis.x, scene->camera.axis.y, scene->camera.axis.z);
 	line += offset;
 	offset = 0;
-	scene->camera.fovH = get_double((char *)line, 10, &offset);
+	scene->camera.fovH = get_float((char *)line, 10, &offset);
 	if (line[offset] == ',' || !in_range_dbl(scene->camera.fovH, 0.0, 180.0)
 		|| offset == -1)
 		err_rt_file_format("wrong  camera format [FOVH].");
@@ -83,7 +83,7 @@ void	create_light_src(t_scene *scene, const char *line)
 		err_rt_file_format("wrong source light format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
 	update_line_offset((char **)&line, &offset);
-	light->brghtnss = get_double((char *)line, 10, &offset);
+	light->brghtnss = get_float((char *)line, 10, &offset);
 	if (!light || !in_range_dbl(light->brghtnss, 0.0, 180.0) || offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
 	printf("	BRGTNSS: %f\n", light->brghtnss);

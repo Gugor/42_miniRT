@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   vec3-operations-2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:52:02 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 #include <math.h>
 
-double sqr_v3(t_vec3 v3)
+float sqr_v3(t_vec3 v3)
 {
 	return (v3.x * v3.x + v3.y * v3.y + v3.z * v3.z);
 }
 
-double length_v3(t_vec3 v3)
+float length_v3(t_vec3 v3)
 {
 	return (sqrt(sqr_v3(v3)));
 }
