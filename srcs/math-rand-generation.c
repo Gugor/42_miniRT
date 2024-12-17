@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:10 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:41:25 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ float random_float()
 
 float random_range_db(float min, float max)
 {
-   float range = (max - min); 
-   float div = RAND_MAX / range;
-   return (min + (rand() / div));
+//    float range = (max - min); 
+//    float div = RAND_MAX / range;
+   return (min + (max - min) * random_float());
     // return min + (max-min)*random_float();
 }
 

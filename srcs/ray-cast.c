@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 18:51:58by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ t_color ray_color(const t_ray *ray)
 		// dir = hitd.normal;
 		dir = random_on_hemisphere(hitd.normal);
 		new = init_ray(&hitd.hit, &dir);
+		// hitd.rgb = sum_rgb(hitd.rgb, scale_rgb(hitd.normal.x + 1.0, hitd.normal.y + 1.0, hitd.normal.z + 1.0));
 		hitd.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
-		// hitd.rgb = color(1,0,0);
 		return (hitd.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);

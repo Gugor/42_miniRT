@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 12:59:01 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:03:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	}
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
-	// rec->rgb = s->rgb;
+	rec->rgb = s->rgb;
 	rec->out_normal = div_v3_dbl(rest_v3(rec->hit, s->pos), s->rad);
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);

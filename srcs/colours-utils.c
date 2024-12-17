@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:45:13 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:33:51 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ t_color clamp_intensity(t_color d)
 
 	inter.min = 0.0;
 	inter.max = 0.999;
-	r = (int)(256 * clamp(&inter, (d.clr >> 16) & 0xFF));
-	g =	(int)(256 * clamp(&inter, (d.clr >> 8) & 0xFF));
-	b = (int)(256 * clamp(&inter, d.clr & 0xFF));
+	r = (int)(256 * clamp(&inter, ((d.clr >> 16) & 0xFF)) / 255.9999);
+	g =	(int)(256 * clamp(&inter, ((d.clr >> 8) & 0xFF) / 255.9999));
+	b = (int)(256 * clamp(&inter, (d.clr & 0xFF) / 255.999));
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }

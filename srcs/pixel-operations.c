@@ -24,8 +24,10 @@ t_vec3 get_pix_rand_pos(t_vec3 *pix00, t_vec3 *dlt_u, t_vec3 *dlt_v, t_ivec2 *pi
 
 	// offset = random_square();
 	// printf("Pixel center offset[%f,%f,%f]\n", offset.x, offset.y, offset.z);
-	pu = mult_v3_dbl(*dlt_u, (float)pix_pos->x); // + offset.x);
-	pv = mult_v3_dbl(*dlt_v, (float)pix_pos->y); //+ offset.y);
+	pu = mult_v3_dbl(*dlt_u, (float)pix_pos->x);
+	pv = mult_v3_dbl(*dlt_v, (float)pix_pos->y);
+	// pu = mult_v3_dbl(*dlt_u, (float)pix_pos->x + offset.x);
+	// pv = mult_v3_dbl(*dlt_v, (float)pix_pos->y + offset.y);
 	delta = sum_v3(*pix00, pu);
 	return(sum_v3(delta, pv));
 }
