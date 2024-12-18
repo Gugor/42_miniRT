@@ -27,7 +27,7 @@ void		empty(t_interval *inter);
 float		clamp(t_interval *inter, float x) ;
 
 float		random_float();
-float		random_range_db(float min, float max);
+float		random_float_range(float min, float max);
 t_vec3		random_v3();
 t_vec3		random_range_v3(float min, float max);
 t_vec3		random_unit_vector();

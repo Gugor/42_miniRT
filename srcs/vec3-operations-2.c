@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:29:58 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ float length_v3(t_vec3 v3)
 
 t_vec3 normalize_v3(t_vec3 v3)
 {
+	if (length_v3(v3) == 0.0)
+		return (vec3(0,0,0));
 	return (div_v3_dbl(v3, length_v3(v3)));
 }

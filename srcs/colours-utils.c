@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:45:13 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 19:33:51 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/18 18:06:16 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 #include "vectors.h"
 #include "colours.h"
 
-/**
- * @brief
- */
-t_color set_color(uint8_t r, uint8_t g, uint8_t b)
-{
-	t_color c;
-
-	c.r = r;
-	c.g = g;
-	c.b = b;
-	return (c);
-}
 
 /**
  * @brief It check if the given vec3 value are in range.
@@ -68,20 +56,13 @@ int lerpRGB(float pos, t_color from, t_color to)
 	f.r = (from.clr >> 16) & 0xFF; 
 	f.g = (from.clr >> 8) & 0xFF; 
 	f.b = (from.clr) & 0xFF; 
-	// printf("		:: [%f]From RGB[%u,%u,%u]\n",pos, f.r, f.g , f.b);
 	t.r = (to.clr >> 16) & 0xFF; 
 	t.g = (to.clr >> 8) & 0xFF; 
 	t.b = (to.clr) & 0xFF; 
-	// printf("		:: [%f]To RGB[%u,%u,%u]\n",pos, t.r, t.g , t.b);
 	a = 0.5 * pos + 1.0; 
-	// printf("			-> I[%f]\n", a);
 	i.clr |= (uint8_t)((1.0 - a) * f.r + a * t.r) << 16;
-	// printf("			-> R[%d][%u]\n", (i.clr >> 16) & 0xFF, (uint8_t)((1.0 - a) * f.r + a * t.r));
 	i.clr |= (uint8_t)((1.0 - a) * f.g + a * t.g) << 8;
-	// printf("			-> G[%d][%u]\n", (i.clr >> 8) & 0xFF, (uint8_t)((1.0 - a) * f.g + a * t.g));
 	i.clr |= (uint8_t)((1.0 - a) * f.b + a * t.b);
-	// printf("			-> B[%d][%u]\n", i.clr & 0xFF, (uint8_t)((1.0 - a) * f.b + a * t.b));
-	// printf("		::->[%f]Interpolated RGB[%u,%u,%u][%i]\n",a, (i.clr >> 16) & 0xFF, (i.clr >> 8) & 0xFF , i.clr & 0xFF, i.clr);
 	return(i.clr);
 }
 

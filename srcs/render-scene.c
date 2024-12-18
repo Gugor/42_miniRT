@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 19:42:30 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:41:32 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,40 +39,33 @@ void cast_ray(t_scene *scn)
  */
 static void render_image(t_scene *scn, t_window *win)
 {
-	int			w;
-	int			h;	
 	int			samples;
 	t_ivec2		pix_pos;
 	t_ray		ray;
 	t_color		new_color;
-	// t_color		prev_color;
 
-	w = -1;
-	h = -1;
+	pix_pos.x = -1;
+	pix_pos.y = -1;
 	printf("	=> Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
-	// prev_color = color(0,0,0);
-	while (++h < win->img_height)
+	while (++pix_pos.y < win->img_height)
 	{
-		while (++w < win->img_width)
+		while (++pix_pos.x < win->img_width)
 		{
-			pix_pos.x = w;
-			pix_pos.y = h;
 			new_color = color(0,0,0); 
 			samples = -1;
 			while (++samples < scn->camera.samples_per_pixel)
 			{
 				ray = get_ray(win, &scn->camera, &pix_pos);
-				new_color.clr += ray_color(&ray).clr;
+				new_color.clr += ray_color(&ray, scn->camera.max_depth).clr;
 			}
-			// new_color = clamp_intensity(new_color);
-			// my_mlx_pixel_put(&win->img, w, h, new_color.clr);
-			my_mlx_pixel_put(&win->img, w, h, new_color.clr * scn->camera.pixel_sample_scale);
+			// new_color = clamp_color(new_color);
+			my_mlx_pixel_put(&win->img, pix_pos.x, pix_pos.y, new_color.clr * scn->camera.pixel_sample_scale);
 			// usleep(70000);
 		}
-		w = -1;
+		pix_pos.x = -1;
 	}
 }
 /*

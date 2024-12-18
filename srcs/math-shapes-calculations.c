@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 19:03:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:49:00 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
 
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
-	if (hit.discriminant < -1e-8)
+	if (fabs(hit.discriminant) < 0)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
@@ -144,9 +144,9 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 	{
 		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
 		{
+			hit_anything = true;
 			closest = hitd.t;
 			// printf("====== Hit[%f] shape: %i\n", hitd.t, shapes->type);
-			hit_anything = true;
 			*rec = hitd;
 			init_limits(lim, 0, closest);
 		}

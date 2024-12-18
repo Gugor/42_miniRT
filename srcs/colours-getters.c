@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init-camera.c                                      :+:      :+:    :+:   */
+/*   colours-getters.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/18 19:13:33 by hmontoya         ###   ########.fr       */
+/*   Created: 2024/12/18 18:34:20 by hmontoya          #+#    #+#             */
+/*   Updated: 2024/12/18 18:38:16 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "colours.h"
 
-#include "scene.h"
-#include "camera.h"
-
-void	init_camera(t_scene *scn)
+uint8_t	get_r(t_color c)
 {
-	t_camera	*cam;
-
-	cam = &scn->camera;
-	cam->center = vec3(0.0, 0.0, 0.0);
-	cam->focal_length = 1;
-	cam->samples_per_pixel = 10;
-	cam->max_depth = 50;
-	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
+	return ((c.clr >> 16) & 0xFF);
 }
+
+uint8_t	get_g(t_color c)
+{
+	return ((c.clr >> 8) & 0xFF);
+}
+
+uint8_t	get_b(t_color c)
+{
+	return ((c.clr) & 0xFF);
+}
+

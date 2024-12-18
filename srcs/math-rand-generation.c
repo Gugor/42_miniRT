@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:10 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 19:41:25 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:36:34 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ float random_float()
     return (rand() / (RAND_MAX + 1.0));
 }
 
-float random_range_db(float min, float max)
+float random_float_range(float min, float max)
 {
 //    float range = (max - min); 
 //    float div = RAND_MAX / range;
@@ -34,16 +34,17 @@ t_vec3 random_v3()
 
 t_vec3 random_range_v3(float min, float max)
 {
-    return (vec3(random_range_db(min, max), random_range_db(min, max), random_range_db(min, max)));
+    return (vec3(random_float_range(min, max), random_float_range(min, max),
+            random_float_range(min, max)));
 }
 
-t_vec3 random_unit_vector()
+t_vec3  random_unit_vector()
 {
     while (true)
     {
         t_vec3 p = random_range_v3(-1,1);
         float lensq = length_v3(p) * length_v3(p);
-         if (1e-160 < lensq && lensq <= 1)
+        if (1e-160 < fabs(lensq) && lensq <= 1.0)
             return div_v3_dbl(p, sqrt(lensq));
     }
 }

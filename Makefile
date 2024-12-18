@@ -74,6 +74,7 @@ SRC_FILES		:= minirt.c \
 				shapes-convertions.c \
 				ray-cast.c \
 				colours-utils.c \
+				colours-getters.c \
 				vec3-operations.c \
 				vec3-operations-2.c \
 				vec3-float-operations.c \

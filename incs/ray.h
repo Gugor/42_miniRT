@@ -8,7 +8,7 @@
 # include "window.h"
 
 
-typedef struct s_window t_window;
+typedef struct s_window	t_window;
 
 typedef struct s_hit_data 
 {
@@ -23,21 +23,20 @@ typedef struct s_hit_data
 
 typedef struct s_ray
 {
-	t_p3 		origin;
+	t_p3		origin;
 	t_vec3		direction;
 	t_vec3		ray;
 	t_color		rgb;
 	float		length;
 	t_vec3		norm;
 	t_interval	lim;
-	float	(*cast)(struct s_ray *ray);
 }	t_ray;
 
 typedef struct s_lst t_lst;
 /*							Ray Casting								  */
 t_ray  			init_ray(t_vec3 *origin, t_vec3 *dir);
 t_color			tst_ray_color(const t_ray *r);
-t_color			ray_color(const t_ray *r);
+t_color			ray_color(const t_ray *r, int max_depth);
 t_ray			get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos);
 t_vec3			at(t_ray *r, float t);
 

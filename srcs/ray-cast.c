@@ -51,25 +51,28 @@ t_color tst_ray_color(const t_ray *r)
 }
 typedef struct s_interval t_interval;
 
-t_color ray_color(const t_ray *ray)
+t_color ray_color(const t_ray *ray, int max_depth)
 {
 	t_hit_data	hitd;
 	t_vec3		dir;
 	t_ray		new;
 
-	init_limits((t_interval *)&ray->lim, 0, INFINITY);
+	if (max_depth <= 0)
+		return (color(0,0,0));
+	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
 		// printf("Hiting object\n");
 		// hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
-		// hitd.rgb = clamp_color((uint32_t)hitd.rgb.clr);
 		// return (hitd.rgb);
 		// dir = hitd.normal;
-		dir = random_on_hemisphere(hitd.normal);
+		// dir = random_on_hemisphere(hitd.normal);
+		dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
 		// hitd.rgb = sum_rgb(hitd.rgb, scale_rgb(hitd.normal.x + 1.0, hitd.normal.y + 1.0, hitd.normal.z + 1.0));
-		hitd.rgb = mult_rgb_dbl(ray_color(&new), 0.5);
-		return (hitd.rgb);
+		return (mult_rgb_dbl(ray_color(&new, --max_depth), 0.5));
+		// return (mult_rgb_dbl(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
+		// return (hitd.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
 	// printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);
@@ -103,7 +106,7 @@ t_vec3			at(t_ray *r, float t)
 {
 	t_vec3 dt;
 	dt = mult_v3_dbl(r->direction, t);
-	return (rest_v3(r->origin, dt));
+	return (sum_v3(r->origin, dt));
 }
 
 /**
