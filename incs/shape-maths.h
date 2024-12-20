@@ -20,9 +20,20 @@ typedef struct s_spheric_hit
 	float	discriminant;
 	int		is_front;
 	t_vec3	normal;
-
-
 }	t_sph_hit;
+
+typedef struct s_cylinder_hit
+{
+	t_vec3	oc;
+	float	a;
+	float	h;
+	float	c;
+	float	discriminant;
+	int		is_front;
+	t_vec3	d_proj;
+	t_vec3	oc_proj;
+	t_vec3	normal;
+}	t_cyl_hit;
 
 int			hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 float		tst_hit_sphere (const t_p3 *p, float r, const t_ray *ray);

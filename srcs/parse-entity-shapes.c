@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:00:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 void	create_plane(t_scene *scene, const char *line)
 {
 	t_plane	*plane;
-	int	offset;
+	int		offset;
 
 	offset = 0;
 	plane = (t_plane *)xmalloc(sizeof(t_plane));
@@ -46,7 +46,7 @@ void	create_plane(t_scene *scene, const char *line)
 void	create_sphere(t_scene *scene, const char *line)
 {
 	t_sphere	*sphere;
-	int offset;
+	int			offset;
 
 	offset = 0;
 	sphere = (t_sphere *)xmalloc(sizeof(t_sphere));

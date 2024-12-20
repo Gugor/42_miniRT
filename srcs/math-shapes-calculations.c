@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/18 19:49:00 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:02 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,38 @@
 #include "ray.h"
 
 /**
- * @brief 
+ * @brief
+ * Plane acuation a(x−x0​)+b(y−y0​)+c(z−z0​)=0 
+ * t=−(n⋅(O−P0​)/m​⋅d)
+ * n = normal
+ * d = ray direction
+ * P = 
  */
-int	hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
+int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
+	t_hit_data *rec)
 {
-	//Fake calculations
-	(void)shp;
-	(void)ray;
-	(void)ray_limits;
-	(void)rec;
-	return (0);
+	t_plane		*pl;
+	t_sph_hit	hitd;
+	float		denominator;
+	float		t;
+
+	pl = (t_plane *)shp;
+	denominator = dot(&pl->axis, &ray->norm);
+	if (fabs(denominator) < 1e-6)
+		return (0);
+	hitd.oc = rest_v3(ray->origin, pl->pos);
+	t = dot(&pl->axis, &hitd.oc) / denominator;
+	if (!interval_sourrounds(ray_limits, t))
+		return (0);
+	printf("Plane hit\n");
+	rec->t = t;
+	rec->rgb = pl->rgb;
+	rec->hit = sum_v3(ray->origin, mult_v3_dbl(ray->direction, rec->t));
+	rec->out_normal = pl->axis;
+	set_face_normal(ray, &rec->out_normal, rec);
+	return (1);
 }
+
 
 /**
  * @brief It verifiys if a given ray intersects with the given sphere
@@ -98,7 +119,7 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
 
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
-	if (fabs(hit.discriminant) < 0)
+	if (hit.discriminant < 0)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
@@ -118,16 +139,49 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 
 
 /**
- * @brief  
+ * @brief 
+ * Cylinder tube ∥P−P0​−((P−P0​)⋅v)v∥2=r2
+ * 
  */
-int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
+int	hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {	
-	(void)shp;
-	(void)ray;
+	t_cylinder	*cyl;
+	t_cyl_hit	hitd;
+	float		sqrtd;
+	float		root1;
+	float		root2;
+
 	(void)ray_limits;
-	(void)rec;
-	return (0);
+
+	cyl = (t_cylinder *)shp;
+	hitd.oc = sum_v3(ray->origin, cyl->pos);
+    hitd.d_proj = sum_v3(ray->direction, mult_v3_dbl(cyl->axis, dot(&ray->direction, &cyl->axis)));
+    hitd.oc_proj = sum_v3(hitd.oc, mult_v3_dbl(cyl->axis, dot(&hitd.oc, &cyl->axis)));
+    hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
+    hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
+    hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+    hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
+    if (hitd.discriminant < 0)
+        return (0);
+    sqrtd = sqrt(hitd.discriminant);
+    root1 = (-hitd.h - sqrtd) / (2.0 * hitd.a);
+    root2 = (-hitd.h + sqrtd) / (2.0 * hitd.a);
+    rec->t = root1;
+    if (rec->t < 0 || rec->t > root2)
+		rec->t = root2;
+    if (rec->t < 0)
+		return (0);
+    t_vec3 point = sum_v3(ray->origin, mult_v3_dbl(ray->direction, rec->t));
+	t_vec3 pp = sum_v3(point, cyl->pos);
+    double height_proj = dot(&pp, &cyl->axis);
+    if (height_proj < 0 || height_proj > cyl->size.y)
+        return (0);
+    rec->hit = point;
+    rec->out_normal = sum_v3(point, sum_v3(cyl->pos, mult_v3_dbl(cyl->axis, height_proj)));
+	set_face_normal(ray, &rec->out_normal, rec);
+    return (1);
 }
+
 
 bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 {
