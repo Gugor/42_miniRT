@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/18 19:29:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:34:44 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ float sqr_v3(t_vec3 v3)
 
 float length_v3(t_vec3 v3)
 {
-	return (sqrt(sqr_v3(v3)));
+	return ((float)sqrt((double)sqr_v3(v3)));
 }
 
 t_vec3 normalize_v3(t_vec3 v3)

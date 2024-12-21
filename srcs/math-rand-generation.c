@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:10 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/18 19:36:34 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/21 11:27:41 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ t_vec3 random_on_hemisphere(const t_vec3 normal)
     if (dot(&on_unit_sphere, &normal) > 0.0) // In the same hemisphere as the normal
         return (on_unit_sphere);
     else
-        return (mult_v3_dbl(on_unit_sphere, -1));
+        return (scale_v3(on_unit_sphere, -1));
 }

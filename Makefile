@@ -47,6 +47,7 @@ INC_FILES		:= scene.h \
 				events.h \
 				get_next_line.h \
 				lights.h \
+				time.h \
 				logger.h
 
 SRC_FILES		:= minirt.c \
@@ -84,6 +85,7 @@ SRC_FILES		:= minirt.c \
 				list-iteration.c \
 				memory-creation.c \
 				memory-free.c \
+				time-handler.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
 				$(LOGGER_DIR)/print-scene.c \

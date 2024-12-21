@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/20 15:26:01 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:51:15 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "shapes.h"
 #include "shape-maths.h"
+#include "time.h"
 
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
@@ -50,17 +51,18 @@ static void render_image(t_scene *scn, t_window *win)
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
+	
 	while (++pix_pos.y < win->img_height)
 	{
 		while (++pix_pos.x < win->img_width)
 		{
 			new_color = color(0,0,0); 
 			samples = -1;
-			// while (++samples < scn->camera.samples_per_pixel)
-			// {
+			while (++samples < scn->camera.samples_per_pixel)
+			{
 				ray = get_ray(win, &scn->camera, &pix_pos);
 				new_color.clr = ray_color(&ray, scn->camera.max_depth).clr;
-			// }
+			}
 			// new_color = clamp_color(new_color);
 			my_mlx_pixel_put(&win->img, pix_pos.x, pix_pos.y, new_color.clr);
 			// my_mlx_pixel_put(&win->img, pix_pos.x, pix_pos.y, new_color.clr * scn->camera.pixel_sample_scale);
@@ -104,9 +106,21 @@ static void tst_render_image(t_scene *scn, t_window *win)
 
 void render_scene(t_scene *scn)
 {
+	int	 elapsed;
+	char *render_time;
+
+	elapsed = 0;
 	printf("=> Rendering Scene(%p)...\n", scn);
+	scn->start_render_tme = get_current_time('m');
 	render_image(scn, scn->win);
+	elapsed = get_elapsed_time(scn->start_render_tme, 'm');
+	render_time = ft_itoa(elapsed);
+
 	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win, scn->win->img.img, 0, 0);
+	printf("Image rendered[%dms][%ds][%d:%dmins]\n", elapsed, (int)(elapsed * 0.001), (int)((elapsed * 0.001) / 60),(int)(elapsed * 0.001) - (int)(60 * (int)((elapsed * 0.001) / 60) ));
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 15, 0x00FF0000, "16/9");
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 30, 0x00FF0000, "1920x1080");
+	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 45, 0x00FF0000, render_time);
+	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 45, 45, 0x00FF0000, "ms");
+
 }

@@ -12,7 +12,7 @@
 
 #include "vectors.h"
 
-t_vec3		mult_v3_dbl(t_vec3 v1, float t)
+t_vec3		scale_v3(t_vec3 v1, float t)
 {
 	t_vec3 new;
 
@@ -44,7 +44,7 @@ t_vec3		sum_v3_dbl(t_vec3 v1, float t)
 	return (new);
 }
 
-t_vec3		rest_v3_dbl(t_vec3 v1, float t)
+t_vec3		sub_v3_dbl(t_vec3 v1, float t)
 {
 	t_vec3 new;
 	new.x = v1.x - t;

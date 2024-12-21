@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:25:40 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/18 18:50:35 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:52:36 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			lerpRGB(float pos, t_color from, t_color to);
 t_color		clamp_intensity(t_color d);
 /*							Math Colours								  */
 t_color		sum_rgb(t_color v1, t_color v2);
-t_color		mult_rgb_dbl(t_color rgb, float scale);
+t_color		scale_color(t_color rgb, float scale);
 t_color		scale_rgb(float r, float g, float b);
 t_color		clamp_color(t_color c);
 

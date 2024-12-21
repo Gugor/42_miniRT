@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:47:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/18 19:40:38 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:54:01 hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_color	sum_rgb(t_color v1, t_color v2)
 	t_interval	inter;
 
 	inter.min = 0;
-	inter.max = 254.9999;
+	inter.max = 255.9999;
 	r = 0;
 	g = 0;
 	b = 0;
@@ -32,8 +32,10 @@ t_color	sum_rgb(t_color v1, t_color v2)
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }
-
-t_color mult_rgb_dbl(t_color rgb, float scale)
+/**
+ * @brief This funtion scale a rgb color in the uint8 range [0, 255].
+ */
+t_color scale_color(t_color rgb, float scale)
 {
 	t_color new;
 	int r;
@@ -42,14 +44,10 @@ t_color mult_rgb_dbl(t_color rgb, float scale)
 	t_interval inter;
 
 	inter.min = 0;
-	inter.min = 254.9999;
-
-	// r = clamp(&inter, get_r(rgb)) * scale;
-	// g = clamp(&inter, get_g(rgb)) * scale;
-	// b = clamp(&inter, get_b(rgb)) * scale;
-	r = get_r(rgb) * scale;
-	g = get_g(rgb) * scale;
-	b = get_b(rgb) * scale;
+	inter.min = 255;
+	r = (int)clamp(&inter, get_r(rgb) * scale);
+	g = (int)clamp(&inter, get_g(rgb) * scale);
+	b = (int)clamp(&inter, get_b(rgb) * scale);
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }
