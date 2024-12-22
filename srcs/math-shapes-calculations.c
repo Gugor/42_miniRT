@@ -120,18 +120,18 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
 	if (hit.discriminant < 0)
 		return (0);
-	printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
+	// printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
-	printf("Root limits[min:%f, max:%f] <> root:%f\n", ray_limits->min, ray_limits->max, root);
+	// printf("Root limits[min:%f, max:%f] <> root:%f\n", ray_limits->min, ray_limits->max, root);
 	if (!interval_sourrounds(ray_limits, root))// (root <= ray_limits->min || ray_limits->max <= root)
 	{
-		printf("	:: Not root 1\n");
+		// printf("	:: Not root 1\n");
 		root = (hit.h + sqrtd) / hit.a;
 		if (!interval_sourrounds(ray_limits, root))//(root <= ray_limits->min || ray_limits->max <= root)
 		{
-			printf("	:: Not root 2 => ");
-			printf(" Root limits[min:%f, max:%f] <> root:%f\n", ray_limits->min, ray_limits->max, root);
+			// printf("	:: Not root 2 => ");
+			// printf(" Root limits[min:%f, max:%f] <> root:%f\n", ray_limits->min, ray_limits->max, root);
 			return (0);
 		}
 	}

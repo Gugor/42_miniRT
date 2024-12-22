@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/21 19:09:30 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:51:15 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ static void set_px00(t_window *win)
 static void init_viewport(t_scene *scn, t_window *win)
 {
 	printf("Initializing Viewport(%ix%i)...\n", (int)win->img_width, (int)win->img_height);
-	win->viewport_height = 2.0;
+	// win->viewport_height = 2.0;
+	win->viewport_height = 2.0 * scn->camera.h * scn->camera.focal_length;
 	win->viewport_width = win->viewport_height * ((float)win->img_width / (float)win->img_height); //3.55556ratio
+	// win->viewport_width =  win->viewport_width * scn->camera.h * scn->camera.focal_length;
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
-	win->viewport_u = vec3(win->viewport_width, 0, 0);
-	win->viewport_v = vec3(0, -win->viewport_height, 0);
+	win->viewport_u = scale_v3(scn->camera.u, win->viewport_width);//vec3(win->viewport_width, 0, 0);
+	win->viewport_v = scale_v3(scale_v3(scn->camera.v, -1), win->viewport_height);//vec3(0, -win->viewport_height, 0);
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.x, win->viewport_v.z);
 	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);

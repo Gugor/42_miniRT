@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/22 21:02:28 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	create_camera(t_scene *scene, const char *line)
 		err_rt_file_format("wrong camera format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
 	update_line_offset((char **)&line, &offset);
-	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
-		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
+	if (set_vec3(&scene->camera.lookat, (char *)line, &offset)
+		|| !in_range_vec3(scene->camera.lookat, -1.0, 1.0))
 	{
 		printf("	Error Axis: [%f,%f,%f]\n", scene->camera.axis.x, scene->camera.axis.y, scene->camera.axis.z);
 		err_rt_file_format("wrong camera format [normal].");
@@ -62,7 +62,7 @@ void	create_camera(t_scene *scene, const char *line)
 	printf("	Axis: [%f,%f,%f]\n", scene->camera.axis.x, scene->camera.axis.y, scene->camera.axis.z);
 	line += offset;
 	offset = 0;
-	scene->camera.fovH = get_float((char *)line, 10, &offset);
+	scene->camera.fovV = get_float((char *)line, 10, &offset);
 	if (line[offset] == ',' || !in_range_dbl(scene->camera.fovH, 0.0, 180.0)
 		|| offset == -1)
 		err_rt_file_format("wrong  camera format [FOVH].");
