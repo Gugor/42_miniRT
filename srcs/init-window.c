@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/22 20:51:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/23 18:32:14 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,43 @@
 /*
 * @brief It sets the location of the camera in the screen.
 */
-static void set_win_pivot(t_camera *camera, t_window *win)
+static void	set_win_pivot(t_camera *camera, t_window *win)
 {
-	t_vec3 dir_flnght;
-	t_vec3 half_vwp_u;
-	t_vec3 half_vwp_v;
-	t_vec3 focl;
-	t_vec3 foc_x_plane;
+	t_vec3	dir_flnght;
+	t_vec3	half_vwp_u;
+	t_vec3	half_vwp_v;
+	t_vec3	focl;
+	t_vec3	foc_x_plane;
 
-	printf("	=> Calc Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
+	printf("	=> Calc Viewport U[%f,%f,%f]\n", win->viewport_u.x,
+		win->viewport_u.y, win->viewport_v.z);
 	half_vwp_u = div_v3_dbl(win->viewport_u, 2.0);
-	printf("	=> Calc UCL Half Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
-	printf("	=> Calc Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
+	printf("	=> Calc UCL Half Viewport U[%f,%f,%f]\n",
+		win->viewport_u.x, win->viewport_u.y, win->viewport_v.z);
+	printf("	=> Calc Viewport V[%f,%f,%f]\n", win->viewport_v.x,
+		win->viewport_v.y, win->viewport_v.z);
 	half_vwp_v = div_v3_dbl(win->viewport_v, 2.0);
-	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n", half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
-	dir_flnght = vec3(0, 0, camera->focal_length);
+	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n",
+		half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
+	// dir_flnght = vec3(0, 0, camera->focal_length);`
+	dir_flnght = scale_v3(camera->w, camera->foc_dist);
 	focl = sub_v3(camera->pos, dir_flnght);
 	foc_x_plane = sub_v3(focl, half_vwp_u);
-	win->viewport_pivot = sub_v3(foc_x_plane, half_vwp_v); 
-	printf("	=> Upper Left Corener[%f,%f,%f]\n", win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
+	win->viewport_pivot = sub_v3(foc_x_plane, half_vwp_v);
+	printf("	=> Upper Left Corener[%f,%f,%f]\n",
+		win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
 }
 
 /**
  * @brief PX00 is the initial pixel in the top left part of the viewport. This
  * function initialize it with the window data.
  */
-static void set_px00(t_window *win)
+static void	set_px00(t_window *win)
 {
-	t_vec3 init_pixel;
-	t_vec3 pix_size;
-	t_vec3 pix_center;
-	
+	t_vec3	init_pixel;
+	t_vec3	pix_size;
+	t_vec3	pix_center;
+
 	pix_size = sum_v3(win->pixel_delta_u, win->pixel_delta_v);
 	pix_center = scale_v3(pix_size, 0.5);
 	init_pixel = sum_v3(win->viewport_pivot, pix_center);
@@ -58,21 +64,20 @@ static void set_px00(t_window *win)
 }
 
 /**
- * @brief It set the viewport dimensions according to the left handed rule system.
+ * @brief It set the viewport dimensions according to the left handed rule
+ * system.
  * x+ to the right
  * y+ up
  * z+ front
  */
-static void init_viewport(t_scene *scn, t_window *win)
+static void	init_viewport(t_scene *scn, t_window *win)
 {
 	printf("Initializing Viewport(%ix%i)...\n", (int)win->img_width, (int)win->img_height);
-	// win->viewport_height = 2.0;
-	win->viewport_height = 2.0 * scn->camera.h * scn->camera.focal_length;
+	win->viewport_height = 2.0 * scn->camera.h * scn->camera.foc_dist;
 	win->viewport_width = win->viewport_height * ((float)win->img_width / (float)win->img_height); //3.55556ratio
-	// win->viewport_width =  win->viewport_width * scn->camera.h * scn->camera.focal_length;
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
 	win->viewport_u = scale_v3(scn->camera.u, win->viewport_width);//vec3(win->viewport_width, 0, 0);
-	win->viewport_v = scale_v3(scale_v3(scn->camera.v, -1), win->viewport_height);//vec3(0, -win->viewport_height, 0);
+	win->viewport_v = scale_v3(scn->camera.v, -win->viewport_height);//vec3(0, -win->viewport_height, 0);
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.x, win->viewport_v.z);
 	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);

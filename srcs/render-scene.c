@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/21 18:51:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:27:09 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,5 @@ void render_scene(t_scene *scn)
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 30, 0x00FF0000, "1920x1080");
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 45, 0x00FF0000, render_time);
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 45, 45, 0x00FF0000, "ms");
-
+	free(render_time);
 }

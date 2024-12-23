@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:55:46 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/11/28 11:25:35 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:48:14 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	find_entity_id(char *buff)
 		*id = 'l';
 	while (indx < NUM_ENTITIES && scene->entity_ids[++indx])
 	{
-		if (ft_strcmp(scene->entity_ids[indx], id) == 0)
+		if (scene->entity_ids[indx]
+			&& ft_strcmp(scene->entity_ids[indx], id) == 0)
 		{
 			memfree((void *)&id);
 			return (indx);

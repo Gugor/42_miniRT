@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/12 13:34:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/23 16:58:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	set_entity_ids(char *entities[NUM_ENTITIES + 1])
 	entities[3] = "pl";
 	entities[4] = "sp";
 	entities[5] = "cy";
-	entities[6] = "ot";
-	entities[7] = "\0";
+	entities[6] = NULL;
+	// entities[6] = "ot";
 }
 /**
  * @brief It initialize an array of functions to create the shapes. 
@@ -48,7 +48,7 @@ static void	init_entity_delegates (t_scene *scene)
 	scene->create_ent[SPHERE] = &create_sphere;
 	scene->create_ent[CYLINDER] = &create_cylinder;
 	//scene->create_ent[OTHER] = create_other;
-	scene->create_ent[EOS]	= NULL;
+	scene->create_ent[EOS - 1]	= NULL;
 }
 
 /**

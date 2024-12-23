@@ -52,7 +52,7 @@ t_color tst_ray_color(const t_ray *r)
 }
 typedef struct s_interval t_interval;
 
-t_color ray_color(const t_ray *ray, int max_depth)
+t_color	ray_color(const t_ray *ray, int max_depth)
 {
 	t_hit_data	hitd;
 	t_camera	*cam;
@@ -73,7 +73,7 @@ t_color ray_color(const t_ray *ray, int max_depth)
 		dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
 		// hitd.rgb = sum_rgb(hitd.rgb, scale_rgb(hitd.normal.x + 1.0, hitd.normal.y + 1.0, hitd.normal.z + 1.0));
-		hitd.rgb.clr += scale_color(ray_color(&new, --max_depth), 0.5).clr;
+		hitd.rgb.clr = scale_color(ray_color(&new, --max_depth), 0.5).clr;
 		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
 		return (hitd.rgb);
 	}

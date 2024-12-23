@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/22 20:49:07 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/23 17:40:30 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_camera
 	float	pixel_sample_scale;
 	float	near_plane;
 	float	far_plane;
+	float	foc_dist;
 	int		samples_per_pixel;
 	int		max_depth;
 	t_vec3	u;

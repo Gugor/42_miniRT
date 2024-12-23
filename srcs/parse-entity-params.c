@@ -83,7 +83,6 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 	indx += skip_spaces((char *)&line[0]);
 	if (is_vec_format(&line[indx], VEC3))
 		return (2);
-	indx = 0;
 	vec3->x = get_float(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (1);
