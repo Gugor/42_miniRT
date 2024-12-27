@@ -42,12 +42,16 @@ t_color scale_color(t_color rgb, float scale)
 	int g;
 	int b;
 	t_interval inter;
+	t_interval inter2;
 
 	inter.min = 0;
-	inter.min = 255;
-	r = (int)clamp(&inter, get_r(rgb) * scale);
-	g = (int)clamp(&inter, get_g(rgb) * scale);
-	b = (int)clamp(&inter, get_b(rgb) * scale);
+	inter.max = 1;
+	inter2.min = 0;
+	inter2.max = 255;
+	scale = clamp(&inter, scale);
+	r = (int)clamp(&inter2, get_r(rgb) * scale);
+	g = (int)clamp(&inter2, get_g(rgb) * scale);
+	b = (int)clamp(&inter2, get_b(rgb) * scale);
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }

@@ -62,20 +62,30 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	if (max_depth <= 0)
 		return (color(0,0,0));
 	cam = &get_scene()->camera;
-	init_limits((t_interval *)&ray->lim, cam->near_plane - cam->focal_length, cam->far_plane);
+	init_limits((t_interval *)&ray->lim, cam->near_plane, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
 		// printf("Hiting object\n");
 		// hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
 		// return (hitd.rgb);
-		// dir = hitd.normal;
-		// dir = random_on_hemisphere(hitd.normal);
+		// hitd.rgb = scale_rgb(
+		// 	// ((255 / get_r(hitd.rgb)) + hitd.normal.x) * 0.5, 
+		// 	// ((255 / get_g(hitd.rgb)) + hitd.normal.y) * 0.5, 
+		// 	// ((255 / get_b(hitd.rgb)) + hitd.normal.z) * 0.5
+		// 	(((hitd.rgb.r + 1) / 255) + hitd.normal.x) * 0.5, 
+		// 	(((hitd.rgb.g + 1) / 255) + hitd.normal.y) * 0.5, 
+		// 	(((hitd.rgb.b + 1) / 255) + hitd.normal.z) * 0.5
+		// 	);
+		// return (hitd.rgb);
+		dir = hitd.normal;
+		dir = random_on_hemisphere(hitd.normal);
 		dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
+		// return (new.rgb);
 		// hitd.rgb = sum_rgb(hitd.rgb, scale_rgb(hitd.normal.x + 1.0, hitd.normal.y + 1.0, hitd.normal.z + 1.0));
-		hitd.rgb.clr = scale_color(ray_color(&new, --max_depth), 0.5).clr;
-		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
-		return (hitd.rgb);
+		// hitd.rgb.clr = scale_color(ray_color(&new, --max_depth), 0.5).clr;
+		return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
+		// return (hitd.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
 	// printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);

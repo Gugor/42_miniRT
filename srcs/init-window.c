@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/23 18:32:14 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/27 11:22:33 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void	set_win_pivot(t_camera *camera, t_window *win)
 	half_vwp_v = div_v3_dbl(win->viewport_v, 2.0);
 	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n",
 		half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
-	// dir_flnght = vec3(0, 0, camera->focal_length);`
+	// dir_flnght = vec3(0, 0, camera->focal_length);
 	dir_flnght = scale_v3(camera->w, camera->foc_dist);
-	focl = sub_v3(camera->pos, dir_flnght);
+	focl = sub_v3(camera->center, dir_flnght);
 	foc_x_plane = sub_v3(focl, half_vwp_u);
 	win->viewport_pivot = sub_v3(foc_x_plane, half_vwp_v);
 	printf("	=> Upper Left Corener[%f,%f,%f]\n",
@@ -72,12 +72,14 @@ static void	set_px00(t_window *win)
  */
 static void	init_viewport(t_scene *scn, t_window *win)
 {
-	printf("Initializing Viewport(%ix%i)...\n", (int)win->img_width, (int)win->img_height);
+	printf("Initializing Viewport(%ix%i)(vfov[%f])...\n", (int)win->img_width, (int)win->img_height, scn->camera.fovV);
 	win->viewport_height = 2.0 * scn->camera.h * scn->camera.foc_dist;
 	win->viewport_width = win->viewport_height * ((float)win->img_width / (float)win->img_height); //3.55556ratio
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
 	win->viewport_u = scale_v3(scn->camera.u, win->viewport_width);//vec3(win->viewport_width, 0, 0);
-	win->viewport_v = scale_v3(scn->camera.v, -win->viewport_height);//vec3(0, -win->viewport_height, 0);
+	win->viewport_v = scale_v3(scale_v3(scn->camera.v, -1), win->viewport_height);//vec3(0, -win->viewport_height, 0);
+	// win->viewport_u = vec3(win->viewport_width, 0, 0);
+	// win->viewport_v = vec3(0, -win->viewport_height, 0);
 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.x, win->viewport_v.z);
 	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);
@@ -90,6 +92,7 @@ void init_window(t_scene *scn)
 	t_window *win;
 
 	win = (t_window *)xmalloc(sizeof(t_window));
+	scn->win = win;
 	win->mlx = mlx_init();
 	win->img_width = 920;
 	win->aspect_ratio = 16.0 / 9.0;
@@ -100,11 +103,11 @@ void init_window(t_scene *scn)
 	printf("Win Aspec ratio: %f\n", win->aspect_ratio);
 	if (win->img_height < 1)
 		win->img_height = 1;
+	init_camera(win->aspect_ratio, &scn->camera);
 	init_viewport(scn, win);
 	win->mlx_win = mlx_new_window(win->mlx, win->img_width, win->img_height, "MiniRT");
 	win->img.img = mlx_new_image(win->mlx, win->img_width, win->img_height);
 	win->img.addr = mlx_get_data_addr(win->img.img, &win->img.bpp, &win->img.line_length,
 								&win->img.endian);
-	scn->win = win;
 	listen_events();
 }

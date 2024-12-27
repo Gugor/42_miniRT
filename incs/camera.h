@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/23 17:40:30 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:08:27 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define CAMERA_H
 
 # include "vectors.h"
+# include "camera.h"
 
 typedef struct s_scene t_scene;
 
@@ -40,5 +41,5 @@ typedef struct	s_camera
 	t_vec3	w;
 }	t_camera;
 
-void	init_camera(t_scene *scn);
+void	init_camera(float aspect_ratio, t_camera *cam);
 #endif

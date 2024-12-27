@@ -83,6 +83,7 @@ float tst_hit_sphere (const t_p3 *center, float r, const t_ray *ray)
 	discriminant = b * b - 4 * a * c;
 	// printf("discriminant = \"%f\"\n", discriminant);
 	// return (discriminant >= 0);
+
 	if (discriminant < 0)
 		return -1.0;
 	else
