@@ -39,7 +39,6 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	t = dot(&pl->axis, &hitd.oc) / denominator;
 	if (!interval_sourrounds(ray_limits, t))
 		return (0);
-	// printf("Plane hit\n");
 	rec->t = t;
 	rec->rgb = pl->rgb;
 	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));

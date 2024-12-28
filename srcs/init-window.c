@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/27 11:22:33 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:42:58 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	set_win_pivot(t_camera *camera, t_window *win)
 	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n",
 		half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
 	// dir_flnght = vec3(0, 0, camera->focal_length);
-	dir_flnght = scale_v3(camera->w, camera->foc_dist);
+	dir_flnght = scale_v3(camera->fordwards, camera->foc_dist);
 	focl = sub_v3(camera->center, dir_flnght);
 	foc_x_plane = sub_v3(focl, half_vwp_u);
 	win->viewport_pivot = sub_v3(foc_x_plane, half_vwp_v);
@@ -76,13 +76,18 @@ static void	init_viewport(t_scene *scn, t_window *win)
 	win->viewport_height = 2.0 * scn->camera.h * scn->camera.foc_dist;
 	win->viewport_width = win->viewport_height * ((float)win->img_width / (float)win->img_height); //3.55556ratio
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
+	printf("	:: Viewporheight: %f\n", win->viewport_height);
 	win->viewport_u = scale_v3(scn->camera.u, win->viewport_width);//vec3(win->viewport_width, 0, 0);
-	win->viewport_v = scale_v3(scale_v3(scn->camera.v, -1), win->viewport_height);//vec3(0, -win->viewport_height, 0);
+	// win->viewport_v = scale_v3(scale_v3(scn->camera.v, -1), win->viewport_height);//vec3(0, -win->viewport_height, 0);
+	win->viewport_v = scale_v3(scn->camera.v, -win->viewport_height);//vec3(0, -win->viewport_height, 0);
 	// win->viewport_u = vec3(win->viewport_width, 0, 0);
 	// win->viewport_v = vec3(0, -win->viewport_height, 0);
-	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.x, win->viewport_v.z);
+	printf("	=> Viewport U[%f,%f,%f]\n", win->viewport_u.x, win->viewport_u.y, win->viewport_u.z);
+	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x, win->viewport_v.y, win->viewport_v.z);
 	win->pixel_delta_u =  div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v =  div_v3_dbl(win->viewport_v, win->img_height);
+	printf("	=> Pixel delta U[%f,%f,%f]\n", win->pixel_delta_u.x, win->pixel_delta_u.y, win->pixel_delta_u.z);
+	printf("	=> Pixel delta V[%f,%f,%f]\n", win->pixel_delta_v.x, win->pixel_delta_v.y, win->pixel_delta_v.z);
 	set_win_pivot(&scn->camera, win);
 	set_px00(win);
 }
