@@ -21,35 +21,6 @@
 #include "shape-maths.h"
 #include "rendering.h"
 
-t_color tst_ray_color(const t_ray *r)
-{
-    t_vec3 norm;
-	t_p3	sp;
-	t_color res;
-	float	t;
-	
-	sp.x = 0;
-	sp.y = 0;
-	sp.z = 0;
-
-	t = tst_hit_sphere((void *)&sp, 0.5, r) >= 0;
-	if (t > 0.0)
-	{
-		t_vec3 sdet = at((t_ray *)r, t);
-		t_vec3 rest = sub_v3(sdet, sp);
-		t_vec3 N = normalize_v3(rest);
-		t_color c;
-		c = scale_rgb((N.x + 1) * 0.5, (N.y + 1) * 0.5, (N.z + 1) * 0.5);
-        return (c);
-	}
-	// printf("Drawing Backround\n");
-	norm = (*r).norm;
-	//printf("=> Ray[%f] Norm[%f,%f,%f]\n", r->length, norm.x, norm.y, norm.z);
-	res.clr = lerpRGB(norm.y, scale_rgb(1.0, 1.0,1.0), scale_rgb(0.5, 0.7, 1.0));
-	// printf("	::A [%f]RGB[%u,%u,%u][%i]\n", norm.y, (res.clr >> 16) & 0xFF, (res.clr >> 8) & 0xFF , res.clr & 0xFF, res.clr);
-	return (res);
-
-}
 typedef struct s_interval t_interval;
 
 t_color	ray_color(const t_ray *ray, int max_depth)
@@ -65,32 +36,13 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	init_limits((t_interval *)&ray->lim, cam->near_plane, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
-		// printf("Hiting object\n");
-		// hitd.rgb = scale_rgb((hitd.normal.x + 1) * 0.5, (hitd.normal.y + 1) * 0.5, (hitd.normal.z + 1) * 0.5);
-		// return (hitd.rgb);
-		// hitd.rgb = scale_rgb(
-		// 	// ((255 / get_r(hitd.rgb)) + hitd.normal.x) * 0.5, 
-		// 	// ((255 / get_g(hitd.rgb)) + hitd.normal.y) * 0.5, 
-		// 	// ((255 / get_b(hitd.rgb)) + hitd.normal.z) * 0.5
-		// 	(((hitd.rgb.r + 1) / 255) + hitd.normal.x) * 0.5, 
-		// 	(((hitd.rgb.g + 1) / 255) + hitd.normal.y) * 0.5, 
-		// 	(((hitd.rgb.b + 1) / 255) + hitd.normal.z) * 0.5
-		// 	);
-		// return (hitd.rgb);
-		dir = hitd.normal;
-		dir = random_on_hemisphere(hitd.normal);
+		// dir = random_on_hemisphere(hitd.normal);
 		dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
-		// return (new.rgb);
-		// hitd.rgb = sum_rgb(hitd.rgb, scale_rgb(hitd.normal.x + 1.0, hitd.normal.y + 1.0, hitd.normal.z + 1.0));
-		// hitd.rgb.clr = scale_color(ray_color(&new, --max_depth), 0.5).clr;
 		return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
-		// return (hitd.rgb);
 	}
 	hitd.normal = normalize_v3(ray->direction);
-	// printf("=> Ray[%f] Norm[%f,%f,%f]\n", ray->length, hitd.normal.x, hitd.normal.y, hitd.normal.z);
 	hitd.rgb.clr = lerpRGB(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5, 0.7, 1.0));
-	// printf("	::A [%f]RGB[%u,%u,%u][%i]\n", hitd.normal.y, (hitd.rgb.clr >> 16) & 0xFF, (hitd.rgb.clr >> 8) & 0xFF , hitd.rgb.clr & 0xFF, hitd.rgb.clr);
 	return (hitd.rgb);
 }
 

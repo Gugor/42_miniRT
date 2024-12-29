@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:52:12 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/21 14:57:03 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/29 17:47:22 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ t_vec3 vec3(float x, float y, float z)
 	return (v3);
 }
 
-t_vec3		mult_v3(t_vec3 v1, t_vec3 v2)
-{
-	t_vec3 new;
-	new.x = v1.x * v2.x;
-	new.y = v1.y * v2.y;
-	new.z = v1.z * v2.z;
-	return (new);
-}
-
-t_vec3		div_v3(t_vec3 v1, t_vec3 v2)
-{
-	t_vec3 new;
-	new.x = v1.x / v2.x;
-	new.y = v1.y / v2.y;
-	new.z = v1.z / v2.z;
-	return (new);
-}
-
 t_vec3		sum_v3(t_vec3 v1, t_vec3 v2)
 {
 	t_vec3 new;
@@ -51,7 +33,6 @@ t_vec3		sum_v3(t_vec3 v1, t_vec3 v2)
 t_vec3		sub_v3(t_vec3 v1, t_vec3 v2)
 {
 	t_vec3 new;
-	// printf("		::V1[%f,%f,%f] - V2[%f,%f,%f]\n", v1->x, v1->y, v1->z, v2->x, v2->y, v2->z);
 	new.x = v1.x - v2.x;
 	new.y = v1.y - v2.y;
 	new.z = v1.z - v2.z;

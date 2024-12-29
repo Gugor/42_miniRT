@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:47:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/23 18:46:09 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/29 12:22:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ bool interval_contains(t_interval *inter, float p)
 {
 	return (inter->min <= p && inter->max >= p);
 }
-bool interval_sourrounds(t_interval *inter, float p)
-{
-	return (inter->min < p && p < inter->max);
+// bool interval_sourrounds(t_interval *inter, float p)
+// {
+// 	return (inter->min < p && p < inter->max);
+// }
+bool interval_sourrounds(t_interval *inter, float p) {
+    float epsilon = 1e-6;
+    return (inter->min - epsilon < p && p < inter->max + epsilon);
 }
 
 float interval_size(t_interval *inter)

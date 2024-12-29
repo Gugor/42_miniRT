@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:52:26 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/29 13:15:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 float dot(const t_vec3 *v1, const t_vec3 *v2)
 {
-	return ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v1->z));
+	return ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z));
 }
 
 t_vec3 cross(const t_vec3 *v1, const t_vec3 *v2)

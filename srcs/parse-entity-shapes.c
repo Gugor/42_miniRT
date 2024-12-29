@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/23 14:03:07 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/29 11:46:14 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	create_cylinder(t_scene *scene, const char *line)
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&cylinder->rgb, (char *)line, &offset) || !in_range_rgb(cylinder->rgb, 0, 255))
 		err_rt_file_format("wrong cylinder format [rgb]");
-	// printf("	RGB: [%hhu,%hhu,%hhu]\n", cylinder->rgb.r, cylinder->rgb.g, cylinder->rgb.b);
+	printf("	RGB: [%i,%i,%i]\n", (cylinder->rgb.clr >> 16) & 0xFF, (cylinder->rgb.clr >> 8) & 0xFF, (cylinder->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
 }
