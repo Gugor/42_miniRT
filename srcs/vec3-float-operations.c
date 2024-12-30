@@ -12,9 +12,9 @@
 
 #include "vectors.h"
 
-t_vec3		scale_v3(t_vec3 v1, float t)
+t_vec3	scale_v3(t_vec3 v1, float t)
 {
-	t_vec3 new;
+	t_vec3	new;
 
 	new.x = v1.x * t;
 	new.y = v1.y * t;
@@ -26,34 +26,33 @@ t_vec3	div_v3_dbl(t_vec3 v1, float t)
 {
 	t_vec3	new;
 
-	// new.x = (1/t) * v1.x;
-	// new.y = (1/t) * v1.y;
-	// new.z = (1/t) * v1.z;
 	new.x = v1.x / t;
 	new.y = v1.y / t;
 	new.z = v1.z / t;
 	return (new);
 }
 
-t_vec3		sum_v3_dbl(t_vec3 v1, float t)
+t_vec3	sum_v3_dbl(t_vec3 v1, float t)
 {
-	t_vec3 new;
+	t_vec3	new;
+
 	new.x = v1.x + t;
 	new.y = v1.y + t;
 	new.z = v1.z + t;
 	return (new);
 }
 
-t_vec3		sub_v3_dbl(t_vec3 v1, float t)
+t_vec3	sub_v3_dbl(t_vec3 v1, float t)
 {
 	t_vec3 new;
+
 	new.x = v1.x - t;
 	new.y = v1.y - t;
 	new.z = v1.z - t;
 	return (new);
 }
 
-float		vec3_to_dbl(t_vec3 v)
+float	vec3_to_dbl(t_vec3 v)
 {
 	return (v.x + v.y + v.z);
 }

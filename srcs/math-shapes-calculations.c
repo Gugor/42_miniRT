@@ -32,12 +32,12 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	float		t;
 
 	pl = (t_plane *)shp;
-	denominator = dot(&pl->axis, &ray->norm);
+	denominator = dot(&pl->axis, &ray->direction);
 	if (fabs(denominator) < 1e-6)
 		return (0);
 	hitd.oc = sub_v3(ray->origin, pl->pos);
-	t = dot(&pl->axis, &hitd.oc) / denominator;
-	if (!interval_sourrounds(ray_limits, t))
+	t = -(dot(&pl->axis, &hitd.oc)) / denominator;
+	if (!interval_surroundss(ray_limits, t))
 		return (0);
 	rec->t = t;
 	rec->rgb = pl->rgb;
@@ -83,10 +83,10 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
-	if (!interval_sourrounds(ray_limits, root))
+	if (!interval_surroundss(ray_limits, root))
 	{
 		root = (hit.h + sqrtd) / hit.a;
-		if (!interval_sourrounds(ray_limits, root))
+		if (!interval_surroundss(ray_limits, root))
 			return (0);
 	}
 	rec->t = root;
@@ -165,10 +165,10 @@ int	hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_dat
 
 	sqrtd = sqrt(hitd.discriminant);
 	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
-	if (!interval_sourrounds(ray_limits, root))
+	if (!interval_surroundss(ray_limits, root))
 	{
 		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-		if (!interval_sourrounds(ray_limits, root))
+		if (!interval_surroundss(ray_limits, root))
 			return (0);
 	}
 	rec->t = root;
@@ -209,9 +209,9 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 
 	sqrtd = sqrt(hitd.discriminant);
 	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
-	if (!interval_sourrounds(ray_limits, root)) {
+	if (!interval_surroundss(ray_limits, root)) {
 		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-		if (!interval_sourrounds(ray_limits, root))
+		if (!interval_surroundss(ray_limits, root))
 			return (0);
 	}
 
@@ -296,9 +296,9 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	sqrtd = sqrt(hitd.discriminant);
 	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
 
-	if (!interval_sourrounds(ray_limits, root)) {
+	if (!interval_surroundss(ray_limits, root)) {
 		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-		if (!interval_sourrounds(ray_limits, root))
+		if (!interval_surroundss(ray_limits, root))
 			return (0);
 	}
 
@@ -324,7 +324,7 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	{
 		t_vec3 oc = sub_v3(cyl->pos, ray->origin); 
 		root_cap = dot(&oc, &cyl->axis) / denom;
-		if (interval_sourrounds(ray_limits, root_cap)) {
+		if (interval_surroundss(ray_limits, root_cap)) {
 			t_vec3 hit_point_cap = sum_v3(ray->origin, scale_v3(ray->direction, root_cap));
 			diff = sub_v3(hit_point_cap, cyl->pos);
 			if (dot(&diff, &diff) <= cyl->size.x * cyl->size.x) {
@@ -342,10 +342,11 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	// Tapa superior
 	t_vec3 top_center = sum_v3(cyl->pos, scale_v3(cyl->axis, cyl->size.y));
 	denom = dot(&ray->direction, &cyl->axis);
-	if (fabs(denom) > 1e-6) {
+	if (fabs(denom) > 1e-6)
+	{
 		t_vec3 oc = sub_v3(top_center, ray->origin);
 		root_cap = dot(&oc, &cyl->axis) / denom;
-		if (interval_sourrounds(ray_limits, root_cap)) {
+		if (interval_surroundss(ray_limits, root_cap)) {
 			t_vec3 hit_point_cap = sum_v3(ray->origin, scale_v3(ray->direction, root_cap));
 			diff = sub_v3(hit_point_cap, top_center);
 			if (dot(&diff, &diff) <= cyl->size.x * cyl->size.x) {
@@ -380,10 +381,11 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
 		{
 			hit_anything = true;
-			closest = hitd.t;
-			// printf("====== Hit[%f] shape: %i\n", hitd.t, shapes->type);
-			*rec = hitd;
-			// printf("New lims [%f,%f] Det[%f] shape %i\n", lim->min, lim->max, hitd.t, shapes->type);
+			if (closest > hitd.t)
+			{			 
+				closest = hitd.t;
+				*rec = hitd;
+			}
 		}
 		shapes = shapes->next;
 	}

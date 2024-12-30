@@ -19,7 +19,7 @@ float		degrees_to_radians(float degrees);
 
 void		init_limits(t_interval *inter, float min, float max);
 bool		interval_contains(t_interval *inter, float p);
-bool		interval_sourrounds(t_interval *inter, float p);
+bool		interval_surroundss(t_interval *inter, float p);
 float		interval_size(t_interval *inter);
 
 void		universe(t_interval *inter);

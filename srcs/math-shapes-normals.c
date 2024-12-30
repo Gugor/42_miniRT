@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:59 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/21 11:27:41 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:15:09 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 
 // Sets the hit record normal vector.
 // NOTE: the parameter `outward_normal` is assumed to have unit length.
-void set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_data *hitd)
+void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal,
+		t_hit_data *hitd)
 {
-        hitd->is_front = fabs(dot(&r->direction, outward_normal)) < 1e-6;
-        if (hitd->is_front)
-                hitd->normal = (t_vec3)*outward_normal;
-        else
-                hitd->normal = scale_v3(*outward_normal, -1);
+	hitd->is_front = fabs(dot(&r->direction, outward_normal)) < 1e-6;
+	if (hitd->is_front)
+		hitd->normal = *outward_normal;
+	else
+		hitd->normal = scale_v3(*outward_normal, -1);
 }

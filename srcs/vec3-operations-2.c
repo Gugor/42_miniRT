@@ -6,24 +6,24 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/29 17:52:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:57:57 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 #include <math.h>
 
-float sqr_v3(t_vec3 v3)
+float   sqr_v3(t_vec3 v3)
 {
 	return (v3.x * v3.x + v3.y * v3.y + v3.z * v3.z);
 }
 
-float length_v3(t_vec3 v3)
+float   length_v3(t_vec3 v3)
 {
 	return ((float)sqrt((double)sqr_v3(v3)));
 }
 
-static float inv_sqrt_v3(t_vec3 v3) 
+static float    inv_sqrt_v3(t_vec3 v3) 
 {
     float sq = sqr_v3(v3);
     if (sq == 0.0f) 
