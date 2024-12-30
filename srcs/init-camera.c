@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/29 12:59:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/30 14:16:28 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static float	calculate_fovV(t_camera *cam)
  */
 void	init_camera(float aspect_ratio, t_camera *cam)
 {
-	(void)aspect_ratio;
+	// (void)aspect_ratio;
 	t_interval inter;
 	cam->center = cam->lookfrom;
 	cam->foc_dist = 10;
@@ -43,8 +43,8 @@ void	init_camera(float aspect_ratio, t_camera *cam)
 	cam->max_depth = 50;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
-	cam->fovV = cam->fovH / 2;
-	cam->fovV = clamp(&inter, cam->fovH * aspect_ratio);
+	cam->fovV = cam->fovH / aspect_ratio;
+	//cam->fovV = clamp(&inter, cam->fovH * aspect_ratio);
 	cam->h = calculate_fovV(cam);
 	cam->vup = vec3(0, 1, 0);
 	// cam->focal_length = length_v3(sub_v3(cam->lookfrom, cam->lookat));

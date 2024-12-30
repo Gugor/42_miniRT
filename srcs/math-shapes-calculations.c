@@ -61,16 +61,19 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
  *	radius squared (r2r2).
  *	- discriminant = where oc=center−ooc=center−o (the vector from the ray's
  *	origin to the sphere's center) and rr is the sphere's radius.
- *	It has 3 different states: < 0 no hit, 0 one hit(tangent), > 0 2-hits (travese the sphere). 	 
+ *	It has 3 different states: < 0 no hit, 0 one hit(tangent), > 0 2-hits
+ *  (travese the sphere). 	 
 */
-int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
+int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
+	t_hit_data *rec)
 {
-	t_sph_hit hit;
-	t_sphere *s;
-	float sqrtd;
-	float root;
+	t_sph_hit	hit;
+	t_sphere	*s;
+	float		sqrtd;
+	float		root;
+
 	s = (t_sphere *)shp;
-	hit.oc = sub_v3(s->pos, ray->origin);	
+	hit.oc = sub_v3(s->pos, ray->origin);
 	hit.a =  length_v3(ray->direction) * length_v3(ray->direction);
 	hit.h = dot(&ray->direction, &hit.oc);
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
@@ -78,20 +81,13 @@ int hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data 
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
 	if (hit.discriminant < 0)
 		return (0);
-	// printf("Drawing Sphere. Limits[%f,%f]\n", ray_limits->min, ray_limits->max);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
-	// printf("Root limits[min:%f, max:%f] <> root:%f\n", ray_limits->min, ray_limits->max, root);
-	if (!interval_sourrounds(ray_limits, root))// (root <= ray_limits->min || ray_limits->max <= root)
+	if (!interval_sourrounds(ray_limits, root))
 	{
-		// printf("	:: Not root 1\n");
 		root = (hit.h + sqrtd) / hit.a;
-		if (!interval_sourrounds(ray_limits, root))//(root <= ray_limits->min || ray_limits->max <= root)
-		{
-			// printf("	:: Not root 2 => ");
-			// printf(" Root limits[min:%f, max:%f] <> root:%f\n", ray_limits->min, ray_limits->max, root);
+		if (!interval_sourrounds(ray_limits, root))
 			return (0);
-		}
 	}
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
@@ -120,33 +116,33 @@ int	hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_dat
 
 	cyl = (t_cylinder *)shp;
 	hitd.oc =  sub_v3(ray->origin, cyl->pos);
-    hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
-    hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
-    hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
-    hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
-    hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
-    hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
-    if (hitd.discriminant < 0)
+	hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
+	hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
+	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
+	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
+	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
+	if (hitd.discriminant < 0)
 		return (0);
 
 	printf("Hit Cylinder\n");
-    sqrtd = sqrt(hitd.discriminant);
-    root1 = (-hitd.h - sqrtd) / (2.0 * hitd.a);
-    root2 = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-    rec->t = root1;
-    if (rec->t < 0 || rec->t > root2)
+	sqrtd = sqrt(hitd.discriminant);
+	root1 = (-hitd.h - sqrtd) / (2.0 * hitd.a);
+	root2 = (-hitd.h + sqrtd) / (2.0 * hitd.a);
+	rec->t = root1;
+	if (rec->t < 0 || rec->t > root2)
 		rec->t = root2;
-    if (rec->t < 0)
+	if (rec->t < 0)
 		return (0);
-    t_vec3 point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
+	t_vec3 point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
 	t_vec3 pp = sum_v3(point, cyl->pos);
-    double height_proj = dot(&pp, &cyl->axis);
-    if (height_proj < 0 || height_proj > cyl->size.y)
-        return (0);
-    rec->hit = point;
-    rec->out_normal = sum_v3(point, sum_v3(cyl->pos, scale_v3(cyl->axis, height_proj)));
+	double height_proj = dot(&pp, &cyl->axis);
+	if (height_proj < 0 || height_proj > cyl->size.y)
+		return (0);
+	rec->hit = point;
+	rec->out_normal = sum_v3(point, sum_v3(cyl->pos, scale_v3(cyl->axis, height_proj)));
 	set_face_normal(ray, &rec->out_normal, rec);
-    return (1);
+	return (1);
 }
 */
 /*
@@ -158,212 +154,212 @@ int	hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_dat
 	float		root;
 	cyl = (t_cylinder *)shp;
 	hitd.oc = sub_v3(ray->origin, cyl->pos);
-    hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
-    hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
-    hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
-    hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
-    hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
-    hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
-    if (hitd.discriminant < 0)
+	hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
+	hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
+	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
+	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
+	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
+	if (hitd.discriminant < 0)
 		return (0);
 
-    sqrtd = sqrt(hitd.discriminant);
-    root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
+	sqrtd = sqrt(hitd.discriminant);
+	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
 	if (!interval_sourrounds(ray_limits, root))
 	{
 		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
 		if (!interval_sourrounds(ray_limits, root))
 			return (0);
 	}
-    rec->t = root;
-    t_vec3 point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
+	rec->t = root;
+	t_vec3 point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
 	t_vec3 pp = sub_v3(point, cyl->pos);
-    double height_proj = dot(&pp, &cyl->axis);
-    if (height_proj < 0 || height_proj > cyl->size.y)
-        return (0);
+	double height_proj = dot(&pp, &cyl->axis);
+	if (height_proj < 0 || height_proj > cyl->size.y)
+		return (0);
 
-    t_vec3 temp = sub_v3(point, cyl->pos);
-    temp = sub_v3(temp, scale_v3(cyl->axis, height_proj));
-    rec->out_normal = normalize_v3(temp);
-    set_face_normal(ray, &rec->out_normal, rec);
-    rec->hit = point;
+	t_vec3 temp = sub_v3(point, cyl->pos);
+	temp = sub_v3(temp, scale_v3(cyl->axis, height_proj));
+	rec->out_normal = normalize_v3(temp);
+	set_face_normal(ray, &rec->out_normal, rec);
+	rec->hit = point;
 
-    return (1);
+	return (1);
 }
 */
 /*
 int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {
-    t_cylinder *cyl;
-    t_cyl_hit hitd;
-    float sqrtd;
-    float root;
+	t_cylinder *cyl;
+	t_cyl_hit hitd;
+	float sqrtd;
+	float root;
 
-    cyl = (t_cylinder *)shp;
-    hitd.oc = sub_v3(ray->origin, cyl->pos);
-    hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
-    hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
-    hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
-    hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
-    hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
-    hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
+	cyl = (t_cylinder *)shp;
+	hitd.oc = sub_v3(ray->origin, cyl->pos);
+	hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
+	hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
+	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
+	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
+	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
 
-    if (hitd.discriminant < 0)
-        return (0);
+	if (hitd.discriminant < 0)
+		return (0);
 
-    sqrtd = sqrt(hitd.discriminant);
-    root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
-    if (!interval_sourrounds(ray_limits, root)) {
-        root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-        if (!interval_sourrounds(ray_limits, root))
-            return (0);
-    }
+	sqrtd = sqrt(hitd.discriminant);
+	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
+	if (!interval_sourrounds(ray_limits, root)) {
+		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
+		if (!interval_sourrounds(ray_limits, root))
+			return (0);
+	}
 
-    rec->t = root;
-    t_vec3 point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
-    t_vec3 pp = sub_v3(point, cyl->pos);
-    double height_proj = dot(&pp, &cyl->axis);
+	rec->t = root;
+	t_vec3 point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
+	t_vec3 pp = sub_v3(point, cyl->pos);
+	double height_proj = dot(&pp, &cyl->axis);
 
-    // Check if the point is within the height of the cylinder
-    if (height_proj < 0 || height_proj > cyl->size.y) 
+	// Check if the point is within the height of the cylinder
+	if (height_proj < 0 || height_proj > cyl->size.y) 
 	{
-        // Check intersection with base caps if the cylinder is closed
-        t_vec3 top_center = sum_v3(cyl->pos, scale_v3(cyl->axis, cyl->size.y));
+		// Check intersection with base caps if the cylinder is closed
+		t_vec3 top_center = sum_v3(cyl->pos, scale_v3(cyl->axis, cyl->size.y));
 
-        // Base intersection (lower disk)
-        double t_base;
+		// Base intersection (lower disk)
+		double t_base;
 		t_vec3 pos_minus_origin = sub_v3(cyl->pos, ray->origin);
 		t_base = dot(&pos_minus_origin, &cyl->axis);
 		t_base = t_base / dot(&ray->direction, &cyl->axis);
-        t_vec3 base_point = sum_v3(ray->origin, scale_v3(ray->direction, t_base));
-        if (t_base >= ray_limits->min && t_base <= ray_limits->max &&
-            normalize_v3(sub_v3(base_point, cyl->pos)).x <= cyl->size.x) 
+		t_vec3 base_point = sum_v3(ray->origin, scale_v3(ray->direction, t_base));
+		if (t_base >= ray_limits->min && t_base <= ray_limits->max &&
+			normalize_v3(sub_v3(base_point, cyl->pos)).x <= cyl->size.x) 
 			{
-            rec->t = t_base;
-            rec->out_normal = scale_v3(cyl->axis, -1); // Normal points outward
-            rec->hit = base_point;
-            return (1);
-        }
+			rec->t = t_base;
+			rec->out_normal = scale_v3(cyl->axis, -1); // Normal points outward
+			rec->hit = base_point;
+			return (1);
+		}
 
-        // Top intersection (upper disk)
+		// Top intersection (upper disk)
 		pos_minus_origin = sub_v3(cyl->pos, ray->origin);
 		t_base = dot(&pos_minus_origin, &cyl->axis);
-        t_base = t_base / dot(&ray->direction, &cyl->axis);
-        base_point = sum_v3(ray->origin, scale_v3(ray->direction, t_base));
-        if (t_base >= ray_limits->min && t_base <= ray_limits->max &&
-            normalize_v3(sub_v3(base_point, top_center)).x <= cyl->size.x) {
-            rec->t = t_base;
-            rec->out_normal = cyl->axis; // Normal points outward
-            rec->hit = base_point;
-            return (1);
-        }
+		t_base = t_base / dot(&ray->direction, &cyl->axis);
+		base_point = sum_v3(ray->origin, scale_v3(ray->direction, t_base));
+		if (t_base >= ray_limits->min && t_base <= ray_limits->max &&
+			normalize_v3(sub_v3(base_point, top_center)).x <= cyl->size.x) {
+			rec->t = t_base;
+			rec->out_normal = cyl->axis; // Normal points outward
+			rec->hit = base_point;
+			return (1);
+		}
 
-        return (0);
-    }
+		return (0);
+	}
 
-    // Handle intersection with the lateral surface
-    t_vec3 temp = sub_v3(point, cyl->pos);
-    temp = sub_v3(temp, scale_v3(cyl->axis, height_proj));
-    rec->out_normal = normalize_v3(temp);
-    set_face_normal(ray, &rec->out_normal, rec);
-    rec->hit = point;
+	// Handle intersection with the lateral surface
+	t_vec3 temp = sub_v3(point, cyl->pos);
+	temp = sub_v3(temp, scale_v3(cyl->axis, height_proj));
+	rec->out_normal = normalize_v3(temp);
+	set_face_normal(ray, &rec->out_normal, rec);
+	rec->hit = point;
 
-    return (1);
+	return (1);
 } */
 
 
 int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec) {
-    t_cylinder *cyl;
-    t_cyl_hit hitd;
-    float sqrtd;
-    float root;
-    t_vec3 temp1;
+	t_cylinder *cyl;
+	t_cyl_hit hitd;
+	float sqrtd;
+	float root;
+	t_vec3 temp1;
 	t_vec3 diff; // Variables temporales para evitar problemas con dot()
 
-    cyl = (t_cylinder *)shp;
-    hitd.oc = sub_v3(ray->origin, cyl->pos);
+	cyl = (t_cylinder *)shp;
+	hitd.oc = sub_v3(ray->origin, cyl->pos);
 
-    temp1 = scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis));
-    hitd.d_proj = sub_v3(ray->direction, temp1);
+	temp1 = scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis));
+	hitd.d_proj = sub_v3(ray->direction, temp1);
 
-    temp1 = scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis));
-    hitd.oc_proj = sub_v3(hitd.oc, temp1);
+	temp1 = scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis));
+	hitd.oc_proj = sub_v3(hitd.oc, temp1);
 
-    hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
-    hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
-    hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
-    hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
+	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
+	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
+	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
 
-    if (hitd.discriminant < 0)
-        return (0);
+	if (hitd.discriminant < 0)
+		return (0);
 
-    sqrtd = sqrt(hitd.discriminant);
-    root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
+	sqrtd = sqrt(hitd.discriminant);
+	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
 
-    if (!interval_sourrounds(ray_limits, root)) {
-        root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-        if (!interval_sourrounds(ray_limits, root))
-            return (0);
-    }
+	if (!interval_sourrounds(ray_limits, root)) {
+		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
+		if (!interval_sourrounds(ray_limits, root))
+			return (0);
+	}
 
-    rec->t = root;
-    rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
-    t_vec3 pp = sub_v3(rec->hit, cyl->pos);
-    double height_proj = dot(&pp, &cyl->axis);
+	rec->t = root;
+	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
+	t_vec3 pp = sub_v3(rec->hit, cyl->pos);
+	double height_proj = dot(&pp, &cyl->axis);
 
-    if (height_proj < 0 || height_proj > cyl->size.y)
-        return (0);
+	if (height_proj < 0 || height_proj > cyl->size.y)
+		return (0);
 
-    temp1 = sub_v3(rec->hit, cyl->pos);
-    temp1 = sub_v3(temp1, scale_v3(cyl->axis, height_proj));
-    rec->out_normal = normalize_v3(temp1);
-    set_face_normal(ray, &rec->out_normal, rec);
+	temp1 = sub_v3(rec->hit, cyl->pos);
+	temp1 = sub_v3(temp1, scale_v3(cyl->axis, height_proj));
+	rec->out_normal = normalize_v3(temp1);
+	set_face_normal(ray, &rec->out_normal, rec);
 
-    // Intersección con las tapas:
-    float root_cap;
+	// Intersección con las tapas:
+	float root_cap;
 
-    // Tapa inferior
-    float denom = dot(&ray->direction, &cyl->axis);
-    if (fabs(denom) > 1e-6) 
+	// Tapa inferior
+	float denom = dot(&ray->direction, &cyl->axis);
+	if (fabs(denom) > 1e-6) 
 	{
 		t_vec3 oc = sub_v3(cyl->pos, ray->origin); 
-        root_cap = dot(&oc, &cyl->axis) / denom;
-        if (interval_sourrounds(ray_limits, root_cap)) {
-            t_vec3 hit_point_cap = sum_v3(ray->origin, scale_v3(ray->direction, root_cap));
-            diff = sub_v3(hit_point_cap, cyl->pos);
-            if (dot(&diff, &diff) <= cyl->size.x * cyl->size.x) {
-                if (rec->t > root_cap || rec->t < 0)
-                {
-                    rec->t = root_cap;
-                    rec->hit = hit_point_cap;
-                    rec->out_normal = scale_v3(cyl->axis, -1.0f);
-                    set_face_normal(ray, &rec->out_normal, rec);
-                }
-            }
-        }
-    }
+		root_cap = dot(&oc, &cyl->axis) / denom;
+		if (interval_sourrounds(ray_limits, root_cap)) {
+			t_vec3 hit_point_cap = sum_v3(ray->origin, scale_v3(ray->direction, root_cap));
+			diff = sub_v3(hit_point_cap, cyl->pos);
+			if (dot(&diff, &diff) <= cyl->size.x * cyl->size.x) {
+				if (rec->t > root_cap || rec->t < 0)
+				{
+					rec->t = root_cap;
+					rec->hit = hit_point_cap;
+					rec->out_normal = scale_v3(cyl->axis, -1.0f);
+					set_face_normal(ray, &rec->out_normal, rec);
+				}
+			}
+		}
+	}
 
-    // Tapa superior
-    t_vec3 top_center = sum_v3(cyl->pos, scale_v3(cyl->axis, cyl->size.y));
-    denom = dot(&ray->direction, &cyl->axis);
-    if (fabs(denom) > 1e-6) {
+	// Tapa superior
+	t_vec3 top_center = sum_v3(cyl->pos, scale_v3(cyl->axis, cyl->size.y));
+	denom = dot(&ray->direction, &cyl->axis);
+	if (fabs(denom) > 1e-6) {
 		t_vec3 oc = sub_v3(top_center, ray->origin);
-        root_cap = dot(&oc, &cyl->axis) / denom;
-        if (interval_sourrounds(ray_limits, root_cap)) {
-            t_vec3 hit_point_cap = sum_v3(ray->origin, scale_v3(ray->direction, root_cap));
-            diff = sub_v3(hit_point_cap, top_center);
-            if (dot(&diff, &diff) <= cyl->size.x * cyl->size.x) {
-                if (rec->t > root_cap || rec->t < 0)
-                {
-                    rec->t = root_cap;
-                    rec->hit = hit_point_cap;
-                    rec->out_normal = cyl->axis;
-                    set_face_normal(ray, &rec->out_normal, rec);
-                }
-            }
-        }
-    }
-    return (1);
+		root_cap = dot(&oc, &cyl->axis) / denom;
+		if (interval_sourrounds(ray_limits, root_cap)) {
+			t_vec3 hit_point_cap = sum_v3(ray->origin, scale_v3(ray->direction, root_cap));
+			diff = sub_v3(hit_point_cap, top_center);
+			if (dot(&diff, &diff) <= cyl->size.x * cyl->size.x) {
+				if (rec->t > root_cap || rec->t < 0)
+				{
+					rec->t = root_cap;
+					rec->hit = hit_point_cap;
+					rec->out_normal = cyl->axis;
+					set_face_normal(ray, &rec->out_normal, rec);
+				}
+			}
+		}
+	}
+	return (1);
 }
 
 bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
