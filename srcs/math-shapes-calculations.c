@@ -265,8 +265,8 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	rec->hit = point;
 
 	return (1);
-} */
-
+}
+*/
 
 int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec) {
 	t_cylinder *cyl;
@@ -278,7 +278,7 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 
 	cyl = (t_cylinder *)shp;
 	hitd.oc = sub_v3(ray->origin, cyl->pos);
-
+/*
 	temp1 = scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis));
 	hitd.d_proj = sub_v3(ray->direction, temp1);
 
@@ -288,6 +288,17 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
 	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
 	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
+*/
+
+	hitd.oc = sub_v3(ray->origin, cyl->pos);
+	hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
+	hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
+	
+	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
+	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
+	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
+	
 	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
 
 	if (hitd.discriminant < 0)
