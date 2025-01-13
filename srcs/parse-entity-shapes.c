@@ -83,6 +83,7 @@ void	create_cylinder(t_scene *scene, const char *line)
 	if (set_vec3(&cylinder->axis, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [normal]");
 	printf("	Axis: [%f,%f,%f]\n", cylinder->axis.x, cylinder->axis.y, cylinder->axis.z);
+	cylinder->axis = normalize_v3(cylinder->axis);
 	update_line_offset((char **)&line, &offset);
 	if (set_cylinder_size(&cylinder->size, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [size]");

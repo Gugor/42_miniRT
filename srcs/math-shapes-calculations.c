@@ -267,64 +267,113 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	return (1);
 }
 */
+static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit *hitd, t_hit_data *rec, t_interval *ray_limits)
+{
+    t_vec3 oc = sub_v3(ray->origin, cyl->pos);
+    t_vec3 d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
+    t_vec3 oc_proj = sub_v3(oc, scale_v3(cyl->axis, dot(&oc, &cyl->axis)));
+    hitd->a = dot(&d_proj, &d_proj);
+    hitd->h = 2.0 * dot(&d_proj, &oc_proj);
+    hitd->c = dot(&oc_proj, &oc_proj) - cyl->size.x * cyl->size.x;
+    hitd->discriminant = hitd->h * hitd->h - 4 * hitd->a * hitd->c;
 
-int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec) {
+    if (hitd->discriminant < 0)
+        return (0);
+
+    float sqrtd = sqrt(hitd->discriminant);
+    float root = (-hitd->h - sqrtd) / (2.0 * hitd->a);
+    if (!interval_surroundss(ray_limits, root)) {
+        root = (-hitd->h + sqrtd) / (2.0 * hitd->a);
+        if (!interval_surroundss(ray_limits, root))
+            return (0);
+    }
+
+    rec->t = root;
+    return (1);
+}
+
+static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_data *rec) {
+	t_vec3 point;
+	t_vec3 pp;
+	double height_proj;
+	t_vec3 temp;
+
+	point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
+	pp = sub_v3(point, cyl->pos);
+	height_proj = dot(&pp, &cyl->axis);
+	if (height_proj < 0 || height_proj >= cyl->size.y)
+	    return (0);
+
+	rec->hit = point;
+	temp = sub_v3(pp, scale_v3(cyl->axis, height_proj));
+	set_face_normal(ray, &temp, rec);
+	return (1);
+}
+
+// static t_vec3 calculate_base(const t_cylinder *cyl, float height_offset) {
+//     return sum_v3(cyl->pos, scale_v3(cyl->axis, height_offset));
+// }
+
+// static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec, t_vec3 *disk) {
+//     float denom = dot(&cyl->axis, &ray->direction);
+// 	t_vec3	oc;
+// 	t_vec3 p;
+// 	float t; 
+
+//     if (fabs(denom) < 1e-6) // El rayo es paralelo a la base
+//         return (0);
+//     oc = sub_v3(cyl->pos, ray->origin);
+//     t = dot(&oc, disk) / denom;
+//     if (t < ray_limits->min || t > ray_limits->max)
+//         return (0);
+//     p = sum_v3(ray->origin, scale_v3(ray->direction, t));
+//     if (length_v3(sub_v3(p, cyl->pos)) > cyl->size.x)
+//         return (0);
+//     rec->t = t;
+//     rec->hit = p;
+//     set_face_normal(ray, &cyl->axis, rec);
+//     return (1);
+// }
+
+int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec) 
+{
 	t_cylinder *cyl;
 	t_cyl_hit hitd;
-	float sqrtd;
-	float root;
-	t_vec3 temp1;
+	//t_vec3 disk;
+
+	cyl = (t_cylinder *)shp;
+	rec->rgb = cyl->rgb;
+	// Intersección con la superficie lateral
+	if (intersect_lateral(cyl, ray, &hitd, rec, ray_limits) && validate_lateral_hit(cyl, ray, rec))
+	    return (1);
+	
+	// // Intersección con la base superior
+	// disk = calculate_base(cyl, cyl->size.y);
+	// if (intersect_base(cyl, ray, ray_limits, rec, &disk))
+	//     return (1);
+
+	// // Intersección con la base inferior
+	// //disk = calculate_base(cyl, -(cyl->size.y));
+	// //disk = calculate_base(cyl, 0.0f);
+	// disk = vec3(0,0,-5);
+	// //cyl->axis = scale_v3(cyl->axis, -1);
+	// if (intersect_base(cyl, ray, ray_limits, rec, &disk))
+	//     return (1);
+	
+
+	return (0);
+	}
+
+/*int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
+{
+	t_cylinder *cyl;
+	t_cyl_hit hitd;
+
 	t_vec3 diff; // Variables temporales para evitar problemas con dot()
 
 	cyl = (t_cylinder *)shp;
-	hitd.oc = sub_v3(ray->origin, cyl->pos);
-/*
-	temp1 = scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis));
-	hitd.d_proj = sub_v3(ray->direction, temp1);
 
-	temp1 = scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis));
-	hitd.oc_proj = sub_v3(hitd.oc, temp1);
 
-	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
-	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
-	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
-	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
-*/
-
-	hitd.oc = sub_v3(ray->origin, cyl->pos);
-	hitd.d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
-	hitd.oc_proj = sub_v3(hitd.oc, scale_v3(cyl->axis, dot(&hitd.oc, &cyl->axis)));
-	
-	hitd.a = dot(&hitd.d_proj, &hitd.d_proj);
-	hitd.h = 2.0 * dot(&hitd.d_proj, &hitd.oc_proj);
-	hitd.c = dot(&hitd.oc_proj, &hitd.oc_proj) - cyl->size.x * cyl->size.x;
-	
-	hitd.discriminant = hitd.h * hitd.h - 4 * hitd.a * hitd.c;
-
-	if (hitd.discriminant < 0)
-		return (0);
-
-	sqrtd = sqrt(hitd.discriminant);
-	root = (-hitd.h - sqrtd) / (2.0 * hitd.a);
-
-	if (!interval_surroundss(ray_limits, root)) {
-		root = (-hitd.h + sqrtd) / (2.0 * hitd.a);
-		if (!interval_surroundss(ray_limits, root))
-			return (0);
-	}
-
-	rec->t = root;
-	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
-	t_vec3 pp = sub_v3(rec->hit, cyl->pos);
-	double height_proj = dot(&pp, &cyl->axis);
-
-	if (height_proj < 0 || height_proj > cyl->size.y)
-		return (0);
-
-	temp1 = sub_v3(rec->hit, cyl->pos);
-	temp1 = sub_v3(temp1, scale_v3(cyl->axis, height_proj));
-	rec->out_normal = normalize_v3(temp1);
-	set_face_normal(ray, &rec->out_normal, rec);
 
 	// Intersección con las tapas:
 	float root_cap;
@@ -372,7 +421,8 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 		}
 	}
 	return (1);
-}
+}*/
+
 
 bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 {
