@@ -301,7 +301,7 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
 	pp = sub_v3(point, cyl->pos);
 	height_proj = dot(&pp, &cyl->axis);
-	if (height_proj < 0 || height_proj >= cyl->size.y)
+	if (height_proj < 0.5 *(-cyl->size.y) || height_proj >= 0.5 * cyl->size.y)
 	    return (0);
 
 	rec->hit = point;
@@ -310,59 +310,82 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	return (1);
 }
 
-// static t_vec3 calculate_base(const t_cylinder *cyl, float height_offset) {
-//     return sum_v3(cyl->pos, scale_v3(cyl->axis, height_offset));
-// }
+static t_vec3 calculate_base(const t_cylinder *cyl, float height_offset) {
+    return sum_v3(cyl->pos, scale_v3(cyl->axis, height_offset));
+}
 
-// static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec, t_vec3 *disk) {
-//     float denom = dot(&cyl->axis, &ray->direction);
-// 	t_vec3	oc;
-// 	t_vec3 p;
-// 	float t; 
+static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec, t_vec3 *disk) {
+	t_vec3	oc;
+	t_vec3 p;
+	float t; 
 
-//     if (fabs(denom) < 1e-6) // El rayo es paralelo a la base
-//         return (0);
-//     oc = sub_v3(cyl->pos, ray->origin);
-//     t = dot(&oc, disk) / denom;
-//     if (t < ray_limits->min || t > ray_limits->max)
-//         return (0);
-//     p = sum_v3(ray->origin, scale_v3(ray->direction, t));
-//     if (length_v3(sub_v3(p, cyl->pos)) > cyl->size.x)
-//         return (0);
-//     rec->t = t;
-//     rec->hit = p;
-//     set_face_normal(ray, &cyl->axis, rec);
-//     return (1);
-// }
+    float denom = dot(&cyl->axis, &ray->direction);
+    if (fabs(denom) < 1e-6) // El rayo es paralelo a la base
+        return (0);
+    oc = sub_v3(ray->origin, *disk);
+    t = -dot(&oc, &cyl->axis) / denom;
+    if (t < ray_limits->min || t > ray_limits->max)
+        return (0);
+    p = sum_v3(ray->origin, scale_v3(ray->direction, t));
+    if (length_v3(sub_v3(p, *disk)) >= cyl->size.x)
+        return (0);
+    rec->t = t;
+    rec->hit = p;
+    set_face_normal(ray, &cyl->axis, rec);
+    return (1);
+}
 
 int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec) 
 {
 	t_cylinder *cyl;
 	t_cyl_hit hitd;
-	//t_vec3 disk;
+	t_vec3 disk;
+	t_hit_data temp;
+	int	hit_any;
 
 	cyl = (t_cylinder *)shp;
 	rec->rgb = cyl->rgb;
+	hit_any = 0;
+	temp = *rec;
 	// Intersección con la superficie lateral
-	if (intersect_lateral(cyl, ray, &hitd, rec, ray_limits) && validate_lateral_hit(cyl, ray, rec))
-	    return (1);
+	if (intersect_lateral(cyl, ray, &hitd, &temp, ray_limits) && validate_lateral_hit(cyl, ray, &temp))
+	{
+		hit_any = 1;
+		if (temp.t < rec->t)
+		{}
+		rec->t = temp.t;
+		ray_limits->max = temp.t;
+	}
+
 	
 	// // Intersección con la base superior
-	// disk = calculate_base(cyl, cyl->size.y);
-	// if (intersect_base(cyl, ray, ray_limits, rec, &disk))
-	//     return (1);
+	disk = calculate_base(cyl, 0.5 * cyl->size.y);
+	// printf("	Disk: [%f,%f,%f]\n", disk.x, disk.y, disk.z);
+	// disk = vec3(0, 0, -3);
+	if (intersect_base(cyl, ray, ray_limits, &temp, &disk))
+	{
+		hit_any = 1;
+		if (temp.t < rec->t)
+		{
+		}
+			*rec = temp;
+			ray_limits->max = temp.t;
+	}
+
 
 	// // Intersección con la base inferior
-	// //disk = calculate_base(cyl, -(cyl->size.y));
-	// //disk = calculate_base(cyl, 0.0f);
-	// disk = vec3(0,0,-5);
-	// //cyl->axis = scale_v3(cyl->axis, -1);
-	// if (intersect_base(cyl, ray, ray_limits, rec, &disk))
-	//     return (1);
-	
-
-	return (0);
+	disk = calculate_base(cyl, -0.5 * (cyl->size.y));
+	if (intersect_base(cyl, ray, ray_limits, &temp, &disk))
+	{
+		hit_any = 1;
+		if (temp.t < rec->t)
+		{
+		}
+			*rec = temp;
+			ray_limits->max = temp.t;
 	}
+	return (hit_any);
+}
 
 /*int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec)
 {
