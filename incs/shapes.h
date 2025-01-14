@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/20 17:29:11 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:42:47 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_cylinder
 	int			indx;
 	t_vec3		pos;		
 	t_vec3		axis;		
-	t_vec2		size;
+	t_vec3		size;
 	t_color		rgb;
 	t_material	*material;
 }	t_cylinder;

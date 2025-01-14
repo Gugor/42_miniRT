@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/30 19:27:21 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:14:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	init_camera(float aspect_ratio, t_camera *cam)
 	t_interval inter;
 	cam->center = cam->lookfrom;
 	cam->foc_dist = 10.0;
-	cam->samples_per_pixel = 1;
+	cam->samples_per_pixel = 10;
 	cam->near_plane = 0.1;
 	cam->far_plane = 1000.0001;
-	cam->max_depth = 50;
+	cam->max_depth = 100;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
 	cam->fovV = cam->fovH / aspect_ratio;
