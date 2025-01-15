@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/14 19:14:56 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:13:46 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,25 @@ static float	calculate_fovV(t_camera *cam)
  */
 void	init_camera(float aspect_ratio, t_camera *cam)
 {
-	// (void)aspect_ratio;
+	(void)aspect_ratio;
 	t_interval inter;
 	cam->center = cam->lookfrom;
-	cam->foc_dist = 10.0;
-	cam->samples_per_pixel = 10;
+	cam->foc_dist = 10.001f;
+	cam->samples_per_pixel = 1;
 	cam->near_plane = 0.1;
 	cam->far_plane = 1000.0001;
-	cam->max_depth = 100;
+	cam->max_depth = 50;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
-	cam->fovV = cam->fovH / aspect_ratio;
+	// cam->fovV = cam->fovH / aspect_ratio;
+	cam->fovV = cam->fovH * (float)(90.0f / 180.0f);
+	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (float)(90.0f / 180.0f), cam->fovV);
 	//cam->fovV = clamp(&inter, cam->fovH * aspect_ratio);
 	cam->h = calculate_fovV(cam);
 	cam->vup = vec3(0, 1, 0);
 	// cam->focal_length = length_v3(sub_v3(cam->lookfrom, cam->lookat));
 	// printf("Focal lenght: %f\n", cam->focal_length);
-	cam->fordwards = normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
+	cam->fordwards = cam->lookat;//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
 	cam->u = normalize_v3(cross(&cam->vup, &cam->fordwards));
 	cam->v = cross(&cam->fordwards, &cam->u);
 	printf("=> Initialize Camera\n");

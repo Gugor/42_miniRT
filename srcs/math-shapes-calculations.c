@@ -35,8 +35,8 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	denominator = dot(&pl->axis, &ray->direction);
 	if (fabs(denominator) < 1e-6)
 		return (0);
-	hitd.oc = sub_v3(ray->origin, pl->pos);
-	t = -(dot(&pl->axis, &hitd.oc)) / denominator;
+	hitd.oc = sub_v3( pl->pos, ray->origin);
+	t = (dot(&pl->axis, &hitd.oc)) / denominator;
 	if (!interval_surrounds(ray_limits, t))
 		return (0);
 	rec->t = t;
@@ -158,8 +158,8 @@ static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_lim
     float denom = dot(&cyl->axis, &ray->direction);
     if (fabs(denom) < 1e-6) // El rayo es paralelo a la base
         return (0);
-    oc = sub_v3(ray->origin, *disk);
-    t = -dot(&oc, &cyl->axis) / denom;
+    oc = sub_v3( *disk, ray->origin);
+    t = dot(&oc, &cyl->axis) / denom;
     if (!interval_surrounds(ray_limits, t))
         return (0);
     // if (t < ray_limits->min || t > ray_limits->max)
