@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/28 17:42:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:25:42 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void init_window(t_scene *scn)
 	printf("Win Aspec ratio: %f\n", win->aspect_ratio);
 	if (win->img_height < 1)
 		win->img_height = 1;
-	init_camera(win->aspect_ratio, &scn->camera);
+	init_camera(&scn->camera);
 	init_viewport(scn, win);
 	win->mlx_win = mlx_new_window(win->mlx, win->img_width, win->img_height, "MiniRT");
 	win->img.img = mlx_new_image(win->mlx, win->img_width, win->img_height);

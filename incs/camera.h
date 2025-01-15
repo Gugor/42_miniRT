@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/28 17:11:27 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:25:25 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ typedef struct	s_camera
 	t_vec3	fordwards;
 }	t_camera;
 
-void	init_camera(float aspect_ratio, t_camera *cam);
+void	init_camera(t_camera *cam);
 #endif
