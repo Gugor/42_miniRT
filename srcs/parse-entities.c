@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/15 13:29:12 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:41:21 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	printf("=> Create Ambient Light: \"%s\" \n", line);
 	if (!(scene->required_ents & REQ_AMBIENT))
 		err_rt_file_format("more than one ambient light.");
-	scene->alight.range = get_float((char *)line, 10, &offset);
-	if (!in_range_dbl(scene->alight.range, 0.0, 1.0)
+	scene->alight.intensity = get_float((char *)line, 10, &offset);
+	if (!in_range_dbl(scene->alight.intensity, 0.0, 1.0)
 		|| line[offset] == ',' || offset == -1)
 		err_rt_file_format("wrong ambient light format [range].");
-	printf("	Range: %f\n", scene->alight.range);
+	printf("	Range: %f\n", scene->alight.intensity);
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&scene->alight.rgb, (char *)line, &offset)
 		|| !in_range_rgb(scene->alight.rgb, 0, 255))

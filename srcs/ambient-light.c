@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.h                                           :+:      :+:    :+:   */
+/*   ambient-light.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 13:38:12 by hmontoya         ###   ########.fr       */
+/*   Created: 2025/01/16 13:08:08 by hmontoya          #+#    #+#             */
+/*   Updated: 2025/01/16 13:55:49 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include "colours.h"
+#include "lights.h"
+
 /**
-* Code related with the creation and transformation of lights
+ * @brief It calculates the impact of the scene ambien light in a given color.
 */
-#ifndef LIGHTS_H
-# define LIGHTS_H
-
-# include "vectors.h"
-# include "colours.h"
-
-typedef struct s_ambient
+t_color	ambient_light_calc(t_color clr, t_ambient *alight)
 {
-	float	intensity;
-	t_color	rgb;
-}	t_ambient;
+	t_color	new;
 
-typedef struct	s_light
-{
-	float	brghtnss;
-	t_vec3	pos;
-	t_color	rgb;
-}	t_light;
-
-
-t_color			ambient_light_calc(t_color clr, t_ambient *alight);
-#endif
+	new = scale_color(sum_rgb(clr, alight->rgb), alight->intensity);
+	return (new);
+}
