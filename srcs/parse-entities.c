@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/26 16:17:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/15 13:29:12 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ void	create_camera(t_scene *scene, const char *line)
 		err_rt_file_format("wrong camera format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	update_line_offset((char **)&line, &offset);
-	if (set_vec3(&scene->camera.lookat, (char *)line, &offset)
+	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
 		|| !in_range_vec3(scene->camera.lookat, -1.0, 1.0))
 	{
 		printf("	Error Axis: [%f,%f,%f]\n", scene->camera.lookat.x, scene->camera.lookat.y, scene->camera.lookat.z);
 		err_rt_file_format("wrong camera format [normal].");
 	}
+	scene->camera.lookat = normalize_v3(scene->camera.axis);
 	printf("	Axis: [%f,%f,%f]\n", scene->camera.lookat.x, scene->camera.lookat.y, scene->camera.lookat.z);
 	update_line_offset((char **)&line, &offset);
 	scene->camera.fovH = get_float((char *)line, 10, &offset);

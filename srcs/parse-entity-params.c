@@ -97,7 +97,7 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 	return (0);
 }
 
-int	set_cylinder_size(t_vec2 *size, const char *line, int *outsize)
+int	set_cylinder_size(t_vec3 *size, const char *line, int *outsize)
 {
 	int	indx;
 
@@ -107,6 +107,7 @@ int	set_cylinder_size(t_vec2 *size, const char *line, int *outsize)
 		return (1);
 	indx += skip_spaces((char *)&line[indx]);
 	size->y = get_float(&line[indx], 10, &indx);
+	size->z = size->y * 0.5;
 	if (indx == -1)
 		return (1);
 	if (outsize)

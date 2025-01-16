@@ -27,7 +27,7 @@ static float    inv_sqrt_v3(t_vec3 v3)
 {
     float sq = sqr_v3(v3);
     if (sq == 0.0f) 
-	return (0.0f);
+	    return (0.0f);
     return (1.0f / sqrtf(sq));
 }
 
