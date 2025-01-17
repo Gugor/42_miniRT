@@ -99,7 +99,7 @@ void init_window(t_scene *scn)
 	win = (t_window *)xmalloc(sizeof(t_window));
 	scn->win = win;
 	win->mlx = mlx_init();
-	win->img_width = 1920;
+	win->img_width = 1080;
 	win->aspect_ratio = 16.0 / 9.0;
 	win->img_height = win->img_width / win->aspect_ratio; //575.9px
 	printf("=> Window data\n");
