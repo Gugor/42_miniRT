@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:16:15 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	create_plane(t_scene *scene, const char *line)
 		|| !in_range_vec3(plane->axis, -1, 1))
 		err_rt_file_format("wrong plane format [normal]");
 	printf("	Normal: [%f,%f,%f]\n", plane->axis.x, plane->axis.y, plane->axis.z);
+	plane->axis = normalize_v3(plane->axis);
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&plane->rgb, (char *)line, &offset)
 		|| !in_range_rgb(plane->rgb, 0, 255))

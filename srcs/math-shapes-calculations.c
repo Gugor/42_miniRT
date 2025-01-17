@@ -93,7 +93,6 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
 	rec->out_normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
-	rec->out_normal = normalize_v3(rec->out_normal);
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
 }
@@ -143,6 +142,7 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 
 	rec->hit = point;
 	temp = sub_v3(pp, scale_v3(cyl->axis, height_proj));
+	temp = normalize_v3(temp);
 	set_face_normal(ray, &temp, rec);
 	return (1);
 }
@@ -155,8 +155,9 @@ static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_lim
 	t_vec3	oc;
 	t_vec3 p;
 	double t; 
-
-    double denom = dot(&cyl->axis, &ray->direction);
+    double denom;
+	
+	denom = dot(&cyl->axis, &ray->direction);
     if (fabs(denom) < 1e-6) // El rayo es paralelo a la base
         return (0);
     oc = sub_v3( *disk, ray->origin);
@@ -195,7 +196,7 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 	if (intersect_lateral(cyl, ray, &hitd, &temp, ray_limits) && validate_lateral_hit(cyl, ray, &temp))
 	{
 		hit_any = 1;
-		rec->t = temp.t;
+		*rec = temp;
 		ray_limits->max = temp.t;
 	}
 	disk = calculate_base(cyl, cyl->size.z);
