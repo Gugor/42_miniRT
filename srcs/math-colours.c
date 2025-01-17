@@ -26,9 +26,12 @@ t_color	sum_rgb(t_color v1, t_color v2)
 	r = 0;
 	g = 0;
 	b = 0;
-	r = (int)clamp(&inter, ((get_r(v1) + get_r(v2)) * 0.5));
-	g = (int)clamp(&inter, ((get_g(v1) + get_g(v2)) * 0.5));
-	b = (int)clamp(&inter, ((get_b(v1) + get_b(v2)) * 0.5));
+	// r = (int)clamp(&inter, ((get_r(v1) + get_r(v2)) * 0.5));
+	// g = (int)clamp(&inter, ((get_g(v1) + get_g(v2)) * 0.5));
+	// b = (int)clamp(&inter, ((get_b(v1) + get_b(v2)) * 0.5));
+	r = (int)(get_r(v1) + get_r(v2)) * 0.5;
+	g = (int)(get_g(v1) + get_g(v2)) * 0.5;
+	b = (int)(get_b(v1) + get_b(v2)) * 0.5;
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }

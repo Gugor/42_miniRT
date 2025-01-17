@@ -33,11 +33,11 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	if (max_depth <= 0)
 		return (color(0,0,0));
 	cam = &get_scene()->camera;
-	init_limits((t_interval *)&ray->lim, cam->near_plane, INFINITY);
+	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
-		// dir = random_on_hemisphere(hitd.normal);
-		dir = sum_v3(hitd.normal, random_unit_vector());
+		dir = random_on_hemisphere(hitd.normal);
+		// dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
 		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
 		return (sum_rgb(hitd.rgb, ray_color(&new, --max_depth)));

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/17 13:54:08 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:02:22 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 #include <math.h>
 
 
-static double	calculate_fovV(t_camera *cam)
+static double	calculate_fovv(t_camera *cam)
 {
 	double	theta;
 
 	theta = degrees_to_radians(cam->fovV);
 	return (tan(theta / 2.0));
 }
+
 /**
  * @brief It initialize the camera. Some values are hardcoded here.
  * https://www.notion.so/Perspective-Proyection-163d5efd079e80b5afd7d7005886b577
@@ -34,17 +35,18 @@ static double	calculate_fovV(t_camera *cam)
 void	init_camera(t_camera *cam)
 {
 	t_interval inter;
+
 	cam->center = cam->lookfrom;
 	cam->foc_dist = 10.001f;
 	cam->samples_per_pixel = 1;
-	cam->near_plane = 0.1;
+	cam->near_plane = 0.001;
 	cam->far_plane = 1000.0001;
-	cam->max_depth = 9000;
+	cam->max_depth = 100;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
 	cam->fovV = cam->fovH * (double)(90.0f / 180.0f);
 	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (double)(90.0f / 180.0f), cam->fovV);
-	cam->h = calculate_fovV(cam);
+	cam->h = calculate_fovv(cam);
 	cam->vup = vec3(0, 1, 0);
 	cam->fordwards = cam->lookat;//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
 	cam->u = normalize_v3(cross(&cam->vup, &cam->fordwards));

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:01:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void init_window(t_scene *scn)
 	win = (t_window *)xmalloc(sizeof(t_window));
 	scn->win = win;
 	win->mlx = mlx_init();
-	win->img_width = 920;
+	win->img_width = 1920;
 	win->aspect_ratio = 16.0 / 9.0;
 	win->img_height = win->img_width / win->aspect_ratio; //575.9px
 	printf("=> Window data\n");
