@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 13:33:38 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef enum e_req_ents
 	REQ_FULL = 3,
 }	t_reqents;
 
-//hit(const ray& r, float ray_tmin, float ray_tmax, hit_record& rec)
+//hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec)
 /* Fordwards Declarations */
 typedef struct s_ambient	t_ambient;
 typedef struct s_scene		t_scene;

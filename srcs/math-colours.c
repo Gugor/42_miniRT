@@ -35,7 +35,7 @@ t_color	sum_rgb(t_color v1, t_color v2)
 /**
  * @brief This funtion scale a rgb color in the uint8 range [0, 255].
  */
-t_color scale_color(t_color rgb, float scale)
+t_color scale_color(t_color rgb, double scale)
 {
 	t_color new;
 	int r;
@@ -62,7 +62,7 @@ t_color scale_color(t_color rgb, float scale)
  * this values as the percentage this channel is going to be activated.
  * 0 is 0 and 1.0 is 255.
  */
-t_color	scale_rgb(float r, float g, float b)
+t_color	scale_rgb(double r, double g, double b)
 {
 	t_color		c;
 	t_interval	inter;
@@ -86,9 +86,9 @@ t_color	color(uint8_t r, uint8_t g, uint8_t b)
 
 t_color	clamp_color(t_color c)
 {
-	float		r;
-	float		g;
-	float		b;
+	double		r;
+	double		g;
+	double		b;
 	t_interval	inter;
 	t_color		new;
 

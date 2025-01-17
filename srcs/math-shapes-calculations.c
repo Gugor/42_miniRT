@@ -29,8 +29,8 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 {
 	t_plane		*pl;
 	t_sph_hit	hitd;
-	float		denominator;
-	float		t;
+	double		denominator;
+	double		t;
 
 	pl = (t_plane *)shp;
 	denominator = dot(&pl->axis, &ray->direction);
@@ -70,15 +70,14 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 {
 	t_sph_hit	hit;
 	t_sphere	*s;
-	float		sqrtd;
-	float		root;
+	double		sqrtd;
+	double		root;
 
 	s = (t_sphere *)shp;
 	hit.oc = sub_v3(s->pos, ray->origin);
 	hit.a =  length_v3(ray->direction) * length_v3(ray->direction);
 	hit.h = dot(&ray->direction, &hit.oc);
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
-
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
 	if (hit.discriminant < 0)
 		return (0);
@@ -94,6 +93,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
 	rec->out_normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
+	rec->out_normal = normalize_v3(rec->out_normal);
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
 }
@@ -117,8 +117,8 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
     if (hitd->discriminant < 0)
         return (0);
 
-    float sqrtd = sqrt(hitd->discriminant);
-    float root = (-hitd->h - sqrtd) / (2.0 * hitd->a);
+    double sqrtd = sqrt(hitd->discriminant);
+    double root = (-hitd->h - sqrtd) / (2.0 * hitd->a);
     if (!interval_surrounds(ray_limits, root)) {
         root = (-hitd->h + sqrtd) / (2.0 * hitd->a);
         if (!interval_surrounds(ray_limits, root))
@@ -147,16 +147,16 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	return (1);
 }
 
-static t_vec3 calculate_base(const t_cylinder *cyl, float height_offset) {
+static t_vec3 calculate_base(const t_cylinder *cyl, double height_offset) {
     return sum_v3(cyl->pos, scale_v3(cyl->axis, height_offset));
 }
 
 static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec, t_vec3 *disk) {
 	t_vec3	oc;
 	t_vec3 p;
-	float t; 
+	double t; 
 
-    float denom = dot(&cyl->axis, &ray->direction);
+    double denom = dot(&cyl->axis, &ray->direction);
     if (fabs(denom) < 1e-6) // El rayo es paralelo a la base
         return (0);
     oc = sub_v3( *disk, ray->origin);
@@ -221,7 +221,7 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 	t_scene		*scn;
 	t_lst		*shapes;
 	t_hit_data	hitd;
-	float		closest;
+	double		closest;
 	bool		hit_anything;
 
 	hit_anything = false;

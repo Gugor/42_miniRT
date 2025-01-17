@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/29 11:46:14 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	create_sphere(t_scene *scene, const char *line)
 		err_rt_file_format("wrong sphere format [xyz]");
 	printf("	Pos: [%f,%f,%f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
 	update_line_offset((char **)&line, &offset);
-	sphere->rad = get_float((char *)line, 10, &offset);
+	sphere->rad = get_double((char *)line, 10, &offset);
 	if (line[offset] == ',' || offset == -1 || sphere->rad < 0)
 		err_rt_file_format("wrong sphere format [size]");
 	printf("	Radius: %f\n", sphere->rad);

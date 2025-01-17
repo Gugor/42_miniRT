@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 12:47:49 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:49:01 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ static void render_image(t_scene *scn, t_window *win)
 	{
 		while (++pix_pos.x < win->img_width)
 		{
-			new_color = color(0,0,0); 
+			new_color = color(0, 0, 0);
 			samples = -1;
 			while (++samples < scn->camera.samples_per_pixel)
 			{
 				ray = get_ray(win, &scn->camera, &pix_pos);
 				new_color.clr = ray_color(&ray, scn->camera.max_depth).clr;
 			}
+			// new_color.clr = new_color.clr * scn->camera.pixel_sample_scale;
 			// new_color = clamp_color(new_color);
 			my_mlx_pixel_put(&win->img, pix_pos.x, pix_pos.y, new_color.clr);
 			// my_mlx_pixel_put(&win->img, pix_pos.x, pix_pos.y, new_color.clr * scn->camera.pixel_sample_scale);

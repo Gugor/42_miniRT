@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/15 19:25:29 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include <math.h>
 
 
-static float	calculate_fovV(t_camera *cam)
+static double	calculate_fovV(t_camera *cam)
 {
-	float	theta;
+	double	theta;
 
 	theta = degrees_to_radians(cam->fovV);
 	return (tan(theta / 2.0));
@@ -42,8 +42,8 @@ void	init_camera(t_camera *cam)
 	cam->max_depth = 50;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
-	cam->fovV = cam->fovH * (float)(90.0f / 180.0f);
-	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (float)(90.0f / 180.0f), cam->fovV);
+	cam->fovV = cam->fovH * (double)(90.0f / 180.0f);
+	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (double)(90.0f / 180.0f), cam->fovV);
 	cam->h = calculate_fovV(cam);
 	cam->vup = vec3(0, 1, 0);
 	cam->fordwards = cam->lookat;//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:10 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/21 11:27:41 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 #include "maths.h"
 #include "vectors.h"
 
-float random_float()
+double random_double()
 {
 	return (rand() / (RAND_MAX + 1.0));
 }
 
-float random_float_range(float min, float max)
+double random_double_range(double min, double max)
 {
-//	float range = (max - min); 
-//	float div = RAND_MAX / range;
-	return (min + (max - min) * random_float());
-	// return min + (max-min)*random_float();
+//	double range = (max - min); 
+//	double div = RAND_MAX / range;
+	return (min + (max - min) * random_double());
+	// return min + (max-min)*random_double();
 }
 
 t_vec3 random_v3()
 {
-	return (vec3(random_float(), random_float(), random_float()));
+	return (vec3(random_double(), random_double(), random_double()));
 }
 
-t_vec3 random_range_v3(float min, float max)
+t_vec3 random_range_v3(double min, double max)
 {
-	return (vec3(random_float_range(min, max), random_float_range(min, max),
-			random_float_range(min, max)));
+	return (vec3(random_double_range(min, max), random_double_range(min, max),
+			random_double_range(min, max)));
 }
 
 t_vec3  random_unit_vector()
@@ -43,8 +43,8 @@ t_vec3  random_unit_vector()
 	while (true)
 	{
 		t_vec3 p = random_range_v3(-1,1);
-		float lensq = length_v3(p) * length_v3(p);
-		if (1e-160 < fabs(lensq) && lensq <= 1.0)
+		double lensq = length_v3(p) * length_v3(p);
+		if (1e-6 < fabs(lensq) && lensq <= 1.0)
 			return div_v3_dbl(p, sqrt(lensq));
 	}
 }

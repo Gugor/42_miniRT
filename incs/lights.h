@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 13:38:12 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 typedef struct s_ambient
 {
-	float	intensity;
+	double	intensity;
 	t_color	rgb;
 }	t_ambient;
 
 typedef struct	s_light
 {
-	float	brghtnss;
+	double	brghtnss;
 	t_vec3	pos;
 	t_color	rgb;
 }	t_light;

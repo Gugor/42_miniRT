@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/15 19:25:25 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ typedef struct s_scene t_scene;
 
 typedef struct	s_camera
 {
-	float	fovH;
-	float	fovV;
+	double	fovH;
+	double	fovV;
 	t_vec3	axis;
 	t_p3	pos;
 	t_p3	center;
-	float	focal_length;
-	float	h;
+	double	focal_length;
+	double	h;
 	t_vec3	lookfrom;
 	t_vec3	lookat;
 	t_vec3	vup;
-	float	pixel_sample_scale;
-	float	near_plane;
-	float	far_plane;
-	float	foc_dist;
+	double	pixel_sample_scale;
+	double	near_plane;
+	double	far_plane;
+	double	foc_dist;
 	int		samples_per_pixel;
 	int		max_depth;
 	t_vec3	u;

@@ -79,7 +79,7 @@ SRC_FILES		:= minirt.c \
 				colours-getters.c \
 				vec3-operations.c \
 				vec3-operations-2.c \
-				vec3-float-operations.c \
+				vec3-double-operations.c \
 				vec3-position-ops.c \
 				pixel-operations.c \
 				list-creation.c \

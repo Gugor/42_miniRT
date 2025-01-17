@@ -6,33 +6,33 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/30 16:57:57 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 #include <math.h>
 
-float   sqr_v3(t_vec3 v3)
+double   sqr_v3(t_vec3 v3)
 {
 	return (v3.x * v3.x + v3.y * v3.y + v3.z * v3.z);
 }
 
-float   length_v3(t_vec3 v3)
+double   length_v3(t_vec3 v3)
 {
-	return ((float)sqrt((double)sqr_v3(v3)));
+	return ((double)sqrt((double)sqr_v3(v3)));
 }
 
-static float    inv_sqrt_v3(t_vec3 v3) 
+static double    inv_sqrt_v3(t_vec3 v3) 
 {
-    float sq = sqr_v3(v3);
+    double sq = sqr_v3(v3);
     if (sq == 0.0f) 
 	    return (0.0f);
     return (1.0f / sqrtf(sq));
 }
 
 t_vec3 normalize_v3(t_vec3 v3) {
-    float inv_len = inv_sqrt_v3(v3);
+    double inv_len = inv_sqrt_v3(v3);
     if (inv_len == 0.0f)
         return (t_vec3){0, 0, 0}; // Devuelve vector cero si la longitud es cero
     return (t_vec3){v3.x * inv_len, v3.y * inv_len, v3.z * inv_len};

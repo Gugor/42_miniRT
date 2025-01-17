@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:42:25 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 11:39:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /**
  * @brief It check if the given value is in range.
 */
-int	in_range_dbl(float val, float min, float max)
+int	in_range_dbl(double val, double min, double max)
 {
 	if (val < min || val > max)
 		return (0);
@@ -26,7 +26,7 @@ int	in_range_dbl(float val, float min, float max)
 /**
  * @brief It check if the given vec3 value are in range.
 */
-int	in_range_vec3(t_vec3 val, float min, float max)
+int	in_range_vec3(t_vec3 val, double min, double max)
 {
 	if (val.x < min || val.x > max)
 		return (0);

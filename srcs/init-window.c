@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/15 19:25:42 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	init_viewport(t_scene *scn, t_window *win)
 {
 	printf("Initializing Viewport(%ix%i)(vfov[%f])...\n", (int)win->img_width, (int)win->img_height, scn->camera.fovV);
 	win->viewport_height = 2.0 * scn->camera.h * scn->camera.foc_dist;
-	win->viewport_width = win->viewport_height * ((float)win->img_width / (float)win->img_height); //3.55556ratio
+	win->viewport_width = win->viewport_height * ((double)win->img_width / (double)win->img_height); //3.55556ratio
 	printf("	:: Viewporwidth: %f\n", win->viewport_width);
 	printf("	:: Viewporheight: %f\n", win->viewport_height);
 	win->viewport_u = scale_v3(scn->camera.u, win->viewport_width);//vec3(win->viewport_width, 0, 0);

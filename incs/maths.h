@@ -11,25 +11,25 @@
 
 typedef struct s_interval
 {
-	float min;
-	float max;
+	double min;
+	double max;
 }	t_interval;
 
-float		degrees_to_radians(float degrees);
+double		degrees_to_radians(double degrees);
 
-void		init_limits(t_interval *inter, float min, float max);
-bool		interval_contains(t_interval *inter, float p);
-bool		interval_surrounds(t_interval *inter, float p);
-float		interval_size(t_interval *inter);
+void		init_limits(t_interval *inter, double min, double max);
+bool		interval_contains(t_interval *inter, double p);
+bool		interval_surrounds(t_interval *inter, double p);
+double		interval_size(t_interval *inter);
 
 void		universe(t_interval *inter);
 void		empty(t_interval *inter);
-float		clamp(t_interval *inter, float x) ;
+double		clamp(t_interval *inter, double x) ;
 
-float		random_float();
-float		random_float_range(float min, float max);
+double		random_double();
+double		random_double_range(double min, double max);
 t_vec3		random_v3();
-t_vec3		random_range_v3(float min, float max);
+t_vec3		random_range_v3(double min, double max);
 t_vec3		random_unit_vector();
 t_vec3		random_on_hemisphere(const t_vec3 normal);
 #endif

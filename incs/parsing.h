@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 18:58:35 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/14 19:42:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		create_cylinder(t_scene *scene, const char *line);
 
 int			set_vec3(t_vec3 *vec3, const char *line, int *outsize);
 int			set_rgb(t_color *rgb, const char *line, int *outsize);
-float		get_float(const char *line, double base, int *outsize);
+double		get_double(const char *line, double base, int *outsize);
 uint8_t		get_uint8(const char *line, uint16_t base, int *outsize);
 int			set_cylinder_size(t_vec3 *size, const char *line, int *outsize);
 
