@@ -34,4 +34,5 @@ typedef struct	s_light
 
 
 t_color			ambient_light_calc(t_color clr, t_ambient *alight);
+void			calculate_lights(t_hit_data *hitd, t_lst *shapes);
 #endif

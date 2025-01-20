@@ -26,19 +26,18 @@ typedef struct s_interval t_interval;
 t_color	ray_color(const t_ray *ray, int max_depth)
 {
 	t_hit_data	hitd;
-	t_camera	*cam;
 	t_vec3		dir;
 	t_ray		new;
 
 	if (max_depth <= 0)
 		return (color(0,0,0));
-	cam = &get_scene()->camera;
 	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
 		dir = random_on_hemisphere(hitd.normal);
 		// dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
+		hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
 		return (sum_rgb(hitd.rgb, ray_color(&new, --max_depth)));
 	}

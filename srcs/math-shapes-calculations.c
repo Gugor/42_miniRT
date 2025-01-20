@@ -238,7 +238,7 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 			if (closest > hitd.t)
 			{			 
 				closest = hitd.t;
-				hitd.rgb = ambient_light_calc(hitd.rgb, &scn->alight);
+				// hitd.rgb = ambient_light_calc(hitd.rgb, &scn->alight);
 				*rec = hitd;
 			}
 		}
