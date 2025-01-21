@@ -10,40 +10,101 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ray.h"
 #include "lights.h"
 #include "shape-maths.h"
-#include "ray.h"
 #include "colours.h"
 
-static t_color	calculate_highlights()
+static void	calculate_highlights(t_ray *ray, t_hit_data *hitd, t_light *light)
 {
+	double	dist;
+	double	intensity;
+	double	diffuse_factor; // Factor difuso basado en la normal y la luz
+	t_vec3	quad;
+	t_vec3	light_dir; // Dirección hacia la luz desde el punto de incidencia
 
+	// Coeficientes de atenuación
+	quad.x = 1;
+	quad.y = 0.1;
+	quad.z = 0.01;
+
+	// Calcular distancia de la luz al punto
+	dist = ray->length;
+
+	// Calcular dirección hacia la luz (y normalizarla)
+	// light_dir = normalize_v3(sub_v3(light->pos, hitd->hit));
+	light_dir = sub_v3(hitd->hit, light->pos);
+
+	// Producto escalar entre la normal de la superficie y la dirección de la luz
+	diffuse_factor = dot(&hitd->normal, &light_dir);
+
+	// Asegurarse de que el factor difuso no sea negativo
+	if (diffuse_factor < 0)
+		diffuse_factor = 0;
+
+	// Calcular la atenuación de la luz basada en la distancia
+	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * dist * dist)); 
+
+	// Combinar la intensidad difusa con la luz de la fuente
+	hitd->rgb = sum_rgb(
+		scale_color(hitd->rgb, 1 - intensity), // Atenuación de la luz ambiental
+		scale_color(light->rgb, intensity * light->brghtnss * diffuse_factor) // Luz difusa
+	);
 }
 
-static t_color	calculate_shadows()
-{
 
-}
+// static void	calculate_highlights(t_ray *ray, t_hit_data *hitd, t_light *light)
+// {
+// 	double	dist;
+// 	double	intensity;
+// 	double	t;
+// 	t_vec3	quad;
+	
+// 	quad.x = 1;
+// 	quad.y = 0.1;
+// 	quad.z = 0.01;
 
-void	calculate_lights(t_hit_data *hitd, t_lst *shapes)
+// 	// dist = length_v3(sub_v3(hitd->hit, light.pos));
+// 	dist = ray->length;
+// 	t_vec3 src_ray = ray->direction;
+// 	// t_vec3 src_ray = scale_v3(ray->ray, -1);
+// 	t = (1 - light->brghtnss) * dot(&hitd->out_normal, &src_ray);
+// 	// hitd->rgb = sum_rgb(hitd->rgb, scale_color(lightc, t));
+// 	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * sqrt(dist))); 
+// 	//hitd->rgb = sum_rgb(hitd->rgb, light->rgb);
+// 	hitd->rgb = sum_rgb(scale_color(hitd->rgb, (1 - (intensity))) , scale_color(light->rgb, intensity * light->brghtnss));
+// }
+
+// // static void	calculate_shadows(t_hit_data *hitd)
+// // {
+
+// // }
+
+void	calculate_lights(t_hit_data *hitd)
 {
 	t_lst	*lights;
 	t_light	*light;
 	t_scene *scn;
-	t_ray	*ray;
-	t_interval	*lim;
+	t_ray	ray;
+	t_interval	lim;
+	t_hit_data hitl;
 
+	hitl = *hitd;
 	scn = get_scene();
 	lights = scn->lights;
-	init_limits(lim, 0.001, INFINITY);
+	init_limits(&lim, 0.001, INFINITY);
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
-		*ray = init_ray(&hitd->hit, &light->pos);
-		if (hit(ray, &lim, hitd))
-			calculate_shadows();
+		ray = init_ray(&hitd->hit, &light->pos);
+		if (hit(&ray, &lim, &hitl))
+		{
+			calculate_highlights(&ray, hitd, light);
+			//calculate_shadows(hitd);
+			//hitd->rgb = scale_color(hitd->rgb, 0.5);
+		}
 		else
-			calculate_highlights();
+			calculate_highlights(&ray, hitd, light);
 		lights = lights->next;
 	}
 }

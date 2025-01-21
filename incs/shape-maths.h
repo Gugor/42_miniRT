@@ -9,7 +9,7 @@
 # include "vectors.h"
 
 typedef struct s_ray t_ray;
-typedef struct s_hit_data t_hit_data;
+// typedef struct s_hit_data t_hit_data;
 typedef struct s_cylinder t_cylinder;
 
 typedef struct s_spheric_hit
