@@ -141,7 +141,7 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	    return (0);
 
 	rec->hit = point;
-	temp = sub_v3(pp, scale_v3(cyl->axis, height_proj));
+	temp = sub_v3(pp, cyl->axis);
 	temp = normalize_v3(temp);
 	set_face_normal(ray, &temp, rec);
 	return (1);

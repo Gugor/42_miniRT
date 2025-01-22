@@ -54,9 +54,9 @@ void	create_camera(t_scene *scene, const char *line)
 	printf("	Pos: [%f,%f,%f]\n", scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
-		|| !in_range_vec3(scene->camera.lookat, -1.0, 1.0))
+		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
 	{
-		printf("	Error Axis: [%f,%f,%f]\n", scene->camera.lookat.x, scene->camera.lookat.y, scene->camera.lookat.z);
+		printf("	Error Axis: [%f,%f,%f]\n", scene->camera.axis.x, scene->camera.axis.y, scene->camera.axis.z);
 		err_rt_file_format("wrong camera format [normal].");
 	}
 	scene->camera.lookat = normalize_v3(scene->camera.axis);
@@ -83,7 +83,7 @@ void	create_light_src(t_scene *scene, const char *line)
 	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
 	update_line_offset((char **)&line, &offset);
 	light->brghtnss = get_double((char *)line, 10, &offset);
-	if (!light || !in_range_dbl(light->brghtnss, 0.0, 180.0) || offset == -1)
+	if (!light || !in_range_dbl(light->brghtnss, 0.0, 1.0) || offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
 	printf("	BRGTNSS: %f\n", light->brghtnss);
 	line += offset;
