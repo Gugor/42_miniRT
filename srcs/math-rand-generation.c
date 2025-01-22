@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:10 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/17 15:34:29 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:06:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,22 @@
 #include "maths.h"
 #include "vectors.h"
 
-double random_double()
+double	random_double(void)
 {
 	return (rand() / (RAND_MAX + 1.0));
 }
 
-double random_double_range(double min, double max)
+double	random_double_range(double min, double max)
 {
-//	double range = (max - min); 
-//	double div = RAND_MAX / range;
 	return (min + (max - min) * random_double());
-	// return min + (max-min)*random_double();
 }
 
-t_vec3 random_v3()
+t_vec3	random_v3(void)
 {
 	return (vec3(random_double(), random_double(), random_double()));
 }
 
-t_vec3 random_range_v3(double min, double max)
+t_vec3	random_range_v3(double min, double max)
 {
 	return (vec3(random_double_range(min, max), random_double_range(min, max),
 			random_double_range(min, max)));
@@ -54,10 +51,10 @@ t_vec3	random_unit_vector(void)
 
 t_vec3	random_on_hemisphere(const t_vec3 normal)
 {
-	t_vec3 on_unit_sphere;
-	
+	t_vec3	on_unit_sphere;
+
 	on_unit_sphere = random_unit_vector();
-	if (dot(&on_unit_sphere, &normal) > 1e-6) // In the same hemisphere as the normal
+	if (dot(&on_unit_sphere, &normal) > 1e-6)
 		return (on_unit_sphere);
 	else
 		return (scale_v3(on_unit_sphere, -1));

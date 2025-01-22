@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmarsa-s <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:04:13 by mmarsa-s          #+#    #+#             */
-/*   Updated: 2025/01/20 16:04:38 by mmarsa-s         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:13:18 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "shape-maths.h"
 #include "colours.h"
 
-static void	calculate_highlights(t_ray *ray, t_hit_data *hitd, t_light *light)
+static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
 {
 	double	dist;
 	double	intensity;
@@ -53,7 +53,7 @@ static void	calculate_highlights(t_ray *ray, t_hit_data *hitd, t_light *light)
 }
 
 
-// static void	calculate_highlights(t_ray *ray, t_hit_data *hitd, t_light *light)
+// static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
 // {
 // 	double	dist;
 // 	double	intensity;
@@ -97,14 +97,13 @@ void	calculate_lights(t_hit_data *hitd)
 	{
 		light = (t_light *)lights->cnt;
 		ray = init_ray(&hitd->hit, &light->pos);
+		calculate_shadows(&ray, hitd, light);
 		if (hit(&ray, &lim, &hitl))
 		{
-			calculate_highlights(&ray, hitd, light);
+			calculate_shadows(&ray, hitd, light);
 			//calculate_shadows(hitd);
 			//hitd->rgb = scale_color(hitd->rgb, 0.5);
 		}
-		else
-			calculate_highlights(&ray, hitd, light);
 		lights = lights->next;
 	}
 }

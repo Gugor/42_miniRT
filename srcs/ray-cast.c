@@ -51,7 +51,7 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 /**
  * @brief It updates the direction of a ray
  */
-t_ray get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
+t_ray	get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
 {
 	t_vec3	pixel_sample;
 	t_ray	ray;
@@ -69,9 +69,10 @@ t_ray get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
  * @brief It finds a a point in a ray. T is a scalar that set the distance
  * to scale form origin.
  */
-t_vec3			at(t_ray *r, double t)
+t_vec3	at(t_ray *r, double t)
 {
-	t_vec3 dt;
+	t_vec3	dt;
+
 	dt = scale_v3(r->direction, t);
 	return (sum_v3(r->origin, dt));
 }
@@ -79,9 +80,10 @@ t_vec3			at(t_ray *r, double t)
 /**
  * @brief It creates a ray from an origin with a direction.
  */
-t_ray  init_ray(t_vec3 *origin, t_vec3 *dir)
+t_ray	init_ray(t_vec3 *origin, t_vec3 *dir)
 {
-	t_ray ray;
+	t_ray	ray;
+
 	// printf("=> Init ray:\n");
 	ray.origin = *origin;
 	// printf("	::or[%f,%f,%f]\n ", ray.origin.x, ray.origin.y, ray.origin.z);
