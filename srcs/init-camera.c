@@ -51,7 +51,11 @@ void	init_camera(t_camera *cam)
 	cam->fordwards = scale_v3(cam->lookat, -1);//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
 	// cam->fordwards = normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
 	cam->u = normalize_v3(cross(&cam->vup, &cam->fordwards));
+	if (!cam->u.x && !cam->u.y &&  !cam->u.z)
+		cam->u = vec3(-1,0,0);
 	cam->v = cross(&cam->fordwards, &cam->u);
+	if (!cam->v.x && !cam->v.y &&  !cam->v.z)
+		cam->u = vec3(0,0,1);
 	printf("=> Initialize Camera\n");
 	printf("	:: Center[%f,%f,%f]\n", cam->center.x, cam->center.y, cam->center.z);
 	printf("	:: W[%f,%f,%f]\n", cam->fordwards.x, cam->fordwards.y, cam->fordwards.z);
