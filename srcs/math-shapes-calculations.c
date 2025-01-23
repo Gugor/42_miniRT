@@ -42,6 +42,7 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 		return (0);
 	rec->t = t;
 	rec->rgb = pl->rgb;
+	rec->orgb = pl->rgb;
 	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
 	rec->out_normal = pl->axis;
 	set_face_normal(ray, &rec->out_normal, rec);
@@ -92,6 +93,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->t = root;
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
+	rec->orgb = s->rgb;
 	rec->out_normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
@@ -190,6 +192,7 @@ int hit_cylinder(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 
 	cyl = (t_cylinder *)shp;
 	rec->rgb = cyl->rgb;
+	rec->orgb = cyl->rgb;
 	hit_any = 0;
 	temp = *rec;
 

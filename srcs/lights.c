@@ -32,11 +32,11 @@ static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
 	dist = ray->length;
 
 	// Calcular dirección hacia la luz (y normalizarla)
-	// light_dir = normalize_v3(sub_v3(light->pos, hitd->hit));
-	light_dir = sub_v3(hitd->hit, light->pos);
+	light_dir = normalize_v3(sub_v3(light->pos, hitd->hit));
+	// light_dir = sub_v3(hitd->hit, light->pos);
 
 	// Producto escalar entre la normal de la superficie y la dirección de la luz
-	diffuse_factor = dot(&hitd->normal, &light_dir);
+	diffuse_factor = dot(&hitd->out_normal, &light_dir);
 
 	// Asegurarse de que el factor difuso no sea negativo
 	if (diffuse_factor < 0)
@@ -47,8 +47,9 @@ static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
 
 	// Combinar la intensidad difusa con la luz de la fuente
 	hitd->rgb = sum_rgb(
-		scale_color(hitd->rgb, 1 - intensity), // Atenuación de la luz ambiental
-		scale_color(light->rgb, intensity * light->brghtnss * diffuse_factor) // Luz difusa
+		sum_rgb(hitd->orgb, scale_color(hitd->orgb, 1 - intensity)), // Atenuación de la luz ambiental
+		// hitd->rgb,
+		scale_color(light->rgb, intensity * light->brghtnss * diffuse_factor)  // Luz difusa
 	);
 }
 
@@ -100,9 +101,9 @@ void	calculate_lights(t_hit_data *hitd)
 		calculate_shadows(&ray, hitd, light);
 		if (hit(&ray, &lim, &hitl))
 		{
-			calculate_shadows(&ray, hitd, light);
+			// calculate_shadows(&ray, hitd, light);
 			//calculate_shadows(hitd);
-			//hitd->rgb = scale_color(hitd->rgb, 0.5);
+			hitd->rgb = scale_color(sum_rgb(hitl.rgb,hitd->orgb), hitd->t);
 		}
 		lights = lights->next;
 	}
