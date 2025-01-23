@@ -23,8 +23,8 @@ t_vec3	get_pix_rand_pos(t_vec3 *pix00, t_vec3 *dlt_u, t_vec3 *dlt_v,
 	t_vec3	offset;
 
 	offset = random_square();
-	pu = scale_v3(*dlt_u, (double)pix_pos->x + offset.x);
-	pv = scale_v3(*dlt_v, (double)pix_pos->y + offset.y);
+	// pu = scale_v3(*dlt_u, (double)pix_pos->x + offset.x);
+	// pv = scale_v3(*dlt_v, (double)pix_pos->y + offset.y);
 	pu = scale_v3(*dlt_u, (double)pix_pos->x);
 	pv = scale_v3(*dlt_v, (double)pix_pos->y);
 	delta = sum_v3(*pix00, pu);

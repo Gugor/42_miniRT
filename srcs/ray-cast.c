@@ -59,9 +59,9 @@ t_ray	get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
 
 	pixel_sample = get_pix_rand_pos(&win->p00, &win->pixel_delta_u, &win->pixel_delta_v, pix_pos);
 	// printf("[%i,%i] - P00[%f,%f,%f]\n", pix_pos->x, pix_pos->y, pixel_sample.x, pixel_sample.y, pixel_sample.z);
-	ray_dir = sub_v3(pixel_sample, camera->pos);
+	ray_dir = sub_v3(pixel_sample, camera->center);
 	// printf("Cam pos[%f,%f,%f]\n", camera->pos.x, camera->pos.y, camera->pos.z);
-	ray = init_ray((t_vec3 *)&camera->pos, &ray_dir);
+	ray = init_ray((t_vec3 *)&camera->center, &ray_dir);
 	return (ray);
 }
 

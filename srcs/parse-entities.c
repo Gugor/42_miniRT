@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:18:41 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	create_camera(t_scene *scene, const char *line)
 	printf("=> Create Camera: \"%s\" \n", line);
 	if (!(scene->required_ents & REQ_CAMERA))
 		err_rt_file_format("more than one ambient light.");
-	if (set_vec3(&scene->camera.lookfrom, (char *)line, &offset))
+	if (set_vec3(&scene->camera.pos, (char *)line, &offset))
 		err_rt_file_format("wrong camera format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z);
+	scene->camera.lookfrom = scene->camera.pos;
 	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
 		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))

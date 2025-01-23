@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/22 13:03:52 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:55:40 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ void	init_camera(t_camera *cam)
 	t_interval inter;
 
 	cam->center = cam->lookfrom;
-	cam->foc_dist = 10.001f;
 	cam->samples_per_pixel = 1;
 	cam->near_plane = 0.001;
-	cam->far_plane = 1000.0001;
+	cam->far_plane = 10;
 	cam->max_depth = 10;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
 	cam->fovV = cam->fovH * (double)(90.0f / 180.0f);
 	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (double)(90.0f / 180.0f), cam->fovV);
+	cam->foc_dist = 1;// length_v3(scale_v3(cam->lookat, cam->far_plane));
 	cam->h = calculate_fovv(cam);
 	cam->vup = vec3(0, 1, 0);
-	cam->fordwards = cam->lookat;//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
-	// cam->fordwards = scale_v3(cam->lookat,-1);//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
+	cam->fordwards = scale_v3(cam->lookat, -1);//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
+	// cam->fordwards = normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
 	cam->u = normalize_v3(cross(&cam->vup, &cam->fordwards));
 	cam->v = cross(&cam->fordwards, &cam->u);
 	printf("=> Initialize Camera\n");
