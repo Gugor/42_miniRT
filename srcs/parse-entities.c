@@ -84,7 +84,7 @@ void	create_light_src(t_scene *scene, const char *line)
 	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
 	update_line_offset((char **)&line, &offset);
 	light->brghtnss = get_double((char *)line, 10, &offset);
-	if (!light || !in_range_dbl(light->brghtnss, 0.0, 1.0) || offset == -1)
+	if (!light->brghtnss || !in_range_dbl(light->brghtnss, 0.0, 1.0) || offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
 	printf("	BRGTNSS: %f\n", light->brghtnss);
 	line += offset;
