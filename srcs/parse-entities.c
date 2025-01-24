@@ -48,11 +48,11 @@ void	create_camera(t_scene *scene, const char *line)
 	offset = 0;
 	printf("=> Create Camera: \"%s\" \n", line);
 	if (!(scene->required_ents & REQ_CAMERA))
-		err_rt_file_format("more than one ambient light.");
+		err_rt_file_format("more than one camera.");
 	if (set_vec3(&scene->camera.pos, (char *)line, &offset))
 		err_rt_file_format("wrong camera format [xyz].");
-	printf("	Pos: [%f,%f,%f]\n", scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	scene->camera.lookfrom = scene->camera.pos;
+	printf("	Pos: [%f,%f,%f]\n", scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
 		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
