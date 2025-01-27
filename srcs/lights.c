@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:04:13 by mmarsa-s          #+#    #+#             */
-/*   Updated: 2025/01/22 13:13:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:09:18hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,71 +15,37 @@
 #include "shape-maths.h"
 #include "colours.h"
 
-static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
+static t_color	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
 {
 	double	dist;
 	double	intensity;
-	double	diffuse_factor; // Factor difuso basado en la normal y la luz
 	t_vec3	quad;
-	t_vec3	light_dir; // Dirección hacia la luz desde el punto de incidencia
+	t_color	new_color;
+	double	diffuse_factor;
+	// t_vec3	dir;
 
-	// Coeficientes de atenuación
 	quad.x = 1;
 	quad.y = 0.1;
 	quad.z = 0.01;
 
-	// Calcular distancia de la luz al punto
 	dist = ray->length;
-
-	// Calcular dirección hacia la luz (y normalizarla)
-	light_dir = normalize_v3(sub_v3(light->pos, hitd->hit));
-	// light_dir = sub_v3(hitd->hit, light->pos);
-
-	// Producto escalar entre la normal de la superficie y la dirección de la luz
-	diffuse_factor = dot(&hitd->out_normal, &light_dir);
-
-	// Asegurarse de que el factor difuso no sea negativo
-	if (diffuse_factor < 0)
+	// dist = 1;
+	// dir = normalize_v3(sub_v3(light->pos, hitd->hit));
+	diffuse_factor = dot(&hitd->out_normal, &ray->norm);
+	if (diffuse_factor < 1e-6)
 		diffuse_factor = 0;
-
-	// Calcular la atenuación de la luz basada en la distancia
-	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * dist * dist)); 
-
-	// Combinar la intensidad difusa con la luz de la fuente
-	hitd->rgb = sum_rgb(
-		sum_rgb(hitd->orgb, scale_color(hitd->orgb, 1 - intensity)), // Atenuación de la luz ambiental
-		// hitd->rgb,
-		scale_color(light->rgb, intensity * light->brghtnss * diffuse_factor)  // Luz difusa
-	);
-}
-
-
-// static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
-// {
-// 	double	dist;
-// 	double	intensity;
-// 	double	t;
-// 	t_vec3	quad;
 	
-// 	quad.x = 1;
-// 	quad.y = 0.1;
-// 	quad.z = 0.01;
-
-// 	// dist = length_v3(sub_v3(hitd->hit, light.pos));
-// 	dist = ray->length;
-// 	t_vec3 src_ray = ray->direction;
-// 	// t_vec3 src_ray = scale_v3(ray->ray, -1);
-// 	t = (1 - light->brghtnss) * dot(&hitd->out_normal, &src_ray);
-// 	// hitd->rgb = sum_rgb(hitd->rgb, scale_color(lightc, t));
-// 	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * sqrt(dist))); 
-// 	//hitd->rgb = sum_rgb(hitd->rgb, light->rgb);
-// 	hitd->rgb = sum_rgb(scale_color(hitd->rgb, (1 - (intensity))) , scale_color(light->rgb, intensity * light->brghtnss));
-// }
-
-// // static void	calculate_shadows(t_hit_data *hitd)
-// // {
-
-// // }
+	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * dist * dist));
+	intensity = intensity * light->brghtnss * diffuse_factor;
+	if (hitd->type == 3 && diffuse_factor > 0)
+		printf("Sphere Diffuse %f\n", diffuse_factor);
+	new_color = sum_rgb(
+		// sum_rgb(hitd->rgb, scale_color(hitd->rgb, 1 - intensity)), // Atenuación de la luz ambiental
+			hitd->rgb,
+			scale_color(light->rgb, intensity)
+			);
+	return (new_color);
+}
 
 void	calculate_lights(t_hit_data *hitd)
 {
@@ -87,24 +53,34 @@ void	calculate_lights(t_hit_data *hitd)
 	t_light	*light;
 	t_scene *scn;
 	t_ray	ray;
-	t_interval	lim;
-	t_hit_data hitl;
+	t_color new_color = {0};
+	// t_interval	lim;
+	t_hit_data	hitl;
 
-	hitl = *hitd;
+	// hitl.rgb = color(1,0,0);
 	scn = get_scene();
 	lights = scn->lights;
-	init_limits(&lim, 0.001, INFINITY);
 	while (lights)
 	{
+		// t_vec3 r = sum_v3(hitd->hit, scale_v3(hitd->out_normal, 0.01));
 		light = (t_light *)lights->cnt;
 		ray = init_ray(&hitd->hit, &light->pos);
-		calculate_shadows(&ray, hitd, light);
-		if (hit(&ray, &lim, &hitl))
+		// ray = init_ray(&light->pos, &hitd->hit);
+		init_limits(&ray.lim, 0.01, length_v3(sub_v3(light->pos, hitd->hit)));
+		// init_limits(&ray.lim, 0.001, INFINITY);
+		new_color = calculate_shadows(&ray, hitd, light);
+		ray = init_ray(&light->pos, &hitd->hit);
+		if (shadow_hit(&ray, &ray.lim, &hitl))
 		{
-			// calculate_shadows(&ray, hitd, light);
-			//calculate_shadows(hitd);
-			hitd->rgb = scale_color(sum_rgb(hitl.rgb,hitd->orgb), hitd->t);
+			if (hitd->type == 3)
+				printf("Dark side\n");
+			new_color = sum_rgb(new_color, color(0, 0, 0));
+			// new_color = color(0, 0, 0);
+			lights = lights->next;
+			continue;
 		}
+		// new_color = sum_rgb(new_color, calculate_shadows(&ray, hitd, light));
 		lights = lights->next;
 	}
+	hitd->rgb = new_color;
 }

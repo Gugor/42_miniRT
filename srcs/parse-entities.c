@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/23 17:18:41 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:36:46 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,9 @@ void	create_light_src(t_scene *scene, const char *line)
 	printf("	RGB: [%hhu,%hhu,%hhu]\n", light->rgb.r, light->rgb.g, light->rgb.b);
 	scene->num_lights++;
 	add_node_to(&scene->lights, (void *)light, LIGHT);
+	printf("=> Created Light: \"\" \n");
+	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
+	printf("	BRGTNSS: %f\n", light->brghtnss);
+	printf("	RGB: [%hhu,%hhu,%hhu]\n", light->rgb.r, light->rgb.g, light->rgb.b);
+
 }

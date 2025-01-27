@@ -31,7 +31,7 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	t_ray		new;
 
 	if (max_depth <= 0)
-		return (color(0,0,0));
+		return (hitd.rgb);
 	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
@@ -45,6 +45,7 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	}
 	hitd.normal = normalize_v3(ray->direction);
 	hitd.rgb.clr = lerpRGB(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5, 0.7, 1.0));
+	hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 	return (hitd.rgb);
 }
 

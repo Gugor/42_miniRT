@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.h                                           :+:      :+:    :+:   */
+/*   ambient.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/27 19:59:04 by hmontoya         ###   ########.fr       */
+/*   Created: 2025/01/24 17:23:37 by hmontoya          #+#    #+#             */
+/*   Updated: 2025/01/24 17:23:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
-* Code related with the creation and transformation of lights
-*/
-#ifndef LIGHTS_H
-# define LIGHTS_H
+#ifndef AMBIENT_H
+# define AMBIENT_H
 
-# include "vectors.h"
 # include "colours.h"
 
 typedef struct s_ambient
@@ -25,15 +21,6 @@ typedef struct s_ambient
 	t_color	rgb;
 }	t_ambient;
 
-typedef struct	s_light
-{
-	double	brghtnss;
-	t_vec3	pos;
-	t_color	rgb;
-}	t_light;
-
-typedef struct s_hit_data t_hit_data;
-
 t_color			ambient_light_calc(t_color clr, t_ambient *alight);
-void			calculate_lights(t_hit_data *hitd);
+
 #endif

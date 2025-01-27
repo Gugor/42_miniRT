@@ -94,6 +94,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
 	rec->orgb = s->rgb;
+	rec->type = 3;
 	rec->out_normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
@@ -248,4 +249,26 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 		shapes = shapes->next;
 	}
 	return (hit_anything);
+}
+
+bool shadow_hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
+{
+	t_scene		*scn;
+	t_lst		*shapes;
+	t_hit_data	hitd;
+	double		closest;
+
+	scn = get_scene();
+	shapes = scn->shapes;
+	closest = lim->max;
+	while (shapes)
+	{
+		init_limits(lim, lim->min, closest);
+		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
+			return (true);
+		shapes = shapes->next;
+	}
+	if (rec)
+		rec = &hitd;
+	return (false);
 }
