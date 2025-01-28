@@ -25,7 +25,7 @@ uint8_t	get_uint8(const char *line, uint16_t base, int *outsize)
 
 	indx = 0;
 	num = 0;
-	indx += skip_spaces((char *)&line[0]);
+	// indx += skip_spaces((char *)&line[0]);
 	if (is_chneg(line, &indx) == -1)
 		return (0);
 	while (line[indx] && ft_isdigit(line[indx]))
@@ -48,7 +48,7 @@ double	get_double(const char *line, double base, int *outsize)
 
 	indx = 0;
 	num = 0;
-	indx += skip_spaces((char *)&line[0]);
+	// indx += skip_spaces((char *)&line[0]);
 	neg = is_chneg(&line[indx], &indx);
 	while (line[indx] && ft_isdigit(line[indx]))
 		num = num * 10 + (line[indx++] - 48);
@@ -104,11 +104,17 @@ int	set_cylinder_size(t_vec3 *size, const char *line, int *outsize)
 	int	indx;
 
 	indx = skip_spaces((char *)&line[0]);
+	if (!(ft_isdigit(line[indx]) || line[indx] == '-' || line[indx] == '+'))
+		return (1);
 	size->x = get_double(&line[indx], 10, &indx);
 	if (indx == -1)
 		return (1);
 	indx += skip_spaces((char *)&line[indx]);
+	if (!(ft_isdigit(line[indx]) || line[indx] == '-' || line[indx] == '+'))
+		return (1);
 	size->y = get_double(&line[indx], 10, &indx);
+	if (line[indx] == ',')
+		return (1);
 	size->z = size->y * 0.5;
 	if (indx == -1)
 		return (1);
@@ -129,16 +135,16 @@ int set_rgb(t_color *rgb, const char *line, int *outsize)
 	indx += skip_spaces((char *)&line[0]);
 	if (is_vec_format(&line[indx], VEC3))
 		return (2);
-	indx = skip_spaces((char *)&line[0]);
-	if (line[indx] == '-')
+	// indx = skip_spaces((char *)&line[0]);
+	if (!ft_isdigit(line[indx]))
 		return (3);
 	rgb->clr |= get_uint8(&line[indx], 10, &indx) << 16;
-	if (indx == -1 || line[++indx] == '-')
+	if (indx == -1 || (line[indx] != ',' && !ft_isdigit(line[indx])))
 		return (3);
-	rgb->clr |= get_uint8(&line[indx], 10, &indx) << 8;
-	if (indx == -1 || line[++indx] == '-')
+	rgb->clr |= get_uint8(&line[++indx], 10, &indx) << 8;
+	if (indx == -1 || (line[indx] != ',' && !ft_isdigit(line[indx]))) 
 		return (3);
-	rgb->clr |= get_uint8(&line[indx], 10, &indx);
+	rgb->clr |= get_uint8(&line[++indx], 10, &indx);
 	if (indx == -1)
 		return (3);
 	if (outsize)

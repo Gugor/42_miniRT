@@ -39,7 +39,7 @@ void	create_plane(t_scene *scene, const char *line)
 	if (set_rgb(&plane->rgb, (char *)line, &offset)
 		|| !in_range_rgb(plane->rgb, 0, 255))
 		err_rt_file_format("wrong plane format [rgb]");
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", plane->rgb.r, plane->rgb.g, plane->rgb.b);
+	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(plane->rgb), get_g(plane->rgb), get_b(plane->rgb));
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)plane, PLANE);
 }

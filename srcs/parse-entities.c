@@ -29,6 +29,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 		scene->required_ents = REQ_FULL;
 	else
 		err_rt_file_format("more than one ambient light.");
+	line += skip_spaces((char *)line);
 	scene->alight.intensity = get_double((char *)line, 10, &offset);
 	if (!in_range_dbl(scene->alight.intensity, 0.0, 1.0)
 		|| line[offset] == ',' || offset == -1)
@@ -38,10 +39,10 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	if (set_rgb(&scene->alight.rgb, (char *)line, &offset)
 		|| !in_range_rgb(scene->alight.rgb, 0, 255))
 	{
-		printf("	Error RGB[%d,%d,%d]\n", scene->alight.rgb.r, scene->alight.rgb.g, scene->alight.rgb.b);
+		printf("	Error RGB[%d,%d,%d]\n", get_r(scene->alight.rgb), get_g(scene->alight.rgb), get_b(scene->alight.rgb));
 		err_rt_file_format("wrong ambient light format [rgb].");
 	}
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", scene->alight.rgb.r, scene->alight.rgb.g, scene->alight.rgb.b);
+	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(scene->alight.rgb), get_g(scene->alight.rgb), get_b(scene->alight.rgb));
 }
 
 void	create_camera(t_scene *scene, const char *line)
@@ -49,6 +50,7 @@ void	create_camera(t_scene *scene, const char *line)
 	int	offset;
 
 	offset = 0;
+	scene->camera.fovH = -1;
 	printf("=> Create Camera: \"%s\" \n", line);
 	if (!scene->required_ents)
 		scene->required_ents = REQ_CAMERA;
@@ -69,11 +71,13 @@ void	create_camera(t_scene *scene, const char *line)
 	}
 	scene->camera.lookat = normalize_v3(scene->camera.axis);
 	printf("	Axis: [%f,%f,%f]\n", scene->camera.lookat.x, scene->camera.lookat.y, scene->camera.lookat.z);
+	offset += skip_spaces((char *)&line[offset]);
 	update_line_offset((char **)&line, &offset);
-	scene->camera.fovH = get_double((char *)line, 10, &offset);
+	if (*line)
+		scene->camera.fovH = get_double((char *)line, 10, &offset);
 	if (line[offset] == ',' || !in_range_dbl(scene->camera.fovH, 0.0, 180.0)
 		|| offset == -1)
-		err_rt_file_format("wrong  camera format [FOVH].");
+		err_rt_file_format("wrong camera format [FOVH].");
 	printf("	FoVH: %f\n", scene->camera.fovH);
 }
 
@@ -89,6 +93,7 @@ void	create_light_src(t_scene *scene, const char *line)
 		err_rt_file_format("wrong source light format [xyz].");
 	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
 	update_line_offset((char **)&line, &offset);
+	line += skip_spaces((char *)line);
 	light->brghtnss = get_double((char *)line, 10, &offset);
 	if (!light->brghtnss || !in_range_dbl(light->brghtnss, 0.0, 1.0) || offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
@@ -98,7 +103,7 @@ void	create_light_src(t_scene *scene, const char *line)
 	if (set_rgb(&light->rgb, (char *)line, &offset)
 		|| !in_range_rgb(light->rgb, 0, 255) || offset == -1)
 		err_rt_file_format("wrong source light format [rgb].");
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", light->rgb.r, light->rgb.g, light->rgb.b);
+	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(light->rgb), get_g(light->rgb), get_b(light->rgb));
 	scene->num_lights++;
 	add_node_to(&scene->lights, (void *)light, LIGHT);
 }
