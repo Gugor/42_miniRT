@@ -242,33 +242,10 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 			if (closest > hitd.t)
 			{			 
 				closest = hitd.t;
-				// hitd.rgb = ambient_light_calc(hitd.rgb, &scn->alight);
 				*rec = hitd;
 			}
 		}
 		shapes = shapes->next;
 	}
 	return (hit_anything);
-}
-
-bool shadow_hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
-{
-	t_scene		*scn;
-	t_lst		*shapes;
-	t_hit_data	hitd;
-	double		closest;
-
-	scn = get_scene();
-	shapes = scn->shapes;
-	closest = lim->max;
-	while (shapes)
-	{
-		init_limits(lim, lim->min, closest);
-		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
-			return (true);
-		shapes = shapes->next;
-	}
-	if (rec)
-		rec = &hitd;
-	return (false);
 }

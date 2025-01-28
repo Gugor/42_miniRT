@@ -41,5 +41,5 @@ int			hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data
 int 		hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 bool		hit(const t_ray *ray, t_interval *lim, t_hit_data *rec);
-bool		shadow_hit(const t_ray *ray, t_interval *lim, t_hit_data *rec);
+// bool		shadow_hit(const t_ray *ray, t_interval *lim, t_hit_data *rec);
 #endif

@@ -15,72 +15,85 @@
 #include "shape-maths.h"
 #include "colours.h"
 
-static t_color	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
+static t_color	calculate_highlights(t_hit_data *hitd, t_light *light)
 {
-	double	dist;
-	double	intensity;
-	t_vec3	quad;
-	t_color	new_color;
-	double	diffuse_factor;
-	// t_vec3	dir;
+	t_higlight	hl;
+	t_vec3		quad;
 
 	quad.x = 1;
 	quad.y = 0.1;
 	quad.z = 0.01;
-
-	dist = ray->length;
-	// dist = 1;
-	// dir = normalize_v3(sub_v3(light->pos, hitd->hit));
-	diffuse_factor = dot(&hitd->out_normal, &ray->norm);
-	if (diffuse_factor < 1e-6)
-		diffuse_factor = 0;
-	
-	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * dist * dist));
-	intensity = intensity * light->brghtnss * diffuse_factor;
-	if (hitd->type == 3 && diffuse_factor > 0)
-		printf("Sphere Diffuse %f\n", diffuse_factor);
-	new_color = sum_rgb(
-		// sum_rgb(hitd->rgb, scale_color(hitd->rgb, 1 - intensity)), // Atenuación de la luz ambiental
-			hitd->rgb,
-			scale_color(light->rgb, intensity)
-			);
-	return (new_color);
+	hl.dir = normalize_v3(sub_v3(light->pos, hitd->hit));
+	hl.diffuse = dot(&hitd->out_normal, &hl.dir);
+	hl.dist_to_light = length_v3(sub_v3(light->pos, hitd->hit));
+if (hl.diffuse < 1e-4)
+		hl.diffuse = 0;
+	hl.attenuation = 1 / (quad.x + (quad.y * hl.dist_to_light)
+			+ (quad.z * hl.dist_to_light * hl.dist_to_light));
+	hl.view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
+    hl.half_dir = normalize_v3(sum_v3(hl.dir, hl.view_dir));
+    hl.specular = pow(fmax(dot(&hitd->out_normal, &hl.half_dir), 0.0), 1024);
+	// hl.intensity = hl.specular * light->brghtnss * hl.diffuse;
+	hl.intensity = hl.specular * hl.attenuation * light->brghtnss * hl.diffuse * 10000;
+	printf("Higlights intensity %f\n", hl.intensity);
+	if (hl.intensity < -0.001)
+		return (hitd->rgb);
+	return (sum_rgb(hitd->rgb, scale_color(light->rgb, hl.intensity)));
 }
 
+static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
+{
+	t_scene		*scn;
+	t_lst		*shapes;
+	t_hit_data	hitd;
+
+	scn = get_scene();
+	shapes = scn->shapes;
+	while (shapes)
+	{
+		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]
+			((void *)shapes->cnt, ray, (t_interval *)&ray->lim, &hitd))
+		{
+			if (rec)
+				rec = &hitd;
+			return (true);
+		}
+		shapes = shapes->next;
+	}
+	return (false);
+}
+
+static bool	calculate_shadows(t_hit_data *hitd, t_light *light)
+{
+	t_ray	ray;
+	bool hit_anything;
+
+	ray = init_ray(&hitd->hit, &light->pos);
+	init_limits(&ray.lim, 0.01, length_v3(sub_v3(light->pos, hitd->hit)));
+	hit_anything = false;
+	hit_anything = shadow_hit(&ray, NULL);
+	if (hit_anything && light->brghtnss > 0)
+		hitd->rgb = scale_color((hitd->rgb), (1 - light->brghtnss));
+	return (hit_anything);
+}
 void	calculate_lights(t_hit_data *hitd)
 {
-	t_lst	*lights;
-	t_light	*light;
-	t_scene *scn;
-	t_ray	ray;
-	t_color new_color = {0};
-	// t_interval	lim;
-	t_hit_data	hitl;
+	t_lst		*lights;
+	t_light		*light;
+	t_color		highlight;
 
-	// hitl.rgb = color(1,0,0);
-	scn = get_scene();
-	lights = scn->lights;
+	lights = get_scene()->lights;
+	hitd->rgb = ambient_light_calc(hitd->rgb, &get_scene()->alight);
 	while (lights)
 	{
-		// t_vec3 r = sum_v3(hitd->hit, scale_v3(hitd->out_normal, 0.01));
 		light = (t_light *)lights->cnt;
-		ray = init_ray(&hitd->hit, &light->pos);
-		// ray = init_ray(&light->pos, &hitd->hit);
-		init_limits(&ray.lim, 0.01, length_v3(sub_v3(light->pos, hitd->hit)));
-		// init_limits(&ray.lim, 0.001, INFINITY);
-		new_color = calculate_shadows(&ray, hitd, light);
-		ray = init_ray(&light->pos, &hitd->hit);
-		if (shadow_hit(&ray, &ray.lim, &hitl))
+		if (!calculate_shadows(hitd, light))
 		{
-			if (hitd->type == 3)
-				printf("Dark side\n");
-			new_color = sum_rgb(new_color, color(0, 0, 0));
-			// new_color = color(0, 0, 0);
+			highlight = calculate_highlights(hitd, light);
+			hitd->rgb = sum_rgb(hitd->rgb, highlight);
 			lights = lights->next;
-			continue;
+			continue ;
 		}
-		// new_color = sum_rgb(new_color, calculate_shadows(&ray, hitd, light));
 		lights = lights->next;
 	}
-	hitd->rgb = new_color;
 }
