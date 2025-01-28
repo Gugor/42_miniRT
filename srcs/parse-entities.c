@@ -23,7 +23,11 @@ void	create_ambient_light(t_scene *scene, const char *line)
 
 	offset = 0;
 	printf("=> Create Ambient Light: \"%s\" \n", line);
-	if (!(scene->required_ents & REQ_AMBIENT))
+	if (!(scene->required_ents))
+		scene->required_ents = 	REQ_AMBIENT;
+	else if (scene->required_ents == REQ_CAMERA)
+		scene->required_ents = REQ_FULL;
+	else
 		err_rt_file_format("more than one ambient light.");
 	scene->alight.intensity = get_double((char *)line, 10, &offset);
 	if (!in_range_dbl(scene->alight.intensity, 0.0, 1.0)
@@ -38,7 +42,6 @@ void	create_ambient_light(t_scene *scene, const char *line)
 		err_rt_file_format("wrong ambient light format [rgb].");
 	}
 	printf("	RGB: [%hhu,%hhu,%hhu]\n", scene->alight.rgb.r, scene->alight.rgb.g, scene->alight.rgb.b);
-	scene->required_ents |= REQ_AMBIENT;
 }
 
 void	create_camera(t_scene *scene, const char *line)
@@ -47,7 +50,11 @@ void	create_camera(t_scene *scene, const char *line)
 
 	offset = 0;
 	printf("=> Create Camera: \"%s\" \n", line);
-	if (!(scene->required_ents & REQ_CAMERA))
+	if (!scene->required_ents)
+		scene->required_ents = REQ_CAMERA;
+	else if (scene->required_ents == REQ_AMBIENT)
+		scene->required_ents = REQ_FULL;	
+	else
 		err_rt_file_format("more than one camera.");
 	if (set_vec3(&scene->camera.pos, (char *)line, &offset))
 		err_rt_file_format("wrong camera format [xyz].");
@@ -68,7 +75,6 @@ void	create_camera(t_scene *scene, const char *line)
 		|| offset == -1)
 		err_rt_file_format("wrong  camera format [FOVH].");
 	printf("	FoVH: %f\n", scene->camera.fovH);
-	scene->required_ents |= REQ_CAMERA;
 }
 
 void	create_light_src(t_scene *scene, const char *line)

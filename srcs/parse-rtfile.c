@@ -62,6 +62,7 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 		parse_rtfile_line(line, scene);
 		memfree((void *)&line);
 	}
+	printf("Entities mask: %i[%i]", scene->required_ents, scene->required_ents & REQ_FULL);
 	if (!(scene->required_ents & REQ_FULL))
 		err_rt_file_format("not enough data to create scene.");
 	return (0);

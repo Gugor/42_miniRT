@@ -47,9 +47,9 @@ static int	eval_vec_type(int commas, t_vec_type type)
 {
 	if (type)
 	{
-		if (commas == VEC3)
-			return (1);
-		return (0);
+		if (commas == 2)
+			return (0);
+		return (1);
 	}
 	else
 	{

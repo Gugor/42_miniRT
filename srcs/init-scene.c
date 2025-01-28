@@ -72,7 +72,7 @@ int	init_scene_data(t_scene *scene, t_window *win)
 	set_entity_ids(scene->entity_ids);
 	init_entity_delegates(scene);
 	init_hit_shape_delegates(scene);
-	scene->required_ents = 0b00000011;
+	scene->required_ents = 0b00000000;
 	scene->lights = NULL;
 	scene->num_lights = 0;
 	scene->shapes = NULL;

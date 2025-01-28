@@ -41,7 +41,7 @@ typedef enum e_req_ents
 {
 	REQ_AMBIENT = 1,
 	REQ_CAMERA = 2,
-	REQ_FULL = 3,
+	REQ_FULL = 4,
 }	t_reqents;
 
 //hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec)
