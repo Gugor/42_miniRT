@@ -24,14 +24,14 @@ static void	required_entities(t_scene *scene, int flag)
 		if (!scene->required_ents)
 			scene->required_ents = REQ_CAMERA;
 		else if (scene->required_ents == REQ_AMBIENT)
-			scene->required_ents = REQ_FULL;	
+			scene->required_ents = REQ_FULL;
 		else
 			err_rt_file_format("more than one camera.");
 	}
 	if (flag == REQ_AMBIENT)
 	{
 		if (!(scene->required_ents))
-			scene->required_ents = 	REQ_AMBIENT;
+			scene->required_ents = REQ_AMBIENT;
 		else if (scene->required_ents == REQ_CAMERA)
 			scene->required_ents = REQ_FULL;
 		else
@@ -98,7 +98,8 @@ void	create_light_src(t_scene *scene, const char *line)
 	update_line_offset((char **)&line, &offset);
 	line += skip_spaces((char *)line);
 	light->brghtnss = get_double((char *)line, 10, &offset);
-	if (!light->brghtnss || !in_range_dbl(light->brghtnss, 0.0, 1.0) || offset == -1)
+	if (!light->brghtnss || !in_range_dbl(light->brghtnss, 0.0, 1.0)
+		|| offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
 	line += offset;
 	offset = 0;
