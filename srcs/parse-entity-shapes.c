@@ -17,7 +17,6 @@
 #include "shapes.h"
 #include "libft.h"
 
-
 void	create_plane(t_scene *scene, const char *line)
 {
 	t_plane	*plane;
@@ -25,27 +24,22 @@ void	create_plane(t_scene *scene, const char *line)
 
 	offset = 0;
 	plane = (t_plane *)xmalloc(sizeof(t_plane));
-	printf("=> Create Plane: \"%s\" \n", line);
 	if (set_vec3(&plane->pos, (char *)line, &offset))
 		err_rt_file_format("wrong plane format [xyz]");
-	printf("	Pos: [%f,%f,%f]\n", plane->pos.x, plane->pos.y, plane->pos.z);
 	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&plane->axis, (char *)line, &offset)
 		|| !in_range_vec3(plane->axis, -1, 1))
 		err_rt_file_format("wrong plane format [normal]");
-	printf("	Normal: [%f,%f,%f]\n", plane->axis.x, plane->axis.y, plane->axis.z);
 	plane->axis = normalize_v3(plane->axis);
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&plane->rgb, (char *)line, &offset)
 		|| !in_range_rgb(plane->rgb, 0, 255))
 		err_rt_file_format("wrong plane format [rgb]");
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(plane->rgb), get_g(plane->rgb), get_b(plane->rgb));
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)plane, PLANE);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
-			" format: unnecessary digits or additional arguments.");
+		err_rt_file_format("Error: Invalid input detected.");
 }
 
 void	create_sphere(t_scene *scene, const char *line)
@@ -55,58 +49,47 @@ void	create_sphere(t_scene *scene, const char *line)
 
 	offset = 0;
 	sphere = (t_sphere *)xmalloc(sizeof(t_sphere));
-	printf("=> Create Sphere: \"%s\" \n", line);
 	if (set_vec3(&sphere->pos, (char *)line, &offset))
 		err_rt_file_format("wrong sphere format [xyz]");
-	printf("	Pos: [%f,%f,%f]\n", sphere->pos.x, sphere->pos.y, sphere->pos.z);
 	update_line_offset((char **)&line, &offset);
 	sphere->rad = get_double((char *)line, 10, &offset);
 	if (line[offset] == ',' || offset == -1 || sphere->rad < 0)
 		err_rt_file_format("wrong sphere format [size]");
-	printf("	Radius: %f\n", sphere->rad);
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&sphere->rgb, (char *)line, &offset)
 		|| !in_range_rgb(sphere->rgb, 0, 255))
 		err_rt_file_format("wrong sphere format [rgb]");
-	printf("	RGB: [%i,%i,%i]\n", (sphere->rgb.clr >> 16) & 0xFF, (sphere->rgb.clr >> 8) & 0xFF, (sphere->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)sphere, SPHERE);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
-			" format: unnecessary digits or additional arguments.");
+		err_rt_file_format("Error: Invalid input detected.");
 }
 
 void	create_cylinder(t_scene *scene, const char *line)
 {
 	t_cylinder	*cylinder;
-	int	offset;
+	int			offset;
 
 	offset = 0;
 	cylinder = (t_cylinder *)xmalloc(sizeof(t_cylinder));
-	printf("=> Create Cylinder: \"%s\" \n", line);
 	if (set_vec3(&cylinder->pos, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [xyz]");
-	printf("	Pos: [%f,%f,%f]\n", cylinder->pos.x, cylinder->pos.y, cylinder->pos.z);
 	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&cylinder->axis, (char *)line, &offset)
 		|| !in_range_vec3(cylinder->axis, -1, 1))
 		err_rt_file_format("wrong cylinder format [normal]");
-	printf("	Axis: [%f,%f,%f]\n", cylinder->axis.x, cylinder->axis.y, cylinder->axis.z);
 	cylinder->axis = normalize_v3(cylinder->axis);
-	printf("	Norm.Axis: [%f,%f,%f]\n", cylinder->axis.x, cylinder->axis.y, cylinder->axis.z);
 	update_line_offset((char **)&line, &offset);
 	if (set_cylinder_size(&cylinder->size, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [size]");
-	printf("	Size: [%f,%f]\n", cylinder->size.x, cylinder->size.y);
 	update_line_offset((char **)&line, &offset);
-	if (set_rgb(&cylinder->rgb, (char *)line, &offset) || !in_range_rgb(cylinder->rgb, 0, 255))
+	if (set_rgb(&cylinder->rgb, (char *)line, &offset)
+		|| !in_range_rgb(cylinder->rgb, 0, 255))
 		err_rt_file_format("wrong cylinder format [rgb]");
-	printf("	RGB: [%i,%i,%i]\n", (cylinder->rgb.clr >> 16) & 0xFF, (cylinder->rgb.clr >> 8) & 0xFF, (cylinder->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
-			" format: unnecessary digits or additional arguments.");
+		err_rt_file_format("Error: Invalid input detected.");
 }

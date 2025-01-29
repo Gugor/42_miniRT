@@ -51,7 +51,6 @@ int	find_entity_id(char *buff)
 	return (-1);
 }
 
-
 /**
 * @brief It parse a line and transform it into an entitie of the scene.
 * @param line `{char *}` a pointer to the line to parse.
@@ -70,4 +69,3 @@ void	parse_rtfile_line(char *line, t_scene *scene)
 	printf("::Create entity %i\n", ent_id);
 	scene->create_ent[ent_id](scene, &line[id_offset]);
 }
-

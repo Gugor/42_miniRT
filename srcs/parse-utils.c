@@ -16,7 +16,7 @@
 /**
  * @brief Another silly function to contempt norminette.
  */
-void update_line_offset(char **line, int *offset)
+void	update_line_offset(char **line, int *offset)
 {
 	*line += *offset;
 	*offset = 0;
@@ -38,8 +38,9 @@ int	is_chneg(const char *line, int *offset)
 }
 
 /**
- * @brief It evaluates if the number of commas passed correspond with the vector type specified. This
- * fucntion is multipourpouse, you can check VEC2 and VEC3 formats.
+ * @brief It evaluates if the number of commas passed correspond
+ * with the vector type specified.
+ * This fucntion is multipourpouse, you can check VEC2 and VEC3 formats.
  * @param commas `{int}` the number of commas the format has.
  * @param type ´{t_vec_type}´ the vector type VEC2 or VEC3 types. 
  */
@@ -70,17 +71,6 @@ int	is_vec_format(const char *line, t_vec_type type)
 
 	commas = 0;
 	indx = 0;
-	/*
-	while (line[indx] && (ft_isdigit(line[indx]) || line[indx] == '.' 
-		|| line[indx] == ',' || line[indx] == '-') && !ft_isspace(line[indx]))
-	{
-		if (line[indx] == ',' && (!line[indx + 1] || line[indx + 1] == ','
-				|| (!ft_isdigit(line[indx + 1] && line[indx] != '-'))))
-			return (1);
-		if (line[indx++] == ',')
-			commas++;
-	}
-	*/
 	while (line[indx] && line[indx] != 32)
 		if (line[indx++] == ',')
 			commas++;

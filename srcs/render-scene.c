@@ -118,10 +118,14 @@ void render_scene(t_scene *scn)
 	render_time = ft_itoa(elapsed);
 
 	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win, scn->win->img.img, 0, 0);
-	printf("Image rendered[%dms][%ds][%d:%dmins]\n", elapsed, (int)(elapsed * 0.001), (int)((elapsed * 0.001) / 60),(int)(elapsed * 0.001) - (int)(60 * (int)((elapsed * 0.001) / 60) ));
+	printf("Image rendered[%dms][%ds][%d:%dmins]\n", elapsed, (int)(elapsed * 0.001),
+		(int)((elapsed * 0.001) / 60),(int)(elapsed * 0.001)
+			- (int)(60 * (int)((elapsed * 0.001) / 60) ));
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 15, 0x00FF0000, "16/9");
-	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 30, 0x00FF0000, "1920x1080");
-	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 45, 0x00FF0000, render_time);
+	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 30, 0x00FF0000,
+		"1920x1080");
+	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 5, 45, 0x00FF0000,
+		render_time);
 	mlx_string_put(scn->win->mlx, scn->win->mlx_win, 45, 45, 0x00FF0000, "ms");
 	free(render_time);
 }
