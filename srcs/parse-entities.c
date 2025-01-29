@@ -17,36 +17,46 @@
 #include "libft.h"
 #include "logger.h"
 
+static void	required_entities(t_scene *scene, int flag)
+{
+	if (flag == REQ_CAMERA)
+	{
+		if (!scene->required_ents)
+			scene->required_ents = REQ_CAMERA;
+		else if (scene->required_ents == REQ_AMBIENT)
+			scene->required_ents = REQ_FULL;	
+		else
+			err_rt_file_format("more than one camera.");
+	}
+	if (flag == REQ_AMBIENT)
+	{
+		if (!(scene->required_ents))
+			scene->required_ents = 	REQ_AMBIENT;
+		else if (scene->required_ents == REQ_CAMERA)
+			scene->required_ents = REQ_FULL;
+		else
+			err_rt_file_format("more than one ambient light.");
+	}
+}
+
 void	create_ambient_light(t_scene *scene, const char *line)
 {
 	int	offset;
 
 	offset = 0;
-	printf("=> Create Ambient Light: \"%s\" \n", line);
-	if (!(scene->required_ents))
-		scene->required_ents = 	REQ_AMBIENT;
-	else if (scene->required_ents == REQ_CAMERA)
-		scene->required_ents = REQ_FULL;
-	else
-		err_rt_file_format("more than one ambient light.");
+	required_entities(scene, REQ_AMBIENT);
 	line += skip_spaces((char *)line);
 	scene->alight.intensity = get_double((char *)line, 10, &offset);
 	if (!in_range_dbl(scene->alight.intensity, 0.0, 1.0)
 		|| line[offset] == ',' || offset == -1)
 		err_rt_file_format("wrong ambient light format [range].");
-	printf("	Range: %f\n", scene->alight.intensity);
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&scene->alight.rgb, (char *)line, &offset)
 		|| !in_range_rgb(scene->alight.rgb, 0, 255))
-	{
-		printf("	Error RGB[%d,%d,%d]\n", get_r(scene->alight.rgb), get_g(scene->alight.rgb), get_b(scene->alight.rgb));
 		err_rt_file_format("wrong ambient light format [rgb].");
-	}
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(scene->alight.rgb), get_g(scene->alight.rgb), get_b(scene->alight.rgb));
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
-			" format: unnecessary digits or additional arguments.");
+		err_rt_file_format("Error: Invalid input detected.");
 }
 
 void	create_camera(t_scene *scene, const char *line)
@@ -55,26 +65,15 @@ void	create_camera(t_scene *scene, const char *line)
 
 	offset = 0;
 	scene->camera.fovH = -1;
-	printf("=> Create Camera: \"%s\" \n", line);
-	if (!scene->required_ents)
-		scene->required_ents = REQ_CAMERA;
-	else if (scene->required_ents == REQ_AMBIENT)
-		scene->required_ents = REQ_FULL;	
-	else
-		err_rt_file_format("more than one camera.");
+	required_entities(scene, REQ_CAMERA);
 	if (set_vec3(&scene->camera.pos, (char *)line, &offset))
 		err_rt_file_format("wrong camera format [xyz].");
 	scene->camera.lookfrom = scene->camera.pos;
-	printf("	Pos: [%f,%f,%f]\n", scene->camera.lookfrom.x, scene->camera.lookfrom.y, scene->camera.lookfrom.z);
 	update_line_offset((char **)&line, &offset);
 	if (set_vec3(&scene->camera.axis, (char *)line, &offset)
 		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
-	{
-		printf("	Error Axis: [%f,%f,%f]\n", scene->camera.axis.x, scene->camera.axis.y, scene->camera.axis.z);
 		err_rt_file_format("wrong camera format [normal].");
-	}
 	scene->camera.lookat = normalize_v3(scene->camera.axis);
-	printf("	Axis: [%f,%f,%f]\n", scene->camera.lookat.x, scene->camera.lookat.y, scene->camera.lookat.z);
 	offset += skip_spaces((char *)&line[offset]);
 	update_line_offset((char **)&line, &offset);
 	if (*line)
@@ -82,11 +81,9 @@ void	create_camera(t_scene *scene, const char *line)
 	if (line[offset] == ',' || !in_range_dbl(scene->camera.fovH, 0.0, 180.0)
 		|| offset == -1)
 		err_rt_file_format("wrong camera format [FOVH].");
-	printf("	FoVH: %f\n", scene->camera.fovH);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
-			" format: unnecessary digits or additional arguments.");
+		err_rt_file_format("Error: Invalid input detected.");
 }
 
 void	create_light_src(t_scene *scene, const char *line)
@@ -96,26 +93,21 @@ void	create_light_src(t_scene *scene, const char *line)
 
 	offset = 0;
 	light = (t_light *)xmalloc(sizeof(t_light));
-	printf("=> Create Light: \"%s\" \n", line);
 	if (set_vec3(&light->pos, (char *)line, &offset))
 		err_rt_file_format("wrong source light format [xyz].");
-	printf("	Pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
 	update_line_offset((char **)&line, &offset);
 	line += skip_spaces((char *)line);
 	light->brghtnss = get_double((char *)line, 10, &offset);
 	if (!light->brghtnss || !in_range_dbl(light->brghtnss, 0.0, 1.0) || offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
-	printf("	BRGTNSS: %f\n", light->brghtnss);
 	line += offset;
 	offset = 0;
 	if (set_rgb(&light->rgb, (char *)line, &offset)
 		|| !in_range_rgb(light->rgb, 0, 255) || offset == -1)
 		err_rt_file_format("wrong source light format [rgb].");
-	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(light->rgb), get_g(light->rgb), get_b(light->rgb));
 	scene->num_lights++;
 	add_node_to(&scene->lights, (void *)light, LIGHT);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
-			" format: unnecessary digits or additional arguments.");
+		err_rt_file_format("Error: Invalid input detected.");
 }
