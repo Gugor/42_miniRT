@@ -19,14 +19,16 @@ static t_color	calculate_highlights(t_hit_data *hitd, t_light *light)
 {
 	t_higlight	hl;
 	t_vec3		quad;
+	t_vec3		dir_to_hit;
 
 	quad.x = 1;
 	quad.y = 0.1;
 	quad.z = 0.01;
 	hl.dir = normalize_v3(sub_v3(light->pos, hitd->hit));
+	dir_to_hit = scale_v3(hl.dir, -1);
 	hl.diffuse = dot(&hitd->out_normal, &hl.dir);
 	hl.dist_to_light = length_v3(sub_v3(light->pos, hitd->hit));
-if (hl.diffuse < 1e-4)
+	if (hl.diffuse < 1e-4)
 		hl.diffuse = 0;
 	hl.attenuation = 1 / (quad.x + (quad.y * hl.dist_to_light)
 			+ (quad.z * hl.dist_to_light * hl.dist_to_light));
@@ -63,37 +65,38 @@ static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
 	return (false);
 }
 
-static bool	calculate_shadows(t_hit_data *hitd, t_light *light)
-{
-	t_ray	ray;
-	bool hit_anything;
+// static t_color	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
+// {
+// 	double	diffuse;
 
-	ray = init_ray(&hitd->hit, &light->pos);
-	init_limits(&ray.lim, 0.01, length_v3(sub_v3(light->pos, hitd->hit)));
-	hit_anything = false;
-	hit_anything = shadow_hit(&ray, NULL);
-	if (hit_anything && light->brghtnss > 0)
-		hitd->rgb = scale_color((hitd->rgb), (1 - light->brghtnss));
-	return (hit_anything);
-}
+// 	diffuse = dot(&hitd->out_normal, &ray->norm);
+// 	return (scale_color((hitd->rgb), (1 - light->brghtnss) * (1 - diffuse)));
+// }
 void	calculate_lights(t_hit_data *hitd)
 {
 	t_lst		*lights;
 	t_light		*light;
 	t_color		highlight;
+	t_hit_data 	hitl;
+	bool hit_anything;
+	t_ray	ray;
 
 	lights = get_scene()->lights;
 	hitd->rgb = ambient_light_calc(hitd->rgb, &get_scene()->alight);
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
-		if (!calculate_shadows(hitd, light))
+		ray = init_ray(&hitd->hit, &light->pos);
+		hit_anything = false;
+		init_limits(&ray.lim, 0.001, ray.length);
+		hit_anything = shadow_hit(&ray, &hitl);
+		if (hit_anything && dot(&hitd->hit, &light->pos) > 0)
 		{
-			highlight = calculate_highlights(hitd, light);
-			hitd->rgb = sum_rgb(hitd->rgb, highlight);
-			lights = lights->next;
-			continue ;
+			highlight = calculate_shadows(&ray, hitd, light);
 		}
+		// else
+		// 	highlight = calculate_highlights(hitd, light);
+		hitd->rgb = sum_rgb(hitd->rgb, highlight);
 		lights = lights->next;
 	}
 }
