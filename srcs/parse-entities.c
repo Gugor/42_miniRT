@@ -43,6 +43,10 @@ void	create_ambient_light(t_scene *scene, const char *line)
 		err_rt_file_format("wrong ambient light format [rgb].");
 	}
 	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(scene->alight.rgb), get_g(scene->alight.rgb), get_b(scene->alight.rgb));
+	line += skip_spaces((char *)&line[offset]);
+	if (line[offset])
+		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
+			" format: unnecessary digits or additional arguments.");
 }
 
 void	create_camera(t_scene *scene, const char *line)
@@ -79,6 +83,10 @@ void	create_camera(t_scene *scene, const char *line)
 		|| offset == -1)
 		err_rt_file_format("wrong camera format [FOVH].");
 	printf("	FoVH: %f\n", scene->camera.fovH);
+	line += skip_spaces((char *)&line[offset]);
+	if (line[offset])
+		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
+			" format: unnecessary digits or additional arguments.");
 }
 
 void	create_light_src(t_scene *scene, const char *line)
@@ -106,4 +114,8 @@ void	create_light_src(t_scene *scene, const char *line)
 	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(light->rgb), get_g(light->rgb), get_b(light->rgb));
 	scene->num_lights++;
 	add_node_to(&scene->lights, (void *)light, LIGHT);
+	line += skip_spaces((char *)&line[offset]);
+	if (line[offset])
+		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
+			" format: unnecessary digits or additional arguments.");
 }

@@ -42,6 +42,10 @@ void	create_plane(t_scene *scene, const char *line)
 	printf("	RGB: [%hhu,%hhu,%hhu]\n", get_r(plane->rgb), get_g(plane->rgb), get_b(plane->rgb));
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)plane, PLANE);
+	line += skip_spaces((char *)&line[offset]);
+	if (line[offset])
+		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
+			" format: unnecessary digits or additional arguments.");
 }
 
 void	create_sphere(t_scene *scene, const char *line)
@@ -67,6 +71,10 @@ void	create_sphere(t_scene *scene, const char *line)
 	printf("	RGB: [%i,%i,%i]\n", (sphere->rgb.clr >> 16) & 0xFF, (sphere->rgb.clr >> 8) & 0xFF, (sphere->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)sphere, SPHERE);
+	line += skip_spaces((char *)&line[offset]);
+	if (line[offset])
+		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
+			" format: unnecessary digits or additional arguments.");
 }
 
 void	create_cylinder(t_scene *scene, const char *line)
@@ -97,4 +105,8 @@ void	create_cylinder(t_scene *scene, const char *line)
 	printf("	RGB: [%i,%i,%i]\n", (cylinder->rgb.clr >> 16) & 0xFF, (cylinder->rgb.clr >> 8) & 0xFF, (cylinder->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
+	line += skip_spaces((char *)&line[offset]);
+	if (line[offset])
+		err_rt_file_format("Error: Invalid input detected. Ensure that your parameters follow the correct"
+			" format: unnecessary digits or additional arguments.");
 }
