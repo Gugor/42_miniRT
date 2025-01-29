@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "scene.h"
 #include "camera.h"
 #include "maths.h"
 #include <math.h>
-
 
 static double	calculate_fovv(t_camera *cam)
 {
@@ -34,7 +32,7 @@ static double	calculate_fovv(t_camera *cam)
  */
 void	init_camera(t_camera *cam)
 {
-	t_interval inter;
+	t_interval	inter;
 
 	cam->center = cam->lookfrom;
 	cam->samples_per_pixel = 1;
@@ -44,22 +42,16 @@ void	init_camera(t_camera *cam)
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
 	cam->fovV = cam->fovH * (double)(90.0f / 180.0f);
-	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (double)(90.0f / 180.0f), cam->fovV);
-	cam->foc_dist = 1;// length_v3(scale_v3(cam->lookat, cam->far_plane));
+	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH,
+		(double)(90.0f / 180.0f), cam->fovV);
+	cam->foc_dist = 1;
 	cam->h = calculate_fovv(cam);
 	cam->vup = vec3(0, 1, 0);
-	cam->fordwards = scale_v3(cam->lookat, -1);//normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
-	// cam->fordwards = normalize_v3(sub_v3(cam->lookfrom, cam->lookat));
+	cam->fordwards = scale_v3(cam->lookat, -1);
 	cam->u = normalize_v3(cross(&cam->vup, &cam->fordwards));
-	if (!cam->u.x && !cam->u.y &&  !cam->u.z)
-		cam->u = vec3(-1,0,0);
+	if (!cam->u.x && !cam->u.y && !cam->u.z)
+		cam->u = vec3(-1, 0, 0);
 	cam->v = cross(&cam->fordwards, &cam->u);
-	if (!cam->v.x && !cam->v.y &&  !cam->v.z)
-		cam->u = vec3(0,0,1);
-	printf("=> Initialize Camera\n");
-	printf("	:: Center[%f,%f,%f]\n", cam->center.x, cam->center.y, cam->center.z);
-	printf("	:: W[%f,%f,%f]\n", cam->fordwards.x, cam->fordwards.y, cam->fordwards.z);
-	printf("	:: U[%f,%f,%f]\n", cam->u.x, cam->u.y, cam->u.z);
-	printf("	:: V[%f,%f,%f]\n", cam->v.x, cam->v.y, cam->v.z);
-	printf("	:: h[%f] - vFoV[%f]\n", cam->h, cam->fovV);
+	if (!cam->v.x && !cam->v.y && !cam->v.z)
+		cam->u = vec3(0, 0, 1);
 }

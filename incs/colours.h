@@ -42,7 +42,7 @@ typedef struct s_vec3	t_vec3;
 /*							Colours Utils								  */
 t_color		vec3_to_rgb(t_vec3 v3);
 int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
-int			lerpRGB(double pos, t_color from, t_color to);
+int			lerprgb(double pos, t_color from, t_color to);
 t_color		clamp_intensity(t_color d);
 /*							Math Colours								  */
 t_color		sum_rgb(t_color v1, t_color v2);

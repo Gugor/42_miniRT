@@ -40,7 +40,7 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 		return (sum_rgb(hitd.rgb, ray_color(&new, --max_depth)));
 	}
 	hitd.normal = normalize_v3(ray->direction);
-	hitd.rgb.clr = lerpRGB(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0),
+	hitd.rgb.clr = lerprgb(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0),
 			scale_rgb(0.5, 0.7, 1.0));
 	return (hitd.rgb);
 }

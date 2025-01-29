@@ -26,4 +26,3 @@ uint8_t	get_b(t_color c)
 {
 	return ((c.clr) & 0xFF);
 }
-

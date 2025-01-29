@@ -26,12 +26,12 @@ int	close(int keycode)
 	return (0);
 }
 
-
-void listen_events(void)
+void	listen_events(void)
 {
-	t_scene *scn;
+	t_scene	*scn;
 
 	scn = get_scene();
-	mlx_hook(scn->win->mlx_win, KeyPress , KeyPressMask, close, NULL);
-	mlx_hook(scn->win->mlx_win, ON_DESTROY, SubstructureNotifyMask, close, NULL);
+	mlx_hook(scn->win->mlx_win, KeyPress, KeyPressMask, close, NULL);
+	mlx_hook(scn->win->mlx_win, ON_DESTROY, SubstructureNotifyMask,
+		close, NULL);
 }
