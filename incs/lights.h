@@ -29,6 +29,7 @@ typedef struct	s_light
 {
 	double	brghtnss;
 	t_vec3	pos;
+	t_vec3	relative_pos;
 	t_color	rgb;
 }	t_light;
 

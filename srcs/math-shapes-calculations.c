@@ -36,7 +36,7 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	denominator = dot(&pl->axis, &ray->direction);
 	if (fabs(denominator) < 1e-6)
 		return (0);
-	hitd.oc = sub_v3( pl->pos, ray->origin);
+	hitd.oc = sub_v3(pl->pos, ray->origin);
 	t = (dot(&pl->axis, &hitd.oc)) / denominator;
 	if (!interval_surrounds(ray_limits, t))
 		return (0);
@@ -45,6 +45,7 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->orgb = pl->rgb;
 	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
 	rec->out_normal = pl->axis;
+	rec->pos = pl->pos;
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
 }
@@ -95,6 +96,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->rgb = s->rgb;
 	rec->orgb = s->rgb;
 	rec->type = 3;
+	rec->pos = s->pos;
 	rec->out_normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
 	set_face_normal(ray, &rec->out_normal, rec);
 	return (1);
@@ -126,7 +128,7 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
         if (!interval_surrounds(ray_limits, root))
             return (0);
     }
-
+	rec->pos = cyl->pos;
     rec->t = root;
     return (1);
 }

@@ -23,9 +23,9 @@ static t_color	calculate_highlights(t_hit_data *hitd, t_light *light)
 	quad.x = 1;
 	quad.y = 0.1;
 	quad.z = 0.01;
-	hl.dir = normalize_v3(sub_v3(light->pos, hitd->hit));
+	hl.dir = normalize_v3(sub_v3(light->relative_pos, hitd->hit));
 	hl.diffuse = dot(&hitd->out_normal, &hl.dir);
-	hl.dist_to_light = length_v3(sub_v3(light->pos, hitd->hit));
+	hl.dist_to_light = length_v3(sub_v3(light->relative_pos, hitd->hit));
 if (hl.diffuse < 1e-4)
 		hl.diffuse = 0;
 	hl.attenuation = 1 / (quad.x + (quad.y * hl.dist_to_light)
@@ -35,7 +35,7 @@ if (hl.diffuse < 1e-4)
     hl.specular = pow(fmax(dot(&hitd->out_normal, &hl.half_dir), 0.0), 1024);
 	// hl.intensity = hl.specular * light->brghtnss * hl.diffuse;
 	hl.intensity = hl.specular * hl.attenuation * light->brghtnss * hl.diffuse * 10000;
-	printf("Higlights intensity %f\n", hl.intensity);
+	// printf("Higlights intensity %f\n", hl.intensity);
 	if (hl.intensity < -0.001)
 		return (hitd->rgb);
 	return (sum_rgb(hitd->rgb, scale_color(light->rgb, hl.intensity)));
@@ -67,15 +67,21 @@ static bool	calculate_shadows(t_hit_data *hitd, t_light *light)
 {
 	t_ray	ray;
 	bool hit_anything;
+	// t_vec3	haha;
 
-	ray = init_ray(&hitd->hit, &light->pos);
-	init_limits(&ray.lim, 0.01, length_v3(sub_v3(light->pos, hitd->hit)));
+	// haha = vec3(5, 1, 0);
+	// printf("	:: Center[%f,%f,%f]\n", hitd->pos.x, hitd->pos.y, hitd->pos.z);
+	// light->relative_pos = sub_v3(light->pos, haha);
+	light->relative_pos = sub_v3(light->pos, hitd->pos);
+	ray = init_ray(&hitd->hit, &light->relative_pos);
+	init_limits(&ray.lim, 0.01, length_v3(sub_v3(light->relative_pos, hitd->hit)));
 	hit_anything = false;
 	hit_anything = shadow_hit(&ray, NULL);
 	if (hit_anything && light->brghtnss > 0)
 		hitd->rgb = scale_color((hitd->rgb), (1 - light->brghtnss));
 	return (hit_anything);
 }
+
 void	calculate_lights(t_hit_data *hitd)
 {
 	t_lst		*lights;

@@ -21,6 +21,7 @@ typedef struct s_hit_data
 	t_color	rgb;
 	t_color	orgb;
 	t_entid type;
+	t_vec3	pos;
 }	t_hit_data;
 
 typedef struct s_ray
