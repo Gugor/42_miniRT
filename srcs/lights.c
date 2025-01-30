@@ -66,7 +66,8 @@ static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
 static t_color	calculate_shadows(t_hit_data *hitd, t_higlight *hl, double brigthness)
 {
 	double	diffuse;
-	diffuse = dot(&hl->dir, &hitd->normal);
+	diffuse = dot(&hl->dir_norm, &hitd->normal);
+	printf("Diffuse: %f\n", diffuse);
 	// if (diffuse < 1e-6)
 	// 	diffuse = 0;
 	return (scale_color(sum_rgb(hl->rgb, scale_color(hl->rgb,1 - brigthness)), diffuse));
@@ -89,7 +90,7 @@ void	calculate_lights(t_hit_data *hitd)
 		light = (t_light *)lights->cnt;
 		hl.origin = light->pos;
 		// printf("Light pos: [%f,%f,%f]\n", light->pos.x, light->pos.y, light->pos.z);
-		hl.dir = sub_v3(hl.origin, hitd->hit);
+		hl.dir = sub_v3( hitd->hit, hl.origin);
 		hl.dir_norm = normalize_v3(hl.dir);
 		ray = init_ray(&hitd->hit, &hl.origin);
 		hit_anything = false;
