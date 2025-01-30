@@ -38,7 +38,7 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 		dir = random_on_hemisphere(hitd.normal);
 		// dir = sum_v3(hitd.normal, random_unit_vector());
 		new = init_ray(&hitd.hit, &dir);
-		// hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
+		hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 		calculate_lights(&hitd);
 		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
 		return (sum_rgb(hitd.rgb, ray_color(&new, --max_depth)));

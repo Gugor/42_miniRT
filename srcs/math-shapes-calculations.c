@@ -81,7 +81,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	hit.h = dot(&ray->direction, &hit.oc);
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
-	if (hit.discriminant < 0)
+	if (hit.discriminant < 1e-160)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
@@ -119,7 +119,7 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
     hitd->c = dot(&oc_proj, &oc_proj) - cyl->size.x * cyl->size.x;
     hitd->discriminant = hitd->h * hitd->h - 4 * hitd->a * hitd->c;
 
-    if (hitd->discriminant < 0)
+    if (hitd->discriminant < 1e-160)
         return (0);
 
     double sqrtd = sqrt(hitd->discriminant);

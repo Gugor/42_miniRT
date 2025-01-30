@@ -34,41 +34,41 @@
 //     hl->half_dir = normalize_v3(sum_v3(hl->dir, hl->view_dir));
 //     hl->specular = pow(fmax(dot(&hitd->normal, &hl->half_dir), 0.0), 1024);
 // 	hl->intensity = hl->specular * light->brghtnss * hl->diffuse;
-// 	// hl->intensity = hl->specular * hl->attenuation * light->brghtnss * hl->diffuse * 10000;
-// 	printf("Higlights intensity %f\n", hl->intensity);
-// 	if (hl->intensity < -0.001)
-// 		return (hitd->rgb);
+// 	hl->intensity = hl->specular * hl->attenuation * light->brghtnss * hl->diffuse * 10000;
+// 	// printf("Higlights intensity %f\n", hl->intensity);
+// 	// if (hl->intensity < -0.001)
+// 	// 	return (hitd->rgb);
 // 	return (sum_rgb(hitd->rgb, scale_color(light->rgb, hl->intensity)));
 // }
 
-// static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
-// {
-// 	t_scene		*scn;
-// 	t_lst		*shapes;
-// 	t_hit_data	hitd;
+static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
+{
+	t_scene		*scn;
+	t_lst		*shapes;
+	t_hit_data	hitd;
 
-// 	scn = get_scene();
-// 	shapes = scn->shapes;
-// 	while (shapes)
-// 	{
-// 		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]
-// 			((void *)shapes->cnt, ray, (t_interval *)&ray->lim, &hitd))
-// 		{
-// 			if (rec)
-// 				rec = &hitd;
-// 			return (true);
-// 		}
-// 		shapes = shapes->next;
-// 	}
-// 	return (false);
-// }
+	scn = get_scene();
+	shapes = scn->shapes;
+	while (shapes)
+	{
+		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]
+			((void *)shapes->cnt, ray, (t_interval *)&ray->lim, &hitd))
+		{
+			if (rec)
+				rec = &hitd;
+			return (true);
+		}
+		shapes = shapes->next;
+	}
+	return (false);
+}
 
 static t_color	calculate_shadows(t_hit_data *hitd, t_higlight *hl, double brigthness)
 {
 	double	diffuse;
 	diffuse = dot(&hl->dir, &hitd->normal);
-	if (fabs(diffuse) < 1e-6)
-		diffuse = 0;
+	// if (diffuse < 1e-6)
+	// 	diffuse = 0;
 	return (scale_color(sum_rgb(hl->rgb, scale_color(hl->rgb,1 - brigthness)), diffuse));
 }
 void	calculate_lights(t_hit_data *hitd)
@@ -82,7 +82,8 @@ void	calculate_lights(t_hit_data *hitd)
 	t_ray	ray;
 
 	lights = get_scene()->lights;
-	hl.rgb = ambient_light_calc(hitd->rgb, &get_scene()->alight);
+	// hl.rgb = ambient_light_calc(hitd->rgb, &get_scene()->alight);
+	hl.rgb = hitd->rgb;
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
@@ -93,7 +94,7 @@ void	calculate_lights(t_hit_data *hitd)
 		ray = init_ray(&hitd->hit, &hl.origin);
 		hit_anything = false;
 		init_limits(&ray.lim, 0.01, length_v3(hl.dir));
-		hit_anything = hit(&ray, &ray.lim, &hitl);
+		hit_anything = shadow_hit(&ray, &hitl);
 		if (hit_anything)
 			hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, &hl, light->brghtnss));
 		// else
