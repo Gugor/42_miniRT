@@ -15,8 +15,8 @@ typedef struct s_hit_data
 	double	t;
 	int		is_front;
 	t_p3	hit;
+	t_vec3	shape_pos;
 	t_vec3	normal;
-	t_vec3	out_normal;
 	t_vec3	det;
 	t_color	rgb;
 	t_color	orgb;
@@ -37,7 +37,6 @@ typedef struct s_ray
 typedef struct s_lst t_lst;
 /*							Ray Casting								  */
 t_ray  			init_ray(t_vec3 *origin, t_vec3 *dir);
-t_color			tst_ray_color(const t_ray *r);
 t_color			ray_color(const t_ray *r, int max_depth);
 t_ray			get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos);
 t_vec3			at(t_ray *r, double t);

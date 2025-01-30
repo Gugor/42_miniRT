@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:04:28 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static double    inv_sqrt_v3(t_vec3 v3)
     return (1.0f / sqrtf(sq));
 }
 
-t_vec3 normalize_v3(t_vec3 v3) {
+t_vec3 normalize_v3(t_vec3 v3)
+{
     double inv_len = inv_sqrt_v3(v3);
     if (inv_len == 0.0f)
         return (t_vec3){0, 0, 0}; // Devuelve vector cero si la longitud es cero
