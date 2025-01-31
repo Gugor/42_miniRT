@@ -39,7 +39,7 @@ void	create_plane(t_scene *scene, const char *line)
 	add_node_to(&scene->shapes, (void *)plane, PLANE);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected.");
+		err_rt_file_format("Invalid input detected.");
 }
 
 void	create_sphere(t_scene *scene, const char *line)
@@ -63,7 +63,7 @@ void	create_sphere(t_scene *scene, const char *line)
 	add_node_to(&scene->shapes, (void *)sphere, SPHERE);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected.");
+		err_rt_file_format("Invalid input detected.");
 }
 
 void	create_cylinder(t_scene *scene, const char *line)
@@ -91,5 +91,5 @@ void	create_cylinder(t_scene *scene, const char *line)
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
 	line += skip_spaces((char *)&line[offset]);
 	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected.");
+		err_rt_file_format("Invalid input detected.");
 }

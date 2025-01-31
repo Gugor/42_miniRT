@@ -45,6 +45,7 @@ double	get_double(const char *line, double base, int *outsize)
 
 	indx = 0;
 	num = 0;
+	indx += skip_spaces((char *)&line[0]);
 	neg = is_chneg(&line[indx], &indx);
 	while (line[indx] && ft_isdigit(line[indx]))
 		num = num * 10 + (line[indx++] - 48);
