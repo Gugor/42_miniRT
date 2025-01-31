@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/30 16:40:32 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/31 13:43:58 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_higlight
 	t_vec3	view_dir;
 	t_vec3	half_dir;
 	t_color	rgb;
-}	t_higlight;
+}	t_highlight;
 
 
 typedef struct s_hit_data t_hit_data;

@@ -81,7 +81,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	hit.h = dot(&ray->direction, &hit.oc);
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
-	if (hit.discriminant < 1e-160)
+	if (hit.discriminant < 1e-6)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
@@ -98,7 +98,6 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->orgb = s->rgb;
 	rec->type = 3;
 	rec->normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
-	// rec->out_normal = normalize_v3(sub_v3(rec->hit, s->pos));
 	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
@@ -149,7 +148,7 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	rec->hit = point;
 	rec->shape_pos = cyl->pos;
 	temp = sub_v3(pp, cyl->axis);
-	temp = normalize_v3(temp);
+	temp = normalize_v3(sub_v3(cyl->pos, temp));
 	set_face_normal(ray, &temp, rec);
 	return (1);
 }

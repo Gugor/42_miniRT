@@ -19,10 +19,10 @@ t_color	sum_rgb(t_color v1, t_color v2)
 	int			r;
 	int			g;
 	int			b;
-	t_interval	inter;
+	// t_interval	inter;
 
-	inter.min = 0;
-	inter.max = 255.9999;
+	// inter.min = 0;
+	// inter.max = 255.9999;
 	r = 0;
 	g = 0;
 	b = 0;
