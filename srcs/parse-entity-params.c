@@ -116,6 +116,23 @@ int	set_cylinder_size(t_vec3 *size, const char *line, int *outsize)
 	return (0);
 }
 
+int	set_torus_size(t_torus *tr, const char *line, int *outsize)
+{
+	int	indx;
+
+	indx = skip_spaces((char *)&line[0]);
+	tr->R = get_double(&line[indx], 10, &indx);
+	if (indx == -1)
+		return (1);
+	indx += skip_spaces((char *)&line[indx]);
+	tr->r = get_double(&line[indx], 10, &indx);
+	if (indx == -1)
+		return (1);
+	if (outsize)
+		*outsize += indx;
+	return (0);
+}
+
 /**
  * @brief It search for a vec3 format inside of a string.
  * @param

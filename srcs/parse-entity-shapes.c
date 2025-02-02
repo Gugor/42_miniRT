@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/17 13:16:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:20:00 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,33 @@ void	create_cylinder(t_scene *scene, const char *line)
 	printf("	RGB: [%i,%i,%i]\n", (cylinder->rgb.clr >> 16) & 0xFF, (cylinder->rgb.clr >> 8) & 0xFF, (cylinder->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
+}
+
+void	create_torus(t_scene *scene, const char *line)
+{
+	t_torus	*torus;
+	int	offset;
+
+	offset = 0;
+	torus = (t_torus *)xmalloc(sizeof(t_torus));
+	printf("=> Create Torus: \"%s\" \n", line);
+	if (set_vec3(&torus->pos, (char *)line, &offset))
+		err_rt_file_format("wrong cylinder format [xyz]");
+	printf("	Pos: [%f,%f,%f]\n", torus->pos.x, torus->pos.y, torus->pos.z);
+	update_line_offset((char **)&line, &offset);
+	if (set_vec3(&torus->axis, (char *)line, &offset))
+		err_rt_file_format("wrong torus format [normal]");
+	printf("	Axis: [%f,%f,%f]\n", torus->axis.x, torus->axis.y, torus->axis.z);
+	torus->axis = normalize_v3(torus->axis);
+	printf("	Norm.Axis: [%f,%f,%f]\n", torus->axis.x, torus->axis.y, torus->axis.z);
+	update_line_offset((char **)&line, &offset);
+	if (set_torus_size(torus, (char *)line, &offset))
+		err_rt_file_format("wrong cylinder format [size]");
+	printf("	Size: [%f,%f]\n", torus->R, torus->r);
+	update_line_offset((char **)&line, &offset);
+	if (set_rgb(&torus->rgb, (char *)line, &offset) || !in_range_rgb(torus->rgb, 0, 255))
+		err_rt_file_format("wrong cylinder format [rgb]");
+	printf("	RGB: [%i,%i,%i]\n", (torus->rgb.clr >> 16) & 0xFF, (torus->rgb.clr >> 8) & 0xFF, (torus->rgb.clr) & 0xFF);
+	scene->num_shapes++;
+	add_node_to(&scene->shapes, (void *)torus, TORUS);
 }

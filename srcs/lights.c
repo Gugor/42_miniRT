@@ -17,33 +17,32 @@
 
 static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl)
 {
+	if (light->brghtnss <= 0)
+		return (hl->rgb);
 	hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
     hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
 	hl->diffuse = dot(&hitd->normal, &hl->half_dir);
-	// if (hl->diffuse >= 0)
-		// return (hl->rgb);
-    hl->specular = pow(fmax(hl->diffuse, 0.0f), 3200 * light->brghtnss);
+    hl->specular = pow(fmax(hl->diffuse, 0.0f), 100 * light->brghtnss);
 	return (sum_rgb(hl->rgb, scale_color(light->rgb, hl->specular)));
 }
 
 static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highlight *hl)
 {
 	// t_vec3		dir_to_hit;
-	// t_vec3		quad;
+	t_vec3		quad;
 
-	// quad.x = 1;
-	// quad.y = 0.1;
-	// quad.z = 0.01;
+	quad.x = 1;
+	quad.y = 0.1;
+	quad.z = 0.01;
+	if (light->brghtnss <= 0)
+		return (hl->rgb);
 	hl->diffuse = dot(&hl->dir_norm, &hitd->normal);
-	// hl->dist_to_light = length_v3(hl->dir);
-	// hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
-	// 		+ (quad.z * hl->dist_to_light * hl->dist_to_light));
-	// hl->intensity = 100 * hl->attenuation * hl->diffuse;
-	hl->intensity = hl->diffuse;
-	// printf("Higlights intensity %f\n", hl->intensity);
-	// if (hl->intensity < -0.001)
-	// 	return (hl->rgb);
-	return (scale_color(sum_rgb(hl->rgb, light->rgb), hl->intensity));
+	hl->dist_to_light = length_v3(hl->dir);
+	hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
+			+ (quad.z * hl->dist_to_light * hl->dist_to_light));
+	hl->intensity = hl->attenuation + hl->diffuse;
+	return (scale_color(sum_rgb(hl->rgb,
+			scale_color(light->rgb, light->brghtnss)), hl->intensity));
 }
 
 static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
@@ -94,7 +93,7 @@ void	calculate_lights(t_hit_data *hitd)
 		init_limits(&ray.lim, 0.01, length_v3(hl.dir));
 		hl.rgb = sum_rgb(hl.rgb, calculate_highlights(hitd, light, &hl));
 		hl.rgb = sum_rgb(hl.rgb, calculate_phong(hitd, light, &hl));
-		if (shadow_hit(&ray, &hitl))
+		if (shadow_hit(&ray, &hitl) && light->brghtnss > 0)
 			hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, &hl));
 		lights = lights->next;
 	}

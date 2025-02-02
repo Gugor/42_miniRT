@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 18:58:35 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:05:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			is_rt_file(const char *filename);
 int			parse_rtfile(const char *filename);
 int			read_rtfile_to_scene(int fd, t_scene *scene);
 
-/*               RTfile Line  src/parse-rtfile-line.c                                               */
+/*               RTfile Line  src/parse-rtfile-line.c                        */
 void		parse_rtfile_line(char *entity, t_scene *scene);
 void		parse_rtfile_line(char *line, t_scene *scene);
 int			find_entity_id(char *buff);
@@ -39,15 +39,18 @@ int			find_entity_id(char *buff);
 void		create_ambient_light(t_scene *scene, const char *line);
 void		create_camera(t_scene *scene, const char *line);
 void		create_light_src(t_scene *scene, const char *line);
+/*               Create Shapes Line                                          */
 void		create_plane(t_scene *scene, const char *line);
 void		create_sphere(t_scene *scene, const char *line);
 void		create_cylinder(t_scene *scene, const char *line);
+void		create_torus(t_scene *scene, const char *line);
 
 int			set_vec3(t_vec3 *vec3, const char *line, int *outsize);
 int			set_rgb(t_color *rgb, const char *line, int *outsize);
 double		get_double(const char *line, double base, int *outsize);
 uint8_t		get_uint8(const char *line, uint16_t base, int *outsize);
 int			set_cylinder_size(t_vec3 *size, const char *line, int *outsize);
+int			set_torus_size(t_torus *tr, const char *line, int *outsize);
 
 /*               Parse Utils                                                 */
 void		update_line_offset(char **line, int *offset);

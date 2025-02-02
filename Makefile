@@ -71,6 +71,7 @@ SRC_FILES		:= minirt.c \
 				math-interval.c \
 				math-rand-generation.c \
 				math-shapes-calculations.c \
+				math-torus-calculations-bonus.c \
 				math-shapes-normals.c \
 				shapes-convertions.c \
 				ray-cast.c \

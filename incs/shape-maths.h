@@ -36,10 +36,28 @@ typedef struct s_cylinder_hit
 	t_vec3	normal;         // Surface normal at the point of intersection
 }	t_cyl_hit;
 
+typedef struct s_tor_hit
+{
+	t_vec3	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	double	e;
+	t_vec3	v;
+	double	discriminant;
+	int		is_front;
+	t_vec3	normal;
+	double	proj_oc_axis;
+	double	proj_dir_axis;
+	t_vec3	oc_perp;
+	t_vec3	dir_perp;
+}	t_tor_hit;
 
 int			hit_plane (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 int 		hit_sphere (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 int			hit_cylinder (void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
+int			hit_torus(void *shp, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec);
 bool		hit(const t_ray *ray, t_interval *lim, t_hit_data *rec);
 // bool		shadow_hit(const t_ray *ray, t_interval *lim, t_hit_data *rec);
 #endif

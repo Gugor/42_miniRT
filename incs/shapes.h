@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:46:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ typedef struct s_cylinder
 	t_color		rgb;
 	t_material	*material;
 }	t_cylinder;
+
+typedef struct s_torus
+{
+	t_vec3		pos;
+	t_vec3		axis;
+	double		R;
+	double		r;
+	t_color		rgb;
+	t_material	*material;
+}	t_torus;
 
 void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_data *rec);
 int		get_SHP_pos(t_vec3 *pos, void *shp, t_entid type);
