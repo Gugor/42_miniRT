@@ -30,6 +30,7 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	t_vec3		dir;
 	t_ray		new;
 
+	hitd.rgb = color(0, 0, 0);
 	if (max_depth <= 0)
 		return (hitd.rgb);
 	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);

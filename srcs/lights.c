@@ -18,37 +18,38 @@
 static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl)
 {
 	hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
+    // hl->half_dir = normalize_v3(div_v3_dbl(sum_v3(hl->dir_norm, hl->view_dir), (double)2.0));
     hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
-    hl->specular = pow(fmax(dot(&hitd->normal, &hl->half_dir), 0.0f), 32);
-	// if (is_brighter(hl->rgb, sum_rgb(hl->rgb, scale_color(hl->rgb, hl->specular * 10))))
+	hl->diffuse = dot(&hitd->normal, &hl->half_dir);
+	// if (hl->diffuse >= 0)
+		// return (hl->rgb);
+    hl->specular = pow(fmax(hl->diffuse, 0.0f), 3200);
+	// if (hl->specular < 0)
+	// 	hl->specular = -hl->specular;
+	// if (is_brighter(hl->rgb, sum_rgb(hl->rgb, scale_color(hl->rgb, hl->specular))))
 	// 	return (hl->rgb);
-	return (sum_rgb(hl->rgb, scale_color(light->rgb, hl->specular * 100)));
-
+	// if (hl->diffuse <= 1e-4)
+	return (sum_rgb(hl->rgb, scale_color(light->rgb, hl->specular)));
 }
+
 static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highlight *hl)
 {
-	t_vec3		quad;
 	// t_vec3		dir_to_hit;
+	// t_vec3		quad;
 
-	quad.x = 1;
-	quad.y = 0.1;
-	quad.z = 0.01;
+	// quad.x = 1;
+	// quad.y = 0.1;
+	// quad.z = 0.01;
 	hl->diffuse = dot(&hl->dir_norm, &hitd->normal);
-	hl->dist_to_light = length_v3(hl->dir);
-	if (hl->diffuse < 1e-4)
-		hl->diffuse = 0;
-	hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
-			+ (quad.z * hl->dist_to_light * hl->dist_to_light));
-	// hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
-    // hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
-    // hl->specular = pow(fmax(dot(&hitd->normal, &hl->half_dir), 0.0f), 32);
-	// hl->intensity = hl->specular * light->brghtnss * hl->diffuse;
-	// hl->intensity = hl->specular * hl->attenuation * light->brghtnss * hl->diffuse * 100000;
-	hl->intensity = 100 *hl->attenuation;
+	// hl->dist_to_light = length_v3(hl->dir);
+	// hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
+	// 		+ (quad.z * hl->dist_to_light * hl->dist_to_light));
+	// hl->intensity = 100 * hl->attenuation * hl->diffuse;
+	hl->intensity = hl->diffuse;
 	// printf("Higlights intensity %f\n", hl->intensity);
-	if (hl->intensity < -0.001)
-		return (hl->rgb);
-	return (sum_rgb(hl->rgb, scale_color(light->rgb, hl->intensity)));
+	// if (hl->intensity < -0.001)
+	// 	return (hl->rgb);
+	return (scale_color(sum_rgb(hl->rgb, light->rgb), hl->intensity));
 }
 
 static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
@@ -73,14 +74,14 @@ static bool shadow_hit(const t_ray *ray, t_hit_data *rec)
 	return (false);
 }
 
-static t_color	calculate_shadows(t_hit_data *hitd, t_highlight *hl, t_light *light)
+static t_color	calculate_shadows(t_hit_data *hitd, t_highlight *hl)
 {
 	double	diffuse;
 	diffuse = dot(&hl->dir_norm, &hitd->normal);
 	printf("Diffuse: %f\n", diffuse);
 	// if (diffuse > 1e-6)
 	// 	diffuse = 0;
-	return (scale_color(sum_rgb(hl->rgb, scale_color(light->rgb, light->brghtnss)), 1 - fabs(diffuse)));
+	return (sum_rgb(hl->rgb, scale_color(hl->rgb, (1 - fabs(diffuse)))));
 }
 void	calculate_lights(t_hit_data *hitd)
 {
@@ -106,13 +107,14 @@ void	calculate_lights(t_hit_data *hitd)
 		hit_anything = false;
 		init_limits(&ray.lim, 0.01, length_v3(hl.dir));
 		hit_anything = shadow_hit(&ray, &hitl);
-		if (!hit_anything)
-		{
 			hl.rgb = sum_rgb(hl.rgb, calculate_highlights(hitd, light, &hl));
 			hl.rgb = sum_rgb(hl.rgb, calculate_phong(hitd, light, &hl));
+		if (hit_anything)
+		{
+			// hl.rgb = sum_rgb(hl.rgb, color(0,0,0));
+			hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, &hl));
 		}
-		else
-			hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, &hl, light));
+		// else
 		lights = lights->next;
 	}
 	hitd->rgb = hl.rgb;
