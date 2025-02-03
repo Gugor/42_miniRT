@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/17 13:16:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:23:58 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	create_plane(t_scene *scene, const char *line)
 
 	offset = 0;
 	plane = (t_plane *)xmalloc(sizeof(t_plane));
+	plane->id = scene->num_shapes;
 	printf("=> Create Plane: \"%s\" \n", line);
 	if (set_vec3(&plane->pos, (char *)line, &offset))
 		err_rt_file_format("wrong plane format [xyz]");
@@ -51,6 +52,7 @@ void	create_sphere(t_scene *scene, const char *line)
 
 	offset = 0;
 	sphere = (t_sphere *)xmalloc(sizeof(t_sphere));
+	sphere->id = scene->num_shapes;
 	printf("=> Create Sphere: \"%s\" \n", line);
 	if (set_vec3(&sphere->pos, (char *)line, &offset))
 		err_rt_file_format("wrong sphere format [xyz]");
@@ -76,6 +78,7 @@ void	create_cylinder(t_scene *scene, const char *line)
 
 	offset = 0;
 	cylinder = (t_cylinder *)xmalloc(sizeof(t_cylinder));
+	cylinder->id = scene->num_shapes;
 	printf("=> Create Cylinder: \"%s\" \n", line);
 	if (set_vec3(&cylinder->pos, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [xyz]");

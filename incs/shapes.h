@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:14:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:22:11 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 typedef struct s_plane
 {
+	int			id;
 	t_vec3		pos;		
 	t_vec3		axis;		
 	t_color		rgb;
@@ -32,6 +33,7 @@ typedef struct s_plane
 
 typedef struct s_sphere
 {
+	int			id;
 	t_vec3		pos;		
 	double		rad;
 	t_color		rgb;
@@ -40,6 +42,7 @@ typedef struct s_sphere
 
 typedef struct s_cylinder
 {
+	int			id;
 	int			indx;
 	t_vec3		pos;		
 	t_vec3		axis;		

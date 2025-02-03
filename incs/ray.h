@@ -14,6 +14,7 @@ typedef struct s_hit_data
 {
 	double	t;
 	int		is_front;
+	int		id;
 	t_p3	hit;
 	t_vec3	shape_pos;
 	t_vec3	normal;
