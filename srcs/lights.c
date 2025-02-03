@@ -20,29 +20,25 @@ static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl
 	hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
     hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
 	hl->diffuse = dot(&hitd->normal, &hl->half_dir);
-	// if (hl->diffuse >= 0)
-		// return (hl->rgb);
-    hl->specular = pow(fmax(hl->diffuse, 0.0f), 3200 * light->brghtnss);
+    hl->specular = pow(fmax(hl->diffuse, 0.0f), 128 * light->brghtnss);
 	return (sum_rgb(hl->rgb, scale_color(light->rgb, hl->specular)));
 }
 
 static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highlight *hl)
 {
 	// t_vec3		dir_to_hit;
-	// t_vec3		quad;
+	t_vec3		quad;
 
-	// quad.x = 1;
-	// quad.y = 0.1;
-	// quad.z = 0.01;
-	hl->diffuse = dot(&hl->dir_norm, &hitd->normal);
-	// hl->dist_to_light = length_v3(hl->dir);
-	// hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
-	// 		+ (quad.z * hl->dist_to_light * hl->dist_to_light));
-	// hl->intensity = 100 * hl->attenuation * hl->diffuse;
-	hl->intensity = hl->diffuse;
-	// printf("Higlights intensity %f\n", hl->intensity);
-	// if (hl->intensity < -0.001)
-	// 	return (hl->rgb);
+	quad.x = 1;
+	quad.y = 0.1;
+	quad.z = 0.01;
+	hl->diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.0f);
+	hl->dist_to_light = length_v3(hl->dir);
+	hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
+			+ (quad.z * hl->dist_to_light * hl->dist_to_light));
+	hl->intensity = hl->attenuation + hl->diffuse;
+	if (hl->intensity < -0.001)
+		return (hl->rgb);
 	return (scale_color(sum_rgb(hl->rgb, light->rgb), hl->intensity));
 }
 
@@ -72,7 +68,9 @@ static t_color	calculate_shadows(t_hit_data *hitd, t_highlight *hl)
 {
 	double	diffuse;
 	diffuse = dot(&hl->dir_norm, &hitd->normal);
-	return (sum_rgb(hl->rgb, scale_color(hl->rgb, (1 - fabs(diffuse)))));
+	if (diffuse < -0.01f)
+		diffuse = 0;
+	return (sum_rgb(hl->rgb, scale_color(hl->rgb, diffuse)));
 }
 void	calculate_lights(t_hit_data *hitd)
 {
@@ -87,6 +85,11 @@ void	calculate_lights(t_hit_data *hitd)
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
+		if (light->brghtnss == 0.0f)
+		{
+			lights = lights->next;
+			continue;
+		}
 		hl.origin = light->pos;
 		hl.dir = sub_v3(hl.origin, hitd->hit);
 		hl.dir_norm = normalize_v3(hl.dir);

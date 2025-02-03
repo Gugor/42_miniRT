@@ -40,7 +40,7 @@ void	init_camera(t_camera *cam)
 	cam->samples_per_pixel = 1;
 	cam->near_plane = 0.001;
 	cam->far_plane = 10;
-	cam->max_depth = 10;
+	cam->max_depth = 1;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
 	cam->fovV = cam->fovH * (16/9);
