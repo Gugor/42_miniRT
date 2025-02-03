@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/31 13:43:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:26:53 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_higlight
 	double	diffuse;
 	double	specular;
 	double	dist_to_light;
+	double	brightness;
 	t_vec3	dir;
 	t_vec3	dir_norm;
 	t_vec3	view_dir;

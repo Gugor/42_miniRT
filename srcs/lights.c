@@ -32,12 +32,13 @@ static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highligh
 	quad.y = 0.1;
 	quad.z = 0.01;
 	hl->diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.0f);
-	hl->dist_to_light = length_v3(hl->dir);
+	hl->dist_to_light = length_v3(hl->dir) / 3 * 100;
 	hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
 			+ (quad.z * hl->dist_to_light * hl->dist_to_light));
-	hl->intensity = hl->attenuation + hl->diffuse;
-	// if (hl->intensity < -0.00001)
-	// 	return (hl->rgb);
+	hl->intensity = (hl->attenuation + hl->diffuse) * hl->brightness;
+	// hl->intensity = hl->diffuse;
+	if (hl->intensity < -0.00001)
+		return (hl->rgb);
 	return (scale_color(light->rgb, hl->intensity));
 }
 
@@ -69,7 +70,7 @@ static t_color	calculate_shadows(t_hit_data *hitd, t_light *light, t_highlight *
 
 	(void)light;
 	diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.00001f);
-	return (scale_color(scale_color(color(0,0,0), (1 + light->brghtnss)), diffuse));
+	return (scale_color(scale_color(color(0, 0, 0), (1 + hl->brightness)), diffuse));
 }
 
 void	calculate_lights(t_hit_data *hitd)
@@ -82,9 +83,14 @@ void	calculate_lights(t_hit_data *hitd)
 
 	lights = get_scene()->lights;
 	hl.rgb = ambient_light_calc(hitd->rgb, &get_scene()->alight);
+	hl.brightness = get_scene()->alight.intensity;
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
+		if (light->brghtnss < get_scene()->alight.intensity)
+			hl.brightness = get_scene()->alight.intensity; 
+		else
+			hl.brightness = light->brghtnss;
 		if (light->brghtnss == 0.0f)
 		{
 			lights = lights->next;
@@ -95,7 +101,8 @@ void	calculate_lights(t_hit_data *hitd)
 		hl.dir_norm = normalize_v3(hl.dir);
 		ray = init_ray(&hitd->hit, &hl.dir_norm);
 		init_limits(&ray.lim, 0.0001f, length_v3(hl.dir));
-		hl.rgb = sum_rgb(scale_color(hl.rgb, (1 - light->brghtnss)), calculate_highlights(hitd, light, &hl));
+			
+		hl.rgb = sum_rgb(scale_color(hl.rgb, hl.brightness), calculate_highlights(hitd, light, &hl));
 		if (shadow_hit(&ray, &hitl))
 		{
 			if (hitl.id != hitd->id)
