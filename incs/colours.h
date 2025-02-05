@@ -16,6 +16,8 @@
 # include <stdbool.h>
 # include "vectors.h"
 
+# define GAMMA 1.3f
+
 typedef union s_color
 {
 	struct 
@@ -41,10 +43,10 @@ typedef struct s_ncolor
 typedef struct s_vec3	t_vec3;
 
 /*							Colours Utils								  */
-t_color		vec3_to_rgb(t_vec3 v3);
 int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
 int			lerpRGB(double pos, t_color from, t_color to);
 t_color		clamp_intensity(t_color d);
+t_color		gamma_correction(t_color clr, double gamma);
 /*							Math Colours								  */
 t_color		sum_rgb(t_color c1, t_color c2);
 t_color		scale_color(t_color rgb, double scale);
