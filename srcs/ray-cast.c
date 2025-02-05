@@ -42,10 +42,10 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 		// hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 		calculate_lights(&hitd);
 		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
-		return (sum_rgb(hitd.rgb, ray_color(&new, --max_depth)));
+		return (mean_rgb(hitd.rgb, ray_color(&new, --max_depth)));
 	}
 	hitd.normal = normalize_v3(ray->direction);
-	hitd.rgb.clr = lerpRGB(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0), scale_rgb(0.5, 0.7, 1.0));
+	hitd.rgb.clr = lerpRGB(hitd.normal.y, color(255, 255, 255), color(127, 178, 255));
 	hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 	return (hitd.rgb);
 }

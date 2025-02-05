@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/03 19:04:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:01:09 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	init_camera(t_camera *cam)
 	cam->samples_per_pixel = 1;
 	cam->near_plane = 0.001;
 	cam->far_plane = 100;
-	cam->max_depth = 1;
+	cam->max_depth = 1000;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
 	cam->fovV = cam->fovH * (16/9);

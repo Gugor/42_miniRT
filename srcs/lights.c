@@ -19,9 +19,9 @@ static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl
 {
 	hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
     hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
-	hl->diffuse = dot(&hitd->normal, &hl->half_dir);
+	// hl->diffuse = fmax(dot(&hitd->normal, &hl->half_dir), 0.0f);
     hl->specular = pow(fmax(hl->diffuse, 0.00001f), 144);
-	return (sum_rgb(hl->rgb, scale_color(light->rgb, 20 * hl->specular * light->brghtnss)));
+	return (scale_color(light->rgb, 10 * hl->specular));
 }
 
 static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highlight *hl)
@@ -31,14 +31,11 @@ static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highligh
 	quad.x = 1;
 	quad.y = 0.1;
 	quad.z = 0.01;
-	hl->diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.0f);
-	hl->dist_to_light = length_v3(hl->dir) / 3 * 100;
+	(void)hitd;
+	hl->dist_to_light = length_v3(hl->dir) / 3 * 1000;
 	hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
 			+ (quad.z * hl->dist_to_light * hl->dist_to_light));
 	hl->intensity = (hl->attenuation + hl->diffuse) * hl->brightness;
-	// hl->intensity = hl->diffuse;
-	if (hl->intensity < -0.00001)
-		return (hl->rgb);
 	return (scale_color(light->rgb, hl->intensity));
 }
 
@@ -64,15 +61,18 @@ static bool	shadow_hit(const t_ray *ray, t_hit_data *rec)
 	return (false);
 }
 
-static t_color	calculate_shadows(t_hit_data *hitd, t_light *light, t_highlight *hl)
-{
-	double	diffuse;
+// static t_color	calculate_shadows(t_hit_data *hitd, t_light *light, t_highlight *hl)
+// {
+// 	double	diffuse;
 
-	(void)light;
-	diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.00001f);
-	return (scale_color(scale_color(color(0, 0, 0), (1 + hl->brightness)), diffuse));
-}
+// 	(void)light;
+// 	diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.00001f);
+// 	return (scale_color(scale_color(color(0, 0, 0), (1 + hl->brightness)), diffuse));
+// }
 
+/**
+ * @brief It calculates the lighte incidence in a given it on the sceneº
+ */
 void	calculate_lights(t_hit_data *hitd)
 {
 	t_lst			*lights;
@@ -82,15 +82,14 @@ void	calculate_lights(t_hit_data *hitd)
 	t_ray			ray;
 
 	lights = get_scene()->lights;
-	hl.rgb = ambient_light_calc(hitd->rgb, &get_scene()->alight);
+	//We calculate the ambient light incidence on the color
+	hl.ambient_clr = ambient_light_calc(hitd->rgb, &get_scene()->alight);
 	hl.brightness = get_scene()->alight.intensity;
+	hl.diffusse_clr = color(0, 0, 0);
+	hl.specular_clr = color(0, 0, 0);
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
-		if (light->brghtnss < get_scene()->alight.intensity)
-			hl.brightness = get_scene()->alight.intensity; 
-		else
-			hl.brightness = light->brghtnss;
 		if (light->brghtnss == 0.0f)
 		{
 			lights = lights->next;
@@ -102,15 +101,17 @@ void	calculate_lights(t_hit_data *hitd)
 		ray = init_ray(&hitd->hit, &hl.dir_norm);
 		init_limits(&ray.lim, 0.0001f, length_v3(hl.dir));
 			
-		hl.rgb = sum_rgb(scale_color(hl.rgb, hl.brightness), calculate_highlights(hitd, light, &hl));
-		if (shadow_hit(&ray, &hitl))
+		if (!shadow_hit(&ray, &hitl))
 		{
-			if (hitl.id != hitd->id)
-				hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, light, &hl));
-			lights = lights->next;
-			continue ;
+			hl.diffuse = fmax(dot(&hl.dir_norm, &hitd->normal), 0.0f);
+			hl.diffusse_clr = calculate_highlights(hitd, light, &hl);
+			// if (hitl.id != hitd->id)
+			// 	hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, light, &hl));
+			hl.specular_clr = calculate_phong(hitd, light, &hl);
+			// lights = lights->next;
+			// continue ;
 		}
-		hl.rgb = sum_rgb(hl.rgb, calculate_phong(hitd, light, &hl));
+		hl.rgb = sum_rgb(hl.specular_clr, sum_rgb(hl.ambient_clr, hl.diffusse_clr));
 		lights = lights->next;
 	}
 	hitd->rgb = hl.rgb;

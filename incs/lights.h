@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/03 19:26:53 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:51:14 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ typedef struct	s_light
 
 typedef struct s_higlight
 {
-	t_vec3	origin;
+	t_vec3	origin;	
+	t_color	ambient_clr;
+	t_color	diffusse_clr;
+	t_color	specular_clr;
 	double	attenuation;
 	double	intensity;
 	double	diffuse;

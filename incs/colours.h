@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:25:40 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/31 19:56:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:20:26 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int			in_range_rgb(t_color val, uint8_t min, uint8_t max);
 int			lerpRGB(double pos, t_color from, t_color to);
 t_color		clamp_intensity(t_color d);
 /*							Math Colours								  */
-t_color		sum_rgb(t_color v1, t_color v2);
+t_color		sum_rgb(t_color c1, t_color c2);
 t_color		scale_color(t_color rgb, double scale);
-t_color		scale_rgb(double r, double g, double b);
+t_color		mean_rgb(t_color c1, t_color c2);
 t_color		clamp_color(t_color c);
 bool    is_brighter(t_color color1, t_color color2);
 
