@@ -34,18 +34,20 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 
 	pl = (t_plane *)shp;
 	denominator = dot(&pl->axis, &ray->direction);
-	if (fabs(denominator) < 1e-6)
+	if (fabs(denominator) < 1e-160)
 		return (0);
-	hitd.oc = sub_v3( pl->pos, ray->origin);
+	hitd.oc = sub_v3(pl->pos, ray->origin);
 	t = (dot(&pl->axis, &hitd.oc)) / denominator;
 	if (!interval_surrounds(ray_limits, t))
 		return (0);
 	rec->t = t;
+	rec->shape_pos = pl->pos;
 	rec->rgb = pl->rgb;
 	rec->orgb = pl->rgb;
 	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
-	rec->out_normal = pl->axis;
-	set_face_normal(ray, &rec->out_normal, rec);
+	rec->normal = pl->axis;
+	rec->id = pl->id;
+	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
 
@@ -80,7 +82,7 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	hit.h = dot(&ray->direction, &hit.oc);
 	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
 	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
-	if (hit.discriminant < 0)
+	if (hit.discriminant < 1e-6)
 		return (0);
 	sqrtd = sqrt(hit.discriminant); 	
 	root = (hit.h - sqrtd) / hit.a;
@@ -91,11 +93,14 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 			return (0);
 	}
 	rec->t = root;
+	rec->shape_pos = s->pos;
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
 	rec->orgb = s->rgb;
-	rec->out_normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
-	set_face_normal(ray, &rec->out_normal, rec);
+	rec->type = 3;
+	rec->normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
+	rec->id = s->id;
+	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
 
@@ -115,7 +120,7 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
     hitd->c = dot(&oc_proj, &oc_proj) - cyl->size.x * cyl->size.x;
     hitd->discriminant = hitd->h * hitd->h - 4 * hitd->a * hitd->c;
 
-    if (hitd->discriminant < 0)
+    if (hitd->discriminant < 1e-160)
         return (0);
 
     double sqrtd = sqrt(hitd->discriminant);
@@ -143,8 +148,10 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	    return (0);
 
 	rec->hit = point;
+	rec->shape_pos = cyl->pos;
+	rec->id = cyl->id;
 	temp = sub_v3(pp, cyl->axis);
-	temp = normalize_v3(temp);
+	temp = normalize_v3(sub_v3(cyl->pos, temp));
 	set_face_normal(ray, &temp, rec);
 	return (1);
 }
@@ -241,7 +248,6 @@ bool hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
 			if (closest > hitd.t)
 			{			 
 				closest = hitd.t;
-				// hitd.rgb = ambient_light_calc(hitd.rgb, &scn->alight);
 				*rec = hitd;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/22 13:16:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:46:53 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,25 @@ static void tst_render_image(t_scene *scn, t_window *win)
 
 void render_scene(t_scene *scn)
 {
-	int	 elapsed;
-	char *render_time;
+	int		elapsed;
+	char	*render_time;
+	t_lst	*lights;
+	t_light	*lght;
 
 	elapsed = 0;
 	printf("=> Rendering Scene(%p)...\n", scn);
 	scn->start_render_tme = get_current_time('m');
+	lights = scn->lights;
+	lght = NULL;
+	while (lights)
+	{
+		lght = (t_light *)lights->cnt;
+		printf("=> Created Light: \"\" \n");
+		printf("	Pos: [%f,%f,%f]\n", lght->pos.x, lght->pos.y, lght->pos.z);
+		printf("	BRGTNSS: %f\n", lght->brghtnss);
+		printf("	RGB: [%hhu,%hhu,%hhu]\n", lght->rgb.a, lght->rgb.r, lght->rgb.g);	
+		lights = lights->next;
+	}
 	render_image(scn, scn->win);
 	elapsed = get_elapsed_time(scn->start_render_tme, 'm');
 	render_time = ft_itoa(elapsed);

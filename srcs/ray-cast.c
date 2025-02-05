@@ -28,20 +28,22 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 	t_vec3		dir;
 	t_ray		new;
 
+	hitd.rgb = color(0, 0, 0);
 	if (max_depth <= 0)
-		return (color(0, 0, 0));
+		return (hitd.rgb);
 	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
 		dir = random_on_hemisphere(hitd.normal);
 		new = init_ray(&hitd.hit, &dir);
-		hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
+		// hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 		calculate_lights(&hitd);
-		return (sum_rgb(hitd.rgb, ray_color(&new, --max_depth)));
+		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
+		return (mean_rgb(hitd.rgb, ray_color(&new, --max_depth)));
 	}
 	hitd.normal = normalize_v3(ray->direction);
-	hitd.rgb.clr = lerprgb(hitd.normal.y, scale_rgb(1.0, 1.0, 1.0),
-			scale_rgb(0.5, 0.7, 1.0));
+	hitd.rgb.clr = lerprgb(hitd.normal.y, color(255, 255, 255), color(127, 178, 255));
+	hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 	return (hitd.rgb);
 }
 

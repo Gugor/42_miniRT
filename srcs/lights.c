@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:04:13 by mmarsa-s          #+#    #+#             */
-/*   Updated: 2025/01/22 13:13:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:09:18hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,96 +15,105 @@
 #include "shape-maths.h"
 #include "colours.h"
 
-static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
+static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl)
 {
-	double	dist;
-	double	intensity;
-	double	diffuse_factor; // Factor difuso basado en la normal y la luz
-	t_vec3	quad;
-	t_vec3	light_dir; // Dirección hacia la luz desde el punto de incidencia
+	hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
+    hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
+	// hl->diffuse = fmax(dot(&hitd->normal, &hl->half_dir), 0.0f);
+    hl->specular = pow(fmax(hl->diffuse, 0.00001f), 144);
+	return (scale_color(light->rgb, hl->specular));
+}
 
-	// Coeficientes de atenuación
+static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highlight *hl)
+{
+	t_vec3		quad;
+
 	quad.x = 1;
 	quad.y = 0.1;
 	quad.z = 0.01;
-
-	// Calcular distancia de la luz al punto
-	dist = ray->length;
-
-	// Calcular dirección hacia la luz (y normalizarla)
-	light_dir = normalize_v3(sub_v3(light->pos, hitd->hit));
-	// light_dir = sub_v3(hitd->hit, light->pos);
-
-	// Producto escalar entre la normal de la superficie y la dirección de la luz
-	diffuse_factor = dot(&hitd->out_normal, &light_dir);
-
-	// Asegurarse de que el factor difuso no sea negativo
-	if (diffuse_factor < 0)
-		diffuse_factor = 0;
-
-	// Calcular la atenuación de la luz basada en la distancia
-	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * dist * dist)); 
-
-	// Combinar la intensidad difusa con la luz de la fuente
-	hitd->rgb = sum_rgb(
-		sum_rgb(hitd->orgb, scale_color(hitd->orgb, 1 - intensity)), // Atenuación de la luz ambiental
-		// hitd->rgb,
-		scale_color(light->rgb, intensity * light->brghtnss * diffuse_factor)  // Luz difusa
-	);
+	(void)hitd;
+	hl->dist_to_light = (length_v3(hl->dir) / 3 * 10);
+	// hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
+	// 		+ (quad.z * hl->dist_to_light * hl->dist_to_light));
+	// hl->intensity = (hl->attenuation + hl->diffuse) * hl->brightness;
+	 hl->intensity = (hl->diffuse) * hl->brightness;
+	return (scale_color(light->rgb, hl->intensity));
 }
 
+static bool	shadow_hit(const t_ray *ray, t_hit_data *rec)
+{
+	t_scene		*scn;
+	t_lst		*shapes;
+	t_hit_data	hitd;
 
-// static void	calculate_shadows(t_ray *ray, t_hit_data *hitd, t_light *light)
+	scn = get_scene();
+	shapes = scn->shapes;
+	while (shapes)
+	{
+		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]
+			((void *)shapes->cnt, ray, (t_interval *)&ray->lim, &hitd))
+		{
+			if (rec)
+				rec = &hitd;
+			return (true);
+		}
+		shapes = shapes->next;
+	}
+	return (false);
+}
+
+// static t_color	calculate_shadows(t_hit_data *hitd, t_light *light, t_highlight *hl)
 // {
-// 	double	dist;
-// 	double	intensity;
-// 	double	t;
-// 	t_vec3	quad;
-	
-// 	quad.x = 1;
-// 	quad.y = 0.1;
-// 	quad.z = 0.01;
+// 	double	diffuse;
 
-// 	// dist = length_v3(sub_v3(hitd->hit, light.pos));
-// 	dist = ray->length;
-// 	t_vec3 src_ray = ray->direction;
-// 	// t_vec3 src_ray = scale_v3(ray->ray, -1);
-// 	t = (1 - light->brghtnss) * dot(&hitd->out_normal, &src_ray);
-// 	// hitd->rgb = sum_rgb(hitd->rgb, scale_color(lightc, t));
-// 	intensity = 1 / (quad.x + (quad.y * dist) + (quad.z * sqrt(dist))); 
-// 	//hitd->rgb = sum_rgb(hitd->rgb, light->rgb);
-// 	hitd->rgb = sum_rgb(scale_color(hitd->rgb, (1 - (intensity))) , scale_color(light->rgb, intensity * light->brghtnss));
+// 	(void)light;
+// 	diffuse = fmax(dot(&hl->dir_norm, &hitd->normal), 0.00001f);
+// 	return (scale_color(scale_color(color(0, 0, 0), (1 + hl->brightness)), diffuse));
 // }
 
-// // static void	calculate_shadows(t_hit_data *hitd)
-// // {
-
-// // }
-
+/**
+ * @brief It calculates the lighte incidence in a given it on the sceneº
+ */
 void	calculate_lights(t_hit_data *hitd)
 {
-	t_lst	*lights;
-	t_light	*light;
-	t_scene *scn;
-	t_ray	ray;
-	t_interval	lim;
-	t_hit_data hitl;
+	t_lst			*lights;
+	t_light			*light;
+	t_hit_data		hitl;
+	t_highlight		hl;
+	t_ray			ray;
 
-	hitl = *hitd;
-	scn = get_scene();
-	lights = scn->lights;
-	init_limits(&lim, 0.001, INFINITY);
+	lights = get_scene()->lights;
+	//We calculate the ambient light incidence on the color
+	hl.ambient_clr = ambient_light_calc(hitd->rgb, &get_scene()->alight);
+	hl.diffusse_clr = color(0, 0, 0);
+	hl.specular_clr = color(0, 0, 0);
 	while (lights)
 	{
 		light = (t_light *)lights->cnt;
-		ray = init_ray(&hitd->hit, &light->pos);
-		calculate_shadows(&ray, hitd, light);
-		if (hit(&ray, &lim, &hitl))
+		if (light->brghtnss == 0.0f)
 		{
-			// calculate_shadows(&ray, hitd, light);
-			//calculate_shadows(hitd);
-			hitd->rgb = scale_color(sum_rgb(hitl.rgb,hitd->orgb), hitd->t);
+			lights = lights->next;
+			continue ;
 		}
+		hl.brightness = light->brghtnss;
+		hl.origin = light->pos;
+		hl.dir = sub_v3(hl.origin, hitd->hit);
+		hl.dir_norm = normalize_v3(hl.dir);
+		ray = init_ray(&hitd->hit, &hl.dir_norm);
+		init_limits(&ray.lim, 0.0001f, length_v3(hl.dir));
+			
+		if (!shadow_hit(&ray, &hitl))
+		{
+			hl.diffuse = fmax(dot(&hl.dir_norm, &hitd->normal), 0.0f);
+			hl.diffusse_clr = calculate_highlights(hitd, light, &hl);
+			// if (hitl.id != hitd->id)
+			// 	hl.rgb = sum_rgb(hl.rgb, calculate_shadows(hitd, light, &hl));
+			hl.specular_clr = calculate_phong(hitd, light, &hl);
+			// lights = lights->next;
+			// continue ;
+		}
+		hl.rgb = sum_rgb(hl.specular_clr, sum_rgb(hl.ambient_clr, hl.diffusse_clr));
 		lights = lights->next;
 	}
+	hitd->rgb = hl.rgb;
 }

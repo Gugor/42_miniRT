@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:51:14 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,26 @@ typedef struct	s_light
 	t_vec3	pos;
 	t_color	rgb;
 }	t_light;
+
+typedef struct s_higlight
+{
+	t_vec3	origin;	
+	t_color	ambient_clr;
+	t_color	diffusse_clr;
+	t_color	specular_clr;
+	double	attenuation;
+	double	intensity;
+	double	diffuse;
+	double	specular;
+	double	dist_to_light;
+	double	brightness;
+	t_vec3	dir;
+	t_vec3	dir_norm;
+	t_vec3	view_dir;
+	t_vec3	half_dir;
+	t_color	rgb;
+}	t_highlight;
+
 
 typedef struct s_hit_data t_hit_data;
 

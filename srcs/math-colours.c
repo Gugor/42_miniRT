@@ -13,25 +13,23 @@
 #include "colours.h"
 #include "maths.h"
 
-t_color	sum_rgb(t_color v1, t_color v2)
+t_color	sum_rgb(t_color c1, t_color c2)
 {
 	t_color		new;
 	int			r;
 	int			g;
 	int			b;
-	t_interval	inter;
+	t_interval inter;
 
 	inter.min = 0;
-	inter.max = 255.9999;
+	inter.max = 255;
+
 	r = 0;
 	g = 0;
 	b = 0;
-	// r = (int)clamp(&inter, ((get_r(v1) + get_r(v2)) * 0.5));
-	// g = (int)clamp(&inter, ((get_g(v1) + get_g(v2)) * 0.5));
-	// b = (int)clamp(&inter, ((get_b(v1) + get_b(v2)) * 0.5));
-	r = (int)(get_r(v1) + get_r(v2)) * 0.5;
-	g = (int)(get_g(v1) + get_g(v2)) * 0.5;
-	b = (int)(get_b(v1) + get_b(v2)) * 0.5;
+	r = (int)clamp(&inter, get_r(c1) + get_r(c2));
+	g = (int)clamp(&inter, get_g(c1) + get_g(c2));
+	b = (int)clamp(&inter, get_b(c1) + get_b(c2));
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }
@@ -45,16 +43,13 @@ t_color scale_color(t_color rgb, double scale)
 	int g;
 	int b;
 	t_interval inter;
-	t_interval inter2;
 
 	inter.min = 0;
-	inter.max = 1;
-	inter2.min = 0;
-	inter2.max = 255;
+	inter.max = 255;
 	scale = clamp(&inter, scale);
-	r = (int)clamp(&inter2, get_r(rgb) * scale);
-	g = (int)clamp(&inter2, get_g(rgb) * scale);
-	b = (int)clamp(&inter2, get_b(rgb) * scale);
+	r = (int)clamp(&inter, get_r(rgb) * scale);
+	g = (int)clamp(&inter, get_g(rgb) * scale);
+	b = (int)clamp(&inter, get_b(rgb) * scale);
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }
@@ -65,18 +60,21 @@ t_color scale_color(t_color rgb, double scale)
  * this values as the percentage this channel is going to be activated.
  * 0 is 0 and 1.0 is 255.
  */
-t_color	scale_rgb(double r, double g, double b)
+t_color	mean_rgb(t_color c1, t_color c2)
 {
-	t_color		c;
-	t_interval	inter;
+	t_color		new;
+	int			r;
+	int			g;
+	int			b;
 
-	inter.min = 0;
-	inter.max = 0.9999;
-
-	c.clr = ((uint8_t)(255.999 * clamp(&inter, r)) << 16
-			| (uint8_t)(255.999 * clamp(&inter, g)) << 8
-			| (uint8_t)(255.999 * clamp(&inter, b)));
-	return (c);
+	r = 0;
+	g = 0;
+	b = 0;
+	r = (int)(get_r(c1) + get_r(c2)) * 0.5;
+	g = (int)(get_g(c1) + get_g(c2)) * 0.5;
+	b = (int)(get_b(c1) + get_b(c2)) * 0.5;
+	new.clr = r << 16 | g << 8 | b;
+	return (new);
 }
 
 t_color	color(uint8_t r, uint8_t g, uint8_t b)
