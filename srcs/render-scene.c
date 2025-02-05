@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/27 13:46:53 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:19:00 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void cast_ray(t_scene *scn)
  * @brief 
  * Sky Blue: 20, 109, 252 White Sky: 247, 250, 255
  */
-static void render_image(t_scene *scn, t_window *win)
+void render_image(t_scene *scn, t_window *win)
 {
 	int			samples;
 	t_ivec2		pix_pos;

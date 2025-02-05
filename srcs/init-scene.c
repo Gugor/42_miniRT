@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/23 16:58:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:54:47 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	init_scene_data(t_scene *scene, t_window *win)
 	scene->num_shapes = 0;
 	scene->win = win;
 	scene_storage(scene);
+	scene->shades_mode = SHADES_MODE;
 	return (0);
 }
 

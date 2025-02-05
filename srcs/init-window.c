@@ -6,13 +6,13 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/28 18:49:56 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:11:12 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "camera.h"
-// #include "logger.h"
+#include "events.h"
 #include "window.h"
 #include "vectors.h"
 #include "memory-handler.h"

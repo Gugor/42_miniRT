@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:54:20 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_scene
 	t_is_hit			check_hit[NUM_SHAPES + 1];
 	t_lst				*lights;
 	t_lst				*shapes;
+	int					shades_mode;
 }	t_scene;
 
 t_scene		*scene_storage(t_scene *storage);
