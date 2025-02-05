@@ -54,6 +54,7 @@ static int SolveQuartic(double coeffs[5], double roots[4]) {
     roots[1] = (-b/2.0 + sqrt_R - sqrt_D)/a;
     roots[2] = (-b/2.0 - sqrt_R + sqrt_D)/a;
     roots[3] = (-b/2.0 - sqrt_R - sqrt_D)/a;
+    
 
     return 4; // Devuelve 4 raíces (pueden incluir complejas)
 }
@@ -92,6 +93,7 @@ t_hit_data *rec)
     // Resolver ecuación cuártica
     double roots[4];
     int num_roots = SolveQuartic(coeffs, roots);
+
     
     // Buscar la raíz válida más pequeña
     double t_min = INFINITY;

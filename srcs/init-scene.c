@@ -50,7 +50,7 @@ static void	init_entity_delegates (t_scene *scene)
 	scene->create_ent[CYLINDER] = &create_cylinder;
 	scene->create_ent[TORUS] = &create_torus;
 	//scene->create_ent[OTHER] = create_other;
-	scene->create_ent[EOS - 1]	= NULL;
+	scene->create_ent[EOS]	= NULL;
 }
 
 /**
