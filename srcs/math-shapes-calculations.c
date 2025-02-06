@@ -94,10 +94,9 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	}
 	rec->t = root;
 	rec->shape_pos = s->pos;
-	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
-	rec->orgb = s->rgb;
 	rec->type = 3;
+	rec->hit = at((t_ray *)ray, rec->t);
 	rec->normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
 	rec->id = s->id;
 	set_face_normal(ray, &rec->normal, rec);
@@ -116,17 +115,17 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
     t_vec3 d_proj = sub_v3(ray->direction, scale_v3(cyl->axis, dot(&ray->direction, &cyl->axis)));
     t_vec3 oc_proj = sub_v3(oc, scale_v3(cyl->axis, dot(&oc, &cyl->axis)));
     hitd->a = dot(&d_proj, &d_proj);
-    hitd->h = 2.0 * dot(&d_proj, &oc_proj);
+    hitd->h = dot(&d_proj, &oc_proj);
     hitd->c = dot(&oc_proj, &oc_proj) - cyl->size.x * cyl->size.x;
-    hitd->discriminant = hitd->h * hitd->h - 4 * hitd->a * hitd->c;
+    hitd->discriminant = hitd->h * hitd->h - hitd->a * hitd->c;
 
     if (hitd->discriminant < 1e-160)
         return (0);
 
     double sqrtd = sqrt(hitd->discriminant);
-    double root = (-hitd->h - sqrtd) / (2.0 * hitd->a);
+    double root = (-hitd->h - sqrtd) / (hitd->a);
     if (!interval_surrounds(ray_limits, root)) {
-        root = (-hitd->h + sqrtd) / (2.0 * hitd->a);
+        root = (-hitd->h + sqrtd) / (hitd->a);
         if (!interval_surrounds(ray_limits, root))
             return (0);
     }
@@ -136,22 +135,23 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
 }
 
 static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_data *rec) {
-	t_vec3	point;
+	// t_vec3	point;
 	t_vec3	pp;
 	double	height_proj;
 	t_vec3	temp;
 
-	point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
-	pp = sub_v3(point, cyl->pos);
+	rec->hit = at((t_ray *)ray, rec->t);
+	// point = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
+	pp = sub_v3(rec->hit, cyl->pos);
 	height_proj = dot(&pp, &cyl->axis);
 	if (height_proj < -cyl->size.z || height_proj >= cyl->size.z)
 	    return (0);
 
-	rec->hit = point;
+	// rec->hit = point;
 	rec->shape_pos = cyl->pos;
 	rec->id = cyl->id;
-	temp = sub_v3(pp, cyl->axis);
-	temp = normalize_v3(sub_v3(cyl->pos, temp));
+	temp = sub_v3(cyl->pos, rec->hit);
+	temp = normalize_v3(sub_v3(scale_v3(cyl->axis, dot(&temp, &cyl->axis)), temp));
 	set_face_normal(ray, &temp, rec);
 	return (1);
 }
