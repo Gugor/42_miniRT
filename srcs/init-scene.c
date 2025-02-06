@@ -31,7 +31,8 @@ static void	set_entity_ids(char *entities[NUM_ENTITIES + 1])
 	entities[3] = "pl";
 	entities[4] = "sp";
 	entities[5] = "cy";
-	entities[6] = NULL;
+	entities[6] = "sq";
+	entities[7] = NULL;
 	// entities[6] = "ot";
 }
 /**
@@ -47,8 +48,9 @@ static void	init_entity_delegates (t_scene *scene)
 	scene->create_ent[PLANE] = &create_plane;
 	scene->create_ent[SPHERE] = &create_sphere;
 	scene->create_ent[CYLINDER] = &create_cylinder;
+	scene->create_ent[SQUARE] = &create_square;
 	//scene->create_ent[OTHER] = create_other;
-	scene->create_ent[EOS - 1]	= NULL;
+	scene->create_ent[EOS]	= NULL;
 }
 
 /**

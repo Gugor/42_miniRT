@@ -46,7 +46,6 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->orgb = pl->rgb;
 	rec->hit = sum_v3(ray->origin, scale_v3(ray->direction, rec->t));
 	rec->normal = pl->axis;
-	rec->id = pl->id;
 	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
@@ -99,7 +98,6 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	rec->orgb = s->rgb;
 	rec->type = 3;
 	rec->normal = div_v3_dbl(sub_v3(rec->hit, s->pos), s->rad);
-	rec->id = s->id;
 	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
@@ -149,7 +147,6 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 
 	rec->hit = point;
 	rec->shape_pos = cyl->pos;
-	rec->id = cyl->id;
 	temp = sub_v3(pp, cyl->axis);
 	temp = normalize_v3(sub_v3(cyl->pos, temp));
 	set_face_normal(ray, &temp, rec);

@@ -25,7 +25,6 @@ void	create_plane(t_scene *scene, const char *line)
 
 	offset = 0;
 	plane = (t_plane *)xmalloc(sizeof(t_plane));
-	plane->id = scene->num_shapes;
 	printf("=> Create Plane: \"%s\" \n", line);
 	if (set_vec3(&plane->pos, (char *)line, &offset))
 		err_rt_file_format("wrong plane format [xyz]");
@@ -52,7 +51,6 @@ void	create_sphere(t_scene *scene, const char *line)
 
 	offset = 0;
 	sphere = (t_sphere *)xmalloc(sizeof(t_sphere));
-	sphere->id = scene->num_shapes;
 	printf("=> Create Sphere: \"%s\" \n", line);
 	if (set_vec3(&sphere->pos, (char *)line, &offset))
 		err_rt_file_format("wrong sphere format [xyz]");
@@ -78,7 +76,6 @@ void	create_cylinder(t_scene *scene, const char *line)
 
 	offset = 0;
 	cylinder = (t_cylinder *)xmalloc(sizeof(t_cylinder));
-	cylinder->id = scene->num_shapes;
 	printf("=> Create Cylinder: \"%s\" \n", line);
 	if (set_vec3(&cylinder->pos, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [xyz]");
@@ -99,4 +96,33 @@ void	create_cylinder(t_scene *scene, const char *line)
 	printf("	RGB: [%i,%i,%i]\n", (cylinder->rgb.clr >> 16) & 0xFF, (cylinder->rgb.clr >> 8) & 0xFF, (cylinder->rgb.clr) & 0xFF);
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
+}
+
+void	create_square(t_scene *scene, const char *line)
+{
+	t_square	*square;
+	int offset;
+
+	offset = 0;
+	square = (t_square *)xmalloc(sizeof(t_square));
+	printf("=> Create Square: \"%s\" \n", line);
+	if (set_vec3(&square->pos, (char *)line, &offset))
+		err_rt_file_format("wrong square format [xyz]");
+	printf("	pos: [%f,%f,%f]\n", square->pos.x, square->pos.y, square->pos.z);
+	update_line_offset((char **)&line, &offset);
+	if (set_vec3(&square->axis, (char *)line, &offset))
+		err_rt_file_format("wrong square format [axis]");
+	printf("	Axis: [%f,%f,%f]\n", square->axis.x, square->axis.y, square->axis.z);
+	square->axis = normalize_v3(square->axis);
+	printf("	Norm.Axis: [%f,%f,%f]\n", square->axis.x, square->axis.y, square->axis.z);
+	update_line_offset((char **)&line, &offset);
+	if (set_cylinder_size(&square->size, (char *)line, &offset))
+		err_rt_file_format("wrong square format [size]");
+	printf("	Size: [%f,%f]\n", square->size.x, square->size.y);
+	update_line_offset((char **)&line, &offset);
+	if (set_rgb(&square->rgb, (char *)line, &offset) || !in_range_rgb(square->rgb, 0, 255))
+		err_rt_file_format("wrong square format [rgb]");
+	printf("	RGB: [%i,%i,%i]\n", (square->rgb.clr >> 16) & 0xFF, (square->rgb.clr >> 8) & 0xFF, (square->rgb.clr) & 0xFF);
+	scene->num_shapes++;
+	add_node_to(&scene->shapes, (void *)square, SQUARE);
 }

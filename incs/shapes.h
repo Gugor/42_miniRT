@@ -24,7 +24,6 @@
 
 typedef struct s_plane
 {
-	int			id;
 	t_vec3		pos;		
 	t_vec3		axis;		
 	t_color		rgb;
@@ -33,7 +32,6 @@ typedef struct s_plane
 
 typedef struct s_sphere
 {
-	int			id;
 	t_vec3		pos;		
 	double		rad;
 	t_color		rgb;
@@ -42,7 +40,6 @@ typedef struct s_sphere
 
 typedef struct s_cylinder
 {
-	int			id;
 	int			indx;
 	t_vec3		pos;		
 	t_vec3		axis;		
@@ -50,6 +47,15 @@ typedef struct s_cylinder
 	t_color		rgb;
 	t_material	*material;
 }	t_cylinder;
+
+typedef struct s_square
+{
+	t_vec3		pos;
+	t_vec3		axis;
+	t_vec3		size;
+	t_color		rgb;
+	t_material	*material;
+}	t_square;
 
 void	set_face_normal(const t_ray *r, const t_vec3 *outward_normal, t_hit_data *rec);
 int		get_SHP_pos(t_vec3 *pos, void *shp, t_entid type);

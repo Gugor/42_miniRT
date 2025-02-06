@@ -42,6 +42,7 @@ void		create_light_src(t_scene *scene, const char *line);
 void		create_plane(t_scene *scene, const char *line);
 void		create_sphere(t_scene *scene, const char *line);
 void		create_cylinder(t_scene *scene, const char *line);
+void        create_square(t_scene *scene, const char *line);
 
 int			set_vec3(t_vec3 *vec3, const char *line, int *outsize);
 int			set_rgb(t_color *rgb, const char *line, int *outsize);

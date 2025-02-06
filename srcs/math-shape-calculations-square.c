@@ -1,30 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entity-data.h                                      :+:      :+:    :+:   */
+/*   math-shape-calculations-square.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmarsa-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 18:27:36 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/09 20:31:31 by hmontoya         ###   ########.fr       */
+/*   Created: 2025/02/06 12:54:39 by mmarsa-s          #+#    #+#             */
+/*   Updated: 2025/02/06 12:54:41 by mmarsa-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENTITY_DATA_H
-# define ENTITY_DATA_H
-
-# define SHAPE_TYPE_OFFSET 3
-
-typedef enum e_entid
-{
-	AMBIENT,
-	LIGHT,
-	CAMERA,
-	PLANE,
-	SPHERE,
-	CYLINDER,
-	SQUARE,
-	EOS
-}	t_entid;
-
-#endif
+#include "shapes.h"
+#include "shape-maths.h"
+#include "vectors.h"
+#include "ray.h"
+#include "lights.h"
