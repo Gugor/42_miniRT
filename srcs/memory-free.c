@@ -73,8 +73,8 @@ void	clear_scene(void)
 		clear_list(scene->lights, &delete_node);
 	if (scene->shapes)
 		clear_list(scene->shapes, &delete_node);
-	// if (scene->win && scene->win->img.img)
-	// 	mlx_destroy_image(scene->win->mlx, (void *)&scene->win->img);
+	if (scene->win && scene->win->img.img)
+		mlx_destroy_image(scene->win->mlx, scene->win->img.img);
 	if (scene->win && scene->win->mlx && scene->win->mlx_win)
 		mlx_destroy_window(scene->win->mlx, scene->win->mlx_win);
 	if (scene->win)

@@ -29,14 +29,19 @@ int	in_range_rgb(t_color val, uint8_t min, uint8_t max)
 }
 
 /**
- * @brief It converst from vec3 to t_color
+ * @brief It calculates the gamma correction for the given pixel
 */
-t_color	vec3_to_rgb(t_vec3 v3)
+t_color gamma_correction(t_color clr, double gamma)
 {
-	t_color	rgb;
+	t_interval	inter;
+	t_color		new;
 
-	rgb.clr = ((uint8_t)v3.x << 16) | ((uint8_t)v3.y << 8) | (uint8_t)v3.z;
-	return (rgb);
+	inter.min = 0;
+	inter.max = 255;
+	new.clr |= (int)clamp(&inter, pow(get_r(clr), 1.0f / gamma)) << 16;
+	new.clr |= (int)clamp(&inter, pow(get_g(clr), 1.0f / gamma)) << 8;
+	new.clr |= (int)clamp(&inter, pow(get_b(clr), 1.0f / gamma));
+	return (new);
 }
 
 /**

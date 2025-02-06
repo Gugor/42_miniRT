@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/23 16:58:18 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:54:47 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	set_entity_ids(char *entities[NUM_ENTITIES + 1])
 	entities[3] = "pl";
 	entities[4] = "sp";
 	entities[5] = "cy";
-	entities[6] = NULL;
+	entities[6] = "sq";
+	entities[7] = NULL;
 	// entities[6] = "ot";
 }
 /**
@@ -47,8 +48,9 @@ static void	init_entity_delegates (t_scene *scene)
 	scene->create_ent[PLANE] = &create_plane;
 	scene->create_ent[SPHERE] = &create_sphere;
 	scene->create_ent[CYLINDER] = &create_cylinder;
+	scene->create_ent[SQUARE] = &create_square;
 	//scene->create_ent[OTHER] = create_other;
-	scene->create_ent[EOS - 1]	= NULL;
+	scene->create_ent[EOS]	= NULL;
 }
 
 /**
@@ -60,6 +62,7 @@ static void init_hit_shape_delegates(t_scene *scene)
 	scene->check_hit[PLANE - SHAPE_TYPE_OFFSET] = &hit_plane;
 	scene->check_hit[SPHERE - SHAPE_TYPE_OFFSET] = &hit_sphere;
 	scene->check_hit[CYLINDER - SHAPE_TYPE_OFFSET] = &hit_cylinder;
+	scene->check_hit[SQUARE - SHAPE_TYPE_OFFSET] = &hit_square;
 	scene->check_hit[4]	= NULL;
 }
 
@@ -79,6 +82,7 @@ int	init_scene_data(t_scene *scene, t_window *win)
 	scene->num_shapes = 0;
 	scene->win = win;
 	scene_storage(scene);
+	scene->shades_mode = SHADES_MODE;
 	return (0);
 }
 

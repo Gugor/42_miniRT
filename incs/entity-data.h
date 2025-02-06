@@ -23,7 +23,7 @@ typedef enum e_entid
 	PLANE,
 	SPHERE,
 	CYLINDER,
-	OTHER,
+	SQUARE,
 	EOS
 }	t_entid;
 

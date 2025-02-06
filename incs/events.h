@@ -4,6 +4,7 @@
 
 /* KEY CODES */
 # define KEY_ESCAPE 65307
+# define KEY_ZERO   49
 
 
 enum EventHandlerType
@@ -85,5 +86,7 @@ enum XEventMask
     ColormapChangeMask = 1L << 23,
     OwnerGrabButtonMask = 1L << 24
 };
+
+void	listen_events(void);
 
 #endif
