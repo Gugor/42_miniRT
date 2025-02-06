@@ -19,8 +19,11 @@ typedef struct s_spheric_hit
 	double	h;
 	double	c;
 	double	discriminant;
+	double	sqrtd;
+	double	root;
 	int		is_front;
 	t_vec3	normal;
+
 }	t_sph_hit;
 
 typedef struct s_cylinder_hit

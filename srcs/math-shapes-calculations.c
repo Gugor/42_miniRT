@@ -49,7 +49,16 @@ int	hit_plane(void *shp, const t_ray *ray, t_interval *ray_limits,
 	set_face_normal(ray, &rec->normal, rec);
 	return (1);
 }
-
+static void	set_sphere_data(t_sph_hit *hit, t_sphere *s, const t_ray *ray)
+{
+	hit->oc = sub_v3(s->pos, ray->origin);
+	hit->a =  length_v3(ray->direction) * length_v3(ray->direction);
+	hit->h = dot(&ray->direction, &hit->oc);
+	hit->c = length_v3(hit->oc) * length_v3(hit->oc) - s->rad * s->rad;
+	hit->discriminant = hit->h * hit->h - hit->a * hit->c;
+	hit->sqrtd = sqrt(hit->discriminant); 	
+	hit->root = (hit->h - hit->sqrtd) / hit->a;
+}
 /**
  * @brief It verifies if a given ray intersects with the given sphere
  *	- a = Represents the quadratic coefficient of the quadratic equation that
@@ -72,26 +81,18 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 {
 	t_sph_hit	hit;
 	t_sphere	*s;
-	double		sqrtd;
-	double		root;
 
 	s = (t_sphere *)shp;
-	hit.oc = sub_v3(s->pos, ray->origin);
-	hit.a =  length_v3(ray->direction) * length_v3(ray->direction);
-	hit.h = dot(&ray->direction, &hit.oc);
-	hit.c = length_v3(hit.oc) * length_v3(hit.oc) - s->rad * s->rad;
-	hit.discriminant = hit.h * hit.h - hit.a * hit.c;
+	set_sphere_data(&hit, s, ray);
 	if (hit.discriminant < 1e-6)
 		return (0);
-	sqrtd = sqrt(hit.discriminant); 	
-	root = (hit.h - sqrtd) / hit.a;
-	if (!interval_surrounds(ray_limits, root))
+	if (!interval_surrounds(ray_limits, hit.root))
 	{
-		root = (hit.h + sqrtd) / hit.a;
-		if (!interval_surrounds(ray_limits, root))
+		hit.root = (hit.h + hit.sqrtd) / hit.a;
+		if (!interval_surrounds(ray_limits, hit.root))
 			return (0);
 	}
-	rec->t = root;
+	rec->t = hit.root;
 	rec->shape_pos = s->pos;
 	rec->hit = at((t_ray *)ray, rec->t);
 	rec->rgb = s->rgb;
@@ -133,7 +134,8 @@ static int intersect_lateral(const t_cylinder *cyl, const t_ray *ray, t_cyl_hit 
     return (1);
 }
 
-static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_data *rec) {
+static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_data *rec)
+{
 	t_vec3	point;
 	t_vec3	pp;
 	double	height_proj;
@@ -153,11 +155,13 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 	return (1);
 }
 
-static t_vec3 calculate_base(const t_cylinder *cyl, double height_offset) {
+static t_vec3 calculate_base(const t_cylinder *cyl, double height_offset)
+{
     return sum_v3(cyl->pos, scale_v3(cyl->axis, height_offset));
 }
 
-static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec, t_vec3 *disk) {
+static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_limits, t_hit_data *rec, t_vec3 *disk)
+{
 	t_vec3	oc;
 	t_vec3 p;
 	double t; 
