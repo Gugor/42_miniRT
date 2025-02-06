@@ -62,6 +62,7 @@ static void init_hit_shape_delegates(t_scene *scene)
 	scene->check_hit[PLANE - SHAPE_TYPE_OFFSET] = &hit_plane;
 	scene->check_hit[SPHERE - SHAPE_TYPE_OFFSET] = &hit_sphere;
 	scene->check_hit[CYLINDER - SHAPE_TYPE_OFFSET] = &hit_cylinder;
+	scene->check_hit[SQUARE - SHAPE_TYPE_OFFSET] = &hit_square;
 	scene->check_hit[4]	= NULL;
 }
 
