@@ -147,7 +147,6 @@ static int validate_lateral_hit(const t_cylinder *cyl, const t_ray *ray, t_hit_d
 
 	// rec->hit = point;
 	rec->shape_pos = cyl->pos;
-	rec->id = cyl->id;
 	temp = sub_v3(cyl->pos, rec->hit);
 	temp = normalize_v3(sub_v3(scale_v3(cyl->axis, dot(&temp, &cyl->axis)), temp));
 	set_face_normal(ray, &temp, rec);
@@ -171,8 +170,6 @@ static int intersect_base(t_cylinder *cyl, const t_ray *ray, t_interval *ray_lim
     t = dot(&oc, &cyl->axis) / denom;
     if (!interval_surrounds(ray_limits, t))
         return (0);
-    // if (t < ray_limits->min || t > ray_limits->max)
-    //     return (0);
     p = sum_v3(ray->origin, scale_v3(ray->direction, t));
     if (length_v3(sub_v3(p, *disk)) >= cyl->size.x)
         return (0);

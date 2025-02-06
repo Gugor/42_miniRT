@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/05 21:11:12 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:49:40 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	set_px00(t_window *win)
  * y+ up
  * z+ front
  */
-static void	init_viewport(t_scene *scn, t_window *win)
+void	init_viewport(t_scene *scn, t_window *win)
 {
 	printf("Initializing Viewport(%ix%i)(vfov[%f])...\n", (int)win->img_width, (int)win->img_height, scn->camera.fovV);
 	win->viewport_height = 2.0 * scn->camera.h * scn->camera.foc_dist;

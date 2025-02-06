@@ -6,13 +6,14 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:10:25 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/06 14:12:40 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:38:25 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "events.h"
 #include "scene.h"
 
-void init_events(t_scene *scn)
+void	init_events(t_scene *scn)
 {
 	scn->config_flags = 0;
 }

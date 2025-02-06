@@ -2,9 +2,27 @@
 #ifndef EVENTS_H
 # define EVENTS_H
 
+# include "scene.h"
+
 /* KEY CODES */
 # define KEY_ESCAPE 65307
-# define KEY_ZERO   49
+# define KEY_0   48
+# define KEY_1   49
+# define KEY_2   50
+# define KEY_UP   65362
+# define KEY_DOWN   65364
+# define KEY_LEFT   65361
+# define KEY_RIGHT   65363
+# define KEY_ROT_UP   119
+# define KEY_ROT_DOWN   115
+# define KEY_ROT_LEFT   97
+# define KEY_ROT_RIGHT   100
+# define KEY_FOV_UP   101
+# define KEY_FOV_DOWN   113
+
+/* Events */
+# define SHADES_MODE (1 << 0)
+# define CAMERA_MODE (1 << 1)
 
 
 enum EventHandlerType
@@ -87,6 +105,23 @@ enum XEventMask
     OwnerGrabButtonMask = 1L << 24
 };
 
+enum e_config_mode
+{
+    ACTIVE_FLG = 0,
+    UNACTIVE_FLG = 1,
+    TOGGLE_FLG = 2,
+};
+
 void	listen_events(void);
+
+void	init_events(t_scene *scn);
+
+
+int		toggle_camera_movement(int keycode);
+int		move_camera(int keycode);
+void	cam_displace_horizontal(t_camera *cam, int dir, double amount);
+void	cam_displace_vertical(t_camera *cam, int dir, double amount);
+
+void	set_config_flag(int mask, int condition);
 
 #endif

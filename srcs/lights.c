@@ -14,8 +14,10 @@
 #include "lights.h"
 #include "shape-maths.h"
 #include "colours.h"
+#include "events.h"
 
-static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl)
+static t_color	calculate_phong(t_hit_data *hitd, t_light *light,
+	t_highlight *hl)
 {
 	hl->view_dir = normalize_v3(sub_v3(get_scene()->camera.pos, hitd->hit));
     hl->half_dir = normalize_v3(sum_v3(hl->dir_norm, hl->view_dir));
@@ -24,7 +26,8 @@ static t_color	calculate_phong(t_hit_data *hitd, t_light *light, t_highlight *hl
 	return (scale_color(scale_color(light->rgb, hl->specular), 0.5));
 }
 
-static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highlight *hl)
+static t_color	calculate_highlights(t_hit_data *hitd, t_light *light,
+	t_highlight *hl)
 {
 	t_vec3		quad;
 
@@ -32,7 +35,7 @@ static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highligh
 	quad.y = 0.1;
 	quad.z = 0.01;
 	(void)hitd;
-	if (get_scene()->shades_mode)
+	if (get_scene()->config_flags & SHADES_MODE)
 	{
 		hl->dist_to_light = (length_v3(hl->dir));
 		hl->attenuation = 1 / (quad.x + (quad.y * hl->dist_to_light)
@@ -40,7 +43,7 @@ static t_color	calculate_highlights(t_hit_data *hitd, t_light *light, t_highligh
 		hl->intensity = (hl->attenuation + hl->diffuse) * hl->brightness;
 	}
 	else
-	 hl->intensity = (hl->diffuse) * hl->brightness;
+		hl->intensity = (hl->diffuse) * hl->brightness;
 	return (scale_color(light->rgb, hl->intensity));
 }
 

@@ -33,6 +33,7 @@ DEPS_CRT		:= create_deps
 INC_FILES		:= scene.h \
 				entity-data.h \
 				camera.h \
+				ui.h \
 				colours.h \
 				file.h \
 				vectors.h \
@@ -62,7 +63,11 @@ SRC_FILES		:= minirt.c \
 				render-scene.c \
 				init-window.c \
 				init-camera.c \
+				config-flags-manager.c \
+				init-events.c \
 				events-window.c \
+				events-camera-movement.c \
+				events-camera-displace.c \
 				rt-file.c \
 				math-colours.c \
 				math-convertions.c \

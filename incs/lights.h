@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/05 20:53:31 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:41:00 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 # include "vectors.h"
 # include "colours.h"
-# ifndef SHADES_MODE 
-#  define SHADES_MODE 0
-# endif
 
 typedef struct s_ambient
 {

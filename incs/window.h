@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/05 21:10:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:50:05 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_window
 typedef struct s_scene t_scene;
 
 void	init_window(t_scene *scn);
+void	init_viewport(t_scene *scn, t_window *win);
 
 
 

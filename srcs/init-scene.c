@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/05 20:54:47 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:20:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "parsing.h"
 #include "window.h"
 #include "shape-maths.h"
+#include "events.h"
 
 
 
@@ -81,8 +82,8 @@ int	init_scene_data(t_scene *scene, t_window *win)
 	scene->shapes = NULL;
 	scene->num_shapes = 0;
 	scene->win = win;
+	init_events(scene);
 	scene_storage(scene);
-	scene->shades_mode = SHADES_MODE;
 	return (0);
 }
 
