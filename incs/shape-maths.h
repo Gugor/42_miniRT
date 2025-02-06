@@ -37,6 +37,8 @@ typedef struct s_cylinder_hit
 	t_vec3	d_proj;         // Projection of ray direction onto the cylinder's axis
 	t_vec3	oc_proj;        // Projection of `oc` (ray origin to cylinder center) onto the cylinder's axis
 	t_vec3	normal;         // Surface normal at the point of intersection
+	double	root;
+	double	sqrtd;
 }	t_cyl_hit;
 
 typedef struct s_square_hit

@@ -41,6 +41,7 @@ typedef struct s_sphere
 typedef struct s_cylinder
 {
 	int			indx;
+	int			top;
 	t_vec3		pos;		
 	t_vec3		axis;		
 	t_vec3		size;
