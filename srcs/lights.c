@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmarsa-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 16:04:13 by mmarsa-s          #+#    #+#             */
-/*   Updated: 2025/01/27 18:09:18hmontoya         ###   ########.fr       */
+/*   Created: 2025/02/07 16:51:30 by mmarsa-s          #+#    #+#             */
+/*   Updated: 2025/02/07 16:51:33 by mmarsa-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "lights.h"
 #include "shape-maths.h"
 #include "colours.h"
-
 
 /**
  * @brief It calculate the specular reflection of an object. Also called

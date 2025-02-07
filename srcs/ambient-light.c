@@ -18,6 +18,5 @@
 */
 t_color	ambient_light_calc(t_color clr, t_ambient *alight)
 {
-	// return (sum_rgb(clr, scale_color(sum_rgb(clr, alight->rgb), alight->intensity)));
 	return (mean_rgb(clr, scale_color(alight->rgb, alight->intensity)));
 }

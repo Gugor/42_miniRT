@@ -20,7 +20,6 @@
 #include "rendering.h"
 #include "lights.h"
 
-
 /**
  * @brief It sends a ray from the screen to the world and check the
  * intersections with wolrd objects.
