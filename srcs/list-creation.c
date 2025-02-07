@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "lists.h"
 #include "shapes.h"
 #include "memory-handler.h"

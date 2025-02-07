@@ -16,27 +16,28 @@
  * @brief It gets the position value in a given shapes and stores it
  * in the `pos` argument.
  */
-int get_SHP_pos(t_vec3 *pos, void *shp, t_entid type)
+int	get_shp_pos(t_vec3 *pos, void *shp, t_entid type)
 {
+	t_cylinder	*cyl;
+	t_plane		*pl;
+	t_sphere	*sph;
+
 	if (type == PLANE)
 	{
-		t_plane *pl;
 		pl = (t_plane *)shp;
-		*pos = pl->pos;	
+		*pos = pl->pos;
 		return (0);
 	}
 	if (type == SPHERE)
 	{
-		t_sphere *sph;
 		sph = (t_sphere *)shp;
-		*pos = sph->pos;	
+		*pos = sph->pos;
 		return (0);
 	}
 	if (type == CYLINDER)
 	{
-		t_cylinder *cyl;
 		cyl = (t_cylinder *)shp;
-		*pos = cyl->pos;	
+		*pos = cyl->pos;
 		return (0);
 	}
 	return (1);

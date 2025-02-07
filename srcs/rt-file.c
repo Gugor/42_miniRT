@@ -17,15 +17,15 @@
 /**
 * @brief It opens the file rt and throws an error otherwise.
 */
-int open_rt(const char *rt_path)
+int	open_rt(const char *rt_path)
 {
-        int     fd; 
+	int	fd;
 
-        if((fd = open(rt_path, O_RDONLY)) == -1)    
-        {
-                err_rt_file_not_open(errno);
-                exit(ERR_FILE_NO_OPEN);
-        }
+	fd = open(rt_path, O_RDONLY);
+	if (fd < 0)
+	{
+		err_rt_file_not_open(errno);
+		exit(ERR_FILE_NO_OPEN);
+	}
 	return (fd);
 }
-

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "vectors.h"
 
 /**
@@ -36,6 +35,3 @@ int	in_range_vec3(t_vec3 val, double min, double max)
 		return (0);
 	return (1);
 }
-
-
-

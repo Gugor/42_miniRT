@@ -38,11 +38,12 @@ void	init_camera(t_camera *cam)
 	cam->samples_per_pixel = 1;
 	cam->near_plane = 0.001;
 	cam->far_plane = 100;
-	cam->max_depth = 1;
+	cam->max_depth = 10;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
-	cam->fovV = cam->fovH * (16/9);
-	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (double)(90.0f / 180.0f), cam->fovV);
+	cam->fovV = cam->fovH * (16 / 9);
+	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH,
+		(double)(90.0f / 180.0f), cam->fovV);
 	cam->foc_dist = 1;
 	cam->h = calculate_fovv(cam);
 	cam->vup = vec3(0, 1, 0);

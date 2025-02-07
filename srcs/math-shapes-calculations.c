@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:48:37 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/20 17:02 by hmontoya         ###   ########.fr       */
+/*   Updated: 2024/12/20 17:02 by hmontoya         ###   ########.fr     	  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,31 +105,31 @@ int	hit_sphere(void *shp, const t_ray *ray, t_interval *ray_limits,
 	return (1);
 }
 
-bool	hit(const t_ray *ray, t_interval *lim, t_hit_data *rec)
+bool	hit(const t_ray *r, t_interval *lim, t_hit_data *rec)
 {
-	t_scene		*scn;
-	t_lst		*shapes;
-	t_hit_data	hitd;
+	t_scene		*n;
+	t_lst		*s;
+	t_hit_data	h;
 	double		closest;
 	bool		hit_anything;
 
 	hit_anything = false;
-	scn = get_scene();
-	shapes = scn->shapes;
+	n = get_scene();
+	s = n->shapes;
 	closest = lim->max;
-	while (shapes)
+	while (s)
 	{
 		init_limits(lim, lim->min, closest);
-		if (scn->check_hit[shapes->type - SHAPE_TYPE_OFFSET]((void *)shapes->cnt, ray, (t_interval *)lim, &hitd))
+		if (n->check_hit[s->type - 3]((void *)s->cnt, r, (t_interval *)lim, &h))
 		{
 			hit_anything = true;
-			if (closest > hitd.t)
+			if (closest > h.t)
 			{
-				closest = hitd.t;
-				*rec = hitd;
+				closest = h.t;
+				*rec = h;
 			}
 		}
-		shapes = shapes->next;
+		s = s->next;
 	}
 	return (hit_anything);
 }

@@ -35,4 +35,3 @@ void	*get_node_at(t_lst *lst, int indx)
 	else
 		return (go_lst_up(lst, indx));
 }
-
