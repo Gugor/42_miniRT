@@ -23,6 +23,8 @@
 /* Events */
 # define SHADES_MODE (1 << 0)
 # define CAMERA_MODE (1 << 1)
+# define CAMERA_DEPTH (1 << 2)
+# define STOP_INPUT_LAYER (1 << 30)
 
 
 enum EventHandlerType
@@ -119,9 +121,15 @@ void	init_events(t_scene *scn);
 
 int		toggle_camera_movement(int keycode);
 int		move_camera(int keycode);
+int		zoom_camera(int keycode);
+int		path_tracing_depth(int keycode);
 void	cam_displace_horizontal(t_camera *cam, int dir, double amount);
 void	cam_displace_vertical(t_camera *cam, int dir, double amount);
+int		path_tracing_depth(int keycode);
 
-void	set_config_flag(int mask, int condition);
+void	set_input_event(int mask, int condition);
+bool	check_flags(int flags);
+bool	input_is_active(int flag);
+
 
 #endif

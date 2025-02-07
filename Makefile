@@ -76,12 +76,14 @@ SRC_FILES		:= minirt.c \
 				math-interval.c \
 				math-rand-generation.c \
 				math-shapes-calculations.c \
+				math-shape-calculations-cylinder.c \
 				math-shape-calculations-square.c \
 				math-shapes-normals.c \
 				shapes-convertions.c \
 				ray-cast.c \
 				ambient-light.c \
 				lights.c \
+				lights-utils.c \
 				colours-utils.c \
 				colours-getters.c \
 				vec3-operations.c \

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/17 18:51:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/07 20:48:24 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@
 #include "rendering.h"
 #include "lights.h"
 
-typedef struct s_interval	t_interval;
 
-t_color	ray_color(const t_ray *ray, int max_depth)
+/**
+ * @brief It sends a ray from the screen to the world and check the
+ * intersections with wolrd objects.
+ * @returns
+ * the color of the closest intersection point.
+*/
+t_color	ray_color(const t_ray *ray, long max_depth)
 {
 	t_hit_data	hitd;
 	t_vec3		dir;
@@ -30,19 +35,18 @@ t_color	ray_color(const t_ray *ray, int max_depth)
 
 	hitd.rgb = color(0, 0, 0);
 	if (max_depth <= 0)
-		return (hitd.rgb);
+		return (color(0,0,0));
 	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{
 		dir = random_on_hemisphere(hitd.normal);
-		new = init_ray(&hitd.hit, &dir);
-		// hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
+		new = init_ray(&hitd.hit, &dir, ray->lim.min, ray->lim.max);
 		calculate_lights(&hitd);
-		// return (scale_color(sum_rgb(hitd.rgb, ray_color(&new, --max_depth)), 0.5));
 		return (mean_rgb(hitd.rgb, ray_color(&new, --max_depth)));
 	}
 	hitd.normal = normalize_v3(ray->direction);
-	hitd.rgb.clr = lerprgb(hitd.normal.y, color(255, 255, 255), color(127, 178, 255));
+	hitd.rgb.clr = lerprgb(hitd.normal.y, color(255, 255, 255),
+			color(127, 178, 255));
 	hitd.rgb = ambient_light_calc(hitd.rgb, &get_scene()->alight);
 	return (hitd.rgb);
 }
@@ -59,7 +63,7 @@ t_ray	get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
 	pixel_sample = get_pix_rand_pos(&win->p00, &win->pixel_delta_u,
 			&win->pixel_delta_v, pix_pos);
 	ray_dir = sub_v3(pixel_sample, camera->center);
-	ray = init_ray((t_vec3 *)&camera->center, &ray_dir);
+	ray = init_ray((t_vec3 *)&camera->center, &ray_dir, 0.001, INFINITY);
 	return (ray);
 }
 
@@ -78,7 +82,7 @@ t_vec3	at(t_ray *r, double t)
 /**
  * @brief It creates a ray from an origin with a direction.
  */
-t_ray	init_ray(t_vec3 *origin, t_vec3 *dir)
+t_ray	init_ray(t_vec3 *origin, t_vec3 *dir, double min, double max)
 {
 	t_ray	ray;
 
@@ -87,5 +91,6 @@ t_ray	init_ray(t_vec3 *origin, t_vec3 *dir)
 	ray.ray = sub_v3(*dir, *origin);
 	ray.length = length_v3(ray.ray);
 	ray.norm = normalize_v3(ray.ray);
+	init_limits(&ray.lim, min, max);
 	return (ray);
 }

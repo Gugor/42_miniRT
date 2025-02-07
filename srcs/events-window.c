@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:45:41 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/06 19:44:01 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/07 19:54:36 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,23 @@
 #include "rendering.h"
 #include "memory-handler.h"
 
-int close(int keycode)
+bool check_flags(int flags)
+{
+	if ((get_scene()->input_flags & flags))
+		return (printf("Input not allowed\n"), 1);
+	else
+		return (printf("Input\n"), 0);
+}
+
+bool	input_is_active(int flag)
+{
+	if (get_scene()->input_flags & flag)
+		return (1);
+	else
+		return (0);
+}
+
+int	close(int keycode)
 {
 	if (keycode != KEY_ESCAPE && keycode != 0)
 		return (0);
@@ -37,9 +53,9 @@ int	toggle_hard_shades_mode(int keycode)
 	if (keycode != KEY_0)
 		return (0);
 	scn = get_scene();
-	if (scn->config_flags & SHADES_MODE)
+	if (scn->input_flags & SHADES_MODE)
 	{
-		set_config_flag(SHADES_MODE, UNACTIVE_FLG);
+		set_input_event(SHADES_MODE, UNACTIVE_FLG);
 		render_image(scn, scn->win);
 		mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
 			scn->win->img.img, 0, 0);
@@ -47,7 +63,7 @@ int	toggle_hard_shades_mode(int keycode)
 	}
 	else
 	{
-		set_config_flag(SHADES_MODE, TOGGLE_FLG);
+		set_input_event(SHADES_MODE, TOGGLE_FLG);
 		render_image(scn, scn->win);
 		mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
 			scn->win->img.img, 0, 0);
@@ -65,6 +81,8 @@ int	on_key_pressed(int keycode)
 	close(keycode);
 	toggle_camera_movement(keycode);
 	move_camera(keycode);
+	zoom_camera(keycode);
+	// path_tracing_depth(keycode);
 	return (0);
 }
 

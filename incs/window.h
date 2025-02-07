@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/06 19:50:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:29:38 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 # include "scene.h"
 # include "mlx.h"
+
+# define ASPEC_RATIO 16/9
 
 typedef struct	s_img {
 	void	*img;

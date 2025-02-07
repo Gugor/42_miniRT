@@ -76,7 +76,8 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 
 	indx = 0;
 	indx += skip_spaces((char *)&line[0]);
-	if (!ft_isdigit(line[indx]) && is_vec_format(&line[indx], VEC3))
+	if (!ft_isdigit(line[indx])
+		&& is_vec_format(&line[indx], VEC3) && line[indx] != '-')
 		return (2);
 	if (!ft_isdigit(line[indx]) && line[indx] != '-')
 		return (2);
