@@ -31,7 +31,7 @@ int	in_range_rgb(t_color val, uint8_t min, uint8_t max)
 /**
  * @brief It calculates the gamma correction for the given pixel
 */
-t_color gamma_correction(t_color clr, double gamma)
+t_color	gamma_correction(t_color clr, double gamma)
 {
 	t_interval	inter;
 	t_color		new;

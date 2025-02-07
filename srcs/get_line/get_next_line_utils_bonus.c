@@ -13,7 +13,6 @@
 #include "get_next_line.h"
 #include <string.h>
 
-
 ssize_t	ft_strlenss(char *s)
 {
 	ssize_t	i;

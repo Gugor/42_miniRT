@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math-colours.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmarsa-s <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 14:47:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/21 10:54:01 hmontoya         ###   ########.fr       */
+/*   Created: 2025/02/07 13:02:08 by mmarsa-s          #+#    #+#             */
+/*   Updated: 2025/02/07 13:02:10 by mmarsa-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ t_color	sum_rgb(t_color c1, t_color c2)
 	int			r;
 	int			g;
 	int			b;
-	t_interval inter;
+	t_interval	inter;
 
 	inter.min = 0;
 	inter.max = 255;
-
 	r = 0;
 	g = 0;
 	b = 0;
@@ -33,16 +32,17 @@ t_color	sum_rgb(t_color c1, t_color c2)
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }
+
 /**
  * @brief This funtion scale a rgb color in the uint8 range [0, 255].
  */
-t_color scale_color(t_color rgb, double scale)
+t_color	scale_color(t_color rgb, double scale)
 {
-	t_color new;
-	int r;
-	int g;
-	int b;
-	t_interval inter;
+	t_color		new;
+	int			r;
+	int			g;
+	int			b;
+	t_interval	inter;
 
 	inter.min = 0;
 	inter.max = 255;
@@ -70,9 +70,9 @@ t_color	mean_rgb(t_color c1, t_color c2)
 	r = 0;
 	g = 0;
 	b = 0;
-	r = (int)(get_r(c1) + get_r(c2)) * 0.5;
-	g = (int)(get_g(c1) + get_g(c2)) * 0.5;
-	b = (int)(get_b(c1) + get_b(c2)) * 0.5;
+	r = (int)(get_r(c1) + get_r(c2)) *0.5;
+	g = (int)(get_g(c1) + get_g(c2)) *0.5;
+	b = (int)(get_b(c1) + get_b(c2)) *0.5;
 	new.clr = r << 16 | g << 8 | b;
 	return (new);
 }

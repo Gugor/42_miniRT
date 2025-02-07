@@ -17,30 +17,27 @@
 #include "memory-handler.h"
 #include "error-handler.h"
 
-void print_struct_sizes(void)
+void	print_struct_sizes(void)
 {
 	printf("t_scene size: %li\n", sizeof(t_scene));
 	printf("t_vec3 size: %li\n", sizeof(t_vec3));
 	printf("t_vec2 size: %li\n", sizeof(t_vec2));
 	printf("t_color size: %li\n", sizeof(t_color));
 	printf("t_lst size: %li\n", sizeof(t_lst));
-	printf("\n");	
-	
+	printf("\n");
 	printf("t_camera size: %li\n", sizeof(t_camera));
 	printf("t_ambient size: %li\n", sizeof(t_ambient));
 	printf("t_light size: %li\n", sizeof(t_light));
 	printf("t_plane size: %li\n", sizeof(t_plane));
 	printf("t_sphere size: %li\n", sizeof(t_sphere));
 	printf("t_cylinder size: %li\n", sizeof(t_cylinder));
-	printf("\n");	
-
+	printf("\n");
 	printf("t_material size: %li\n", sizeof(t_material));
-	printf("\n");	
-
+	printf("\n");
 	printf("t_reqents size: %li\n", sizeof(t_reqents));
 	printf("t_entid size: %li\n", sizeof(t_entid));
 	printf("e_errorsnum size: %li\n", sizeof(t_errorsnum));
-	printf("\n");	
+	printf("\n");
 }
 
 int	main(int ac, char **av)

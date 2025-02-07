@@ -16,7 +16,7 @@
 void	init_limits(t_interval *inter, double min, double max)
 {
 	inter->min = min;
-	inter->max = max;	
+	inter->max = max;
 }
 
 bool	interval_contains(t_interval *inter, double p)
