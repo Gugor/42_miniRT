@@ -17,7 +17,7 @@
 int select_light(int keycode)
 {
 
-	if (keycode != KEY_1)	
+	if (keycode != KEY_1)
 		return (0);
 	t_scene *scn;
 
