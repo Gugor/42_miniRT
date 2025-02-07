@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:26:33 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/05 20:53:31 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:33:32 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_ambient
 	t_color	rgb;
 }	t_ambient;
 
-typedef struct	s_light
+typedef struct s_light
 {
 	double	brghtnss;
 	t_vec3	pos;
@@ -55,8 +55,12 @@ typedef struct s_higlight
 }	t_highlight;
 
 
-typedef struct s_hit_data t_hit_data;
+typedef struct s_hit_data	t_hit_data;
 
 t_color			ambient_light_calc(t_color clr, t_ambient *alight);
 void			calculate_lights(t_hit_data *hitd);
+
+void			init_highlights(t_highlight *hl, t_color *albedo);
+void			update_higlights(t_highlight *hl, t_light *light,
+					t_hit_data *hitd);
 #endif

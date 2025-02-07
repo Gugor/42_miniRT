@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/27 13:36:46 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:15:39 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	create_light_src(t_scene *scene, const char *line)
 	update_line_offset((char **)&line, &offset);
 	line += skip_spaces((char *)line);
 	light->brghtnss = get_double((char *)line, 10, &offset);
-	if (!light->brghtnss || !in_range_dbl(light->brghtnss, 0.0, 1.0)
+	if (!in_range_dbl(light->brghtnss, 0.0, 1.0)
 		|| offset == -1)
 		err_rt_file_format("wrong source light format [BRGHTNSS].");
 	line += offset;

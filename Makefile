@@ -77,6 +77,7 @@ SRC_FILES		:= minirt.c \
 				ray-cast.c \
 				ambient-light.c \
 				lights.c \
+				lights-utils.c \
 				colours-utils.c \
 				colours-getters.c \
 				vec3-operations.c \

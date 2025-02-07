@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:03 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/05 19:59:01 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/07 14:24:13 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	init_camera(t_camera *cam)
 	cam->max_depth = 1;
 	cam->pixel_sample_scale = 1.0 / cam->samples_per_pixel;
 	init_limits(&inter, 0.0, 90.0);
-	cam->fovV = cam->fovH * (16/9);
-	printf("FoVH=%f * (%f) = FoVV:%f\n", cam->fovH, (double)(90.0f / 180.0f), cam->fovV);
+	cam->fovV = cam->fovH * (ASPEC_RATIO);
+	printf("FoVH=%f * (%d) = FoVV:%f\n", cam->fovH, ASPEC_RATIO, cam->fovV);
 	cam->foc_dist = 1;
 	cam->h = calculate_fovv(cam);
 	cam->vup = vec3(0, 1, 0);
