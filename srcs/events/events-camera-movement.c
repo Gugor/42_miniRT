@@ -6,14 +6,14 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:39:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 19:55:31 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/09 18:10:43 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "rendering.h"
 #include "events.h"
-#include "ui.h"
+#include "gui.h"
 #include "window.h"
 #include "libft.h"
 
@@ -28,19 +28,14 @@ int	toggle_camera_movement(int keycode)
 	if (scn->input_flags & CAMERA_MODE)
 	{
 		set_input_event(CAMERA_MODE, UNACTIVE_FLG);
-		render_image(scn, scn->win);
-		dprintf(2, ":: Camera Movemente mode OFF\n");
+		dprintf(2, ":: Camera Movement mode OFF\n");
 	}
 	else
 	{
 		set_input_event(CAMERA_MODE, ACTIVE_FLG);
-		render_image(scn, scn->win);
-		mlx_string_put(scn->win->mlx, scn->win->mlx_win, W_pad,
-			H_pad + 10, color(255, 0, 0).clr, "CAMERA MOVEMENT: ON");
+		render_gui(scn);
 		dprintf(2, ":: Camera Movemente mode ON\n");
 	}
-	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
-		scn->win->img.img, 0, 0);
 	return (0);
 }
 
@@ -53,15 +48,14 @@ int	move_camera(int keycode)
 	cam = &get_scene()->camera;
 	if (!(scn->input_flags & CAMERA_MODE))
 		return (0);
+	mlx_clear_window(scn->win->mlx, scn->win->mlx_win);
 	cam_displace_horizontal(cam, keycode, 1.0f);
 	cam_displace_vertical(cam, keycode, 1.0f);
 	init_camera(&scn->camera);
 	init_viewport(scn, scn->win);
+	
 	render_image(scn, scn->win);
-	mlx_string_put(scn->win->mlx, scn->win->mlx_win, W_pad,
-		H_pad + 10, color(255, 0, 0).clr, "CAMERA MOVEMENT: ON");
-	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
-		scn->win->img.img, 0, 0);	
+	render_gui(scn);
 	return (0);
 }
 
@@ -80,9 +74,9 @@ int	zoom_camera(int keycode)
 		cam->fovH += 10;
 	init_camera(&scn->camera);
 	init_viewport(scn, scn->win);
+	// mlx_clear_window(scn->win->mlx, scn->win->mlx_win);
 	render_image(scn, scn->win);
-	mlx_string_put(scn->win->mlx, scn->win->mlx_win, W_pad,
-		H_pad + 10, color(255, 0, 0).clr, "CAMERA MOVEMENT: ON");
+	render_gui(scn);
 	return (0);
 }
 

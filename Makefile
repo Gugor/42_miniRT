@@ -22,6 +22,18 @@ LIBS_DIR		:= libs
 MLX_DIR			:= libs/$(MLX)
 LIBFT_DIR		:= libs/$(LIBFT)
 SRCS_DIR		:= srcs
+GUI_DIR			:= GUI
+COLOR_DIR		:= color
+EVENTS_DIR		:= events
+INTERSEC_DIR	:= intersections
+LIGHTS_DIR		:= lights
+MATHS_DIR		:= maths
+MEMORY_DIR		:= memory
+PARSING_DIR		:= parsing
+RENDER_DIR		:= render
+VIEWPORT_DIR	:= viewport
+MISC_DIR		:= misc
+
 GETLINE_DIR		:= get_line
 LOGGER_DIR		:= logger
 OBJS_CRT		:= create_objs
@@ -33,7 +45,7 @@ DEPS_CRT		:= create_deps
 INC_FILES		:= scene.h \
 				entity-data.h \
 				camera.h \
-				ui.h \
+				gui.h \
 				colours.h \
 				file.h \
 				vectors.h \
@@ -52,54 +64,54 @@ INC_FILES		:= scene.h \
 				logger.h
 
 SRC_FILES		:= minirt.c \
-				init-scene.c \
-				parse-rtfile.c \
-				parse-errors.c \
-				parse-entities.c \
-				parse-entity-shapes.c \
-				parse-entity-params.c \
-				parse-rtfile-line.c \
-				parse-utils.c \
-				render-scene.c \
-				init-window.c \
-				init-camera.c \
-				config-flags-manager.c \
-				init-events.c \
-				events-window.c \
-				events-camera-movement.c \
-				events-camera-displace.c \
-				rt-file.c \
-				math-colours.c \
-				math-convertions.c \
-				math-in-range-utils.c \
-				math-interval-absolutes.c \
-				math-interval.c \
-				math-rand-generation.c \
-				math-shapes-calculations.c \
-				math-shape-calculations-cylinder.c \
-				math-shape-calculations-square.c \
-				math-shapes-normals.c \
-				shapes-convertions.c \
-				ray-cast.c \
-				ambient-light.c \
-				lights.c \
-				lights-utils.c \
-				colours-utils.c \
-				colours-getters.c \
-				vec3-operations.c \
-				vec3-operations-2.c \
-				vec3-float-operations.c \
-				vec3-position-ops.c \
-				pixel-operations.c \
-				list-creation.c \
-				list-iteration.c \
-				memory-creation.c \
-				memory-free.c \
-				time-handler.c \
+				$(MISC_DIR)/list-creation.c \
+				$(MISC_DIR)/list-iteration.c \
+				$(MISC_DIR)/time-handler.c \
+				$(VIEWPORT_DIR)/init-window.c \
+				$(VIEWPORT_DIR)/init-camera.c \
+				$(RENDER_DIR)/render-scene.c \
+				$(RENDER_DIR)/ray-cast.c \
+				$(RENDER_DIR)/pixel-operations.c \
+				$(PARSING_DIR_DIR)/rt-file.c \
+				$(PARSING_DIR)/init-scene.c \
+				$(PARSING_DIR)/parse-rtfile.c \
+				$(PARSING_DIR)/parse-errors.c \
+				$(PARSING_DIR)/parse-entities.c \
+				$(PARSING_DIR)/parse-entity-shapes.c \
+				$(PARSING_DIR)/parse-entity-params.c \
+				$(PARSING_DIR)/parse-rtfile-line.c \
+				$(PARSING_DIR)/parse-utils.c \
+				$(MEMORY_DIR)/memory-creation.c \
+				$(MEMORY_DIR)/memory-free.c \
+				$(MATHS_DIR)/math-convertions.c \
+				$(MATHS_DIR)/math-in-range-utils.c \
+				$(MATHS_DIR)/math-interval-absolutes.c \
+				$(MATHS_DIR)/math-interval.c \
+				$(MATHS_DIR)/math-rand-generation.c \
+				$(MATHS_DIR)/vec3-operations.c \
+				$(MATHS_DIR)/vec3-operations-2.c \
+				$(MATHS_DIR)/vec3-float-operations.c \
+				$(MATHS_DIR)/vec3-position-ops.c \
+				$(LIGHTS_DIR)/ambient-light.c \
+				$(LIGHTS_DIR)/lights.c \
+				$(LIGHTS_DIR)/lights-utils.c \
+				$(INTERSEC_DIR)/math-shapes-calculations.c \
+				$(INTERSEC_DIR)/math-shape-calculations-cylinder.c \
+				$(INTERSEC_DIR)/math-shape-calculations-square.c \
+				$(INTERSEC_DIR)/math-shapes-normals.c \
+				$(events)/config-flags-manager.c \
+				$(events)/events-camera-displace.c \
+				$(events)/events-camera-movement.c \
+				$(events)/events-window.c \
+				$(events)/init-events.c \
+				$(COLOR_DIR)/math-colours.c \
+				$(COLOR_DIR)/colours-utils.c \
+				$(COLOR_DIR)/colours-getters.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
 				$(LOGGER_DIR)/print-scene.c \
 				$(LOGGER_DIR)/log-viewport-data.c \
+				$(GUI_DIR)/entities-panel.c \
 
 #create includes var with include names.
 OBJS_DIR		:= .objs
@@ -147,6 +159,17 @@ create_objs::
 	@mkdir -vp .objs 
 	@mkdir -vp .objs/get_line 
 	@mkdir -vp .objs/logger 
+	@mkdir -vp .objs/GUI 
+	@mkdir -vp .objs/color 
+	@mkdir -vp .objs/events 
+	@mkdir -vp .objs/intersections 
+	@mkdir -vp .objs/lights 
+	@mkdir -vp .objs/maths 
+	@mkdir -vp .objs/memory 
+	@mkdir -vp .objs/misc 
+	@mkdir -vp .objs/parsing 
+	@mkdir -vp .objs/render
+	@mkdir -vp .objs/viewport 
 	@chmod 755 $(OBJS_DIR)
 create_objs:: 
 	@printf " 🌟 $(WHITE) Objects Folders Created $(RESET)🌟 \n" 

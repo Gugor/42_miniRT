@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 18:37:33 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/09 18:13:20 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_scene
 	int					num_shapes;
 	char				*entity_ids[NUM_ENTITIES + 1];
 	int					start_render_tme;
+	int					end_render_tme;
 	t_color				*img_pixels;
 	t_ambient			alight;
 	t_camera			camera;

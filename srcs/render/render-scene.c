@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/06 18:24:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/09 18:17:52y hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "shapes.h"
 #include "shape-maths.h"
 #include "time.h"
+#include "gui.h"
 
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
@@ -51,6 +52,7 @@ void	render_image(t_scene *scn, t_window *win)
 	pix_pos.x = -1;
 	pix_pos.y = -1;
 	print_viewport_info(win);
+	scn->start_render_tme = get_current_time('m');
 	while (++pix_pos.y < win->img_height)
 	{
 		while (++pix_pos.x < win->img_width)
@@ -66,6 +68,9 @@ void	render_image(t_scene *scn, t_window *win)
 		}
 		pix_pos.x = -1;
 	}
+	scn->end_render_tme = get_elapsed_time(scn->start_render_tme, 'm');
+	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
+		scn->win->img.img, 0, 0);
 }
 
 static void	print_create_light(t_light *lght)
@@ -80,13 +85,10 @@ static void	print_create_light(t_light *lght)
 void	render_scene(t_scene *scn)
 {
 	int		elapsed;
-	char	*render_time;
 	t_lst	*lights;
 	t_light	*lght;
 
 	elapsed = 0;
-	printf("=> Rendering Scene(%p)...\n", scn);
-	scn->start_render_tme = get_current_time('m');
 	lights = scn->lights;
 	lght = NULL;
 	while (lights)
@@ -96,12 +98,10 @@ void	render_scene(t_scene *scn)
 		lights = lights->next;
 	}
 	render_image(scn, scn->win);
-	elapsed = get_elapsed_time(scn->start_render_tme, 'm');
-	render_time = ft_itoa(elapsed);
-	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
-		scn->win->img.img, 0, 0);
+	mlx_loop_hook(scn->win->mlx, &render_gui, scn);
+	// render_gui((void *)scn);
+	elapsed = scn->end_render_tme;
 	printf("Image rendered[%dms][%ds][%d:%dmins]\n", elapsed,
 		(int)(elapsed * 0.001), (int)((elapsed * 0.001) / 60),
 		(int)(elapsed * 0.001) - (int)(60 * (int)((elapsed * 0.001) / 60)));
-	memfree((void *)&render_time);
 }

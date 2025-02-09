@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:45:13 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/09 16:16:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_color	gamma_correction(t_color clr, double gamma)
 
 	inter.min = 0;
 	inter.max = 255;
+	new.clr = 0;
 	new.clr |= (int)clamp(&inter, pow(get_r(clr), 1.0f / gamma)) << 16;
 	new.clr |= (int)clamp(&inter, pow(get_g(clr), 1.0f / gamma)) << 8;
 	new.clr |= (int)clamp(&inter, pow(get_b(clr), 1.0f / gamma));
