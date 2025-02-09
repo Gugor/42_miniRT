@@ -16,7 +16,6 @@
 #include "colours.h"
 #include "events.h"
 
-
 /**
  * @brief It calculate the specular reflection of an object. Also called
  * Phong reflections.

@@ -187,17 +187,17 @@ $(MLX) :
 	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) Looking for Graphic Dependencies for $(MAGENTA)minilibx$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) This can take a while depending the state of your dependencies\n" 
-	@if ! sudo -n true 2>/dev/null; then \
-		echo ""; \
-		echo "$(RED)::->$(RESET) You don't have sudo access. Ask your system admin to install the following dependencies: "; \
-		echo "\t >_ $(WHITE)sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev$(RESET)"; \
-		echo ""; \
-		echo  "$(RED)::->$(RESET) If you are sure that you have installed all this dependencies. Just execute the next code to skip this step."; \
-		echo "\t >_ $(WHITE)touch .mlx$(RESET)"; \
-		echo ""; \
-	else \
-		exit; \
-	fi 
+	# @if ! sudo -n true 2>/dev/null; then \
+	# 	echo ""; \
+	# 	echo "$(RED)::->$(RESET) You don't have sudo access. Ask your system admin to install the following dependencies: "; \
+	# 	echo "\t >_ $(WHITE)sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev$(RESET)"; \
+	# 	echo ""; \
+	# 	echo  "$(RED)::->$(RESET) If you are sure that you have installed all this dependencies. Just execute the next code to skip this step."; \
+	# 	echo "\t >_ $(WHITE)touch .mlx$(RESET)"; \
+	# 	echo ""; \
+	# else \
+	# 	exit; \
+	# fi 
 	@if [ ! -f .mlx ]; then \
 		sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev && \
 		touch .mlx; \

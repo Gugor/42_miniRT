@@ -44,7 +44,6 @@ static void	print_viewport_info(t_window *win)
  */
 void	render_image(t_scene *scn, t_window *win)
 {
-	int			samples;
 	t_ivec2		pix_pos;
 	t_ray		ray;
 	t_color		new_color;
@@ -58,12 +57,8 @@ void	render_image(t_scene *scn, t_window *win)
 		while (++pix_pos.x < win->img_width)
 		{
 			new_color = color(0, 0, 0);
-			samples = -1;
-			while (++samples < scn->camera.samples_per_pixel)
-			{
-				ray = get_ray(win, &scn->camera, &pix_pos);
-				new_color.clr = ray_color(&ray, scn->camera.max_depth).clr;
-			}
+			ray = get_ray(win, &scn->camera, &pix_pos);
+			new_color.clr = ray_color(&ray, scn->camera.max_depth).clr;
 			my_mlx_pixel_put(&win->img, pix_pos.x, pix_pos.y, new_color.clr);
 		}
 		pix_pos.x = -1;
@@ -99,7 +94,6 @@ void	render_scene(t_scene *scn)
 	}
 	render_image(scn, scn->win);
 	mlx_loop_hook(scn->win->mlx, &render_gui, scn);
-	// render_gui((void *)scn);
 	elapsed = scn->end_render_tme;
 	printf("Image rendered[%dms][%ds][%d:%dmins]\n", elapsed,
 		(int)(elapsed * 0.001), (int)((elapsed * 0.001) / 60),

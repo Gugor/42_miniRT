@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 20:48:24 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/09 22:18:54 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "shape-maths.h"
 #include "rendering.h"
 #include "lights.h"
-
 
 /**
  * @brief It sends a ray from the screen to the world and check the
@@ -35,7 +34,7 @@ t_color	ray_color(const t_ray *ray, long max_depth)
 
 	hitd.rgb = color(0, 0, 0);
 	if (max_depth <= 0)
-		return (color(0,0,0));
+		return (color(0, 0, 0));
 	init_limits((t_interval *)&ray->lim, 0.001, INFINITY);
 	if (hit(ray, (t_interval *)&ray->lim, &hitd))
 	{

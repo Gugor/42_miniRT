@@ -6,10 +6,9 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:17:52 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 19:50:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/09 22:13:55 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "events.h"
 #include "scene.h"
@@ -36,4 +35,3 @@ void	set_input_event(int mask, int condition)
 		return ;
 	}
 }
-
