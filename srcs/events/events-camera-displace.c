@@ -36,7 +36,7 @@ void	cam_displace_vertical(t_camera *cam, int dir, double amount)
 {
 	if (dir == KEY_LEFT)
 	{
-		cam->lookfrom.y -= cam->u.x * amount;
+		cam->lookfrom.y -= cam->u.y * amount;
 		cam->lookfrom.x -= cam->u.x * amount;
 		cam->lookfrom.z -= cam->u.z * amount;
 		dprintf(2, ":: Move camera left. Now in [%f,%f,%f]\n",
@@ -44,7 +44,7 @@ void	cam_displace_vertical(t_camera *cam, int dir, double amount)
 	}
 	if (dir == KEY_RIGHT)
 	{
-		cam->lookfrom.y += cam->u.x * amount;
+		cam->lookfrom.y += cam->u.y * amount;
 		cam->lookfrom.x += cam->u.x * amount;
 		cam->lookfrom.z += cam->u.z * amount;
 		dprintf(2, ":: Move camera right. Now in [%f,%f,%f]\n",
