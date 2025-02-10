@@ -79,13 +79,11 @@ int	set_vec3(t_vec3 *vec3, const char *line, int *outsize)
 	if (!ft_isdigit(line[indx])
 		&& is_vec_format(&line[indx], VEC3) && line[indx] != '-')
 		return (2);
-	if (!ft_isdigit(line[indx]) && line[indx] != '-')
-		return (2);
 	vec3->x = get_double(&line[indx], 10, &indx);
-	if (indx == -1)
+	if (indx == -1 || (!ft_isdigit(line[indx + 1]) && line[indx + 1] != '-'))
 		return (1);
 	vec3->y = get_double(&line[++indx], 10, &indx);
-	if (indx == -1)
+	if (indx == -1 || (!ft_isdigit(line[indx + 1]) && line[indx + 1] != '-'))
 		return (1);
 	vec3->z = get_double(&line[++indx], 10, &indx);
 	if (indx == -1)
