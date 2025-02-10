@@ -6,16 +6,18 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/06 18:20:19 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:40:01 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory-handler.h"
+#include "rendering.h"
 #include "scene.h"
 #include "parsing.h"
 #include "window.h"
 #include "shape-maths.h"
 #include "events.h"
+
 
 /**
 * @brief It fill entity_id field in scene with the entiy identifiers
@@ -78,6 +80,7 @@ int	init_scene_data(t_scene *scene, t_window *win)
 	scene->shapes = NULL;
 	scene->num_shapes = 0;
 	scene->win = win;
+	scene->multitread = MULTITHREADING;
 	init_events(scene);
 	scene_storage(scene);
 	return (0);

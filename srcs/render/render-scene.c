@@ -93,7 +93,10 @@ void	render_scene(t_scene *scn)
 		lights = lights->next;
 	}
 	mlx_loop_hook(scn->win->mlx, &render_gui, scn);
-	render_image(scn, scn->win);
+	if (scn->multitread)
+		render_multithreaded(scn);
+	else
+		render_image(scn, scn->win);
 	elapsed = scn->end_render_tme;
 	printf("Image rendered[%dms][%ds][%d:%dmins]\n", elapsed,
 		(int)(elapsed * 0.001), (int)((elapsed * 0.001) / 60),

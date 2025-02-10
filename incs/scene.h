@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/09 18:13:20 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:51:23 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_window		t_window;
 typedef void				(*t_create_entity)(t_scene *, const char *line);
 typedef int					(*t_is_hit)(void *, const t_ray *, t_interval *,
 							t_hit_data *);
+typedef struct s_img t_img;
 
 typedef struct s_scene
 {
@@ -67,6 +68,7 @@ typedef struct s_scene
 	char				*entity_ids[NUM_ENTITIES + 1];
 	int					start_render_tme;
 	int					end_render_tme;
+	int					multitread;
 	t_color				*img_pixels;
 	t_ambient			alight;
 	t_camera			camera;
@@ -80,5 +82,6 @@ typedef struct s_scene
 t_scene		*scene_storage(t_scene *storage);
 int			init_scene_data(t_scene *scene, t_window *win);
 t_scene		*get_scene(void);
+void		my_mlx_pixel_put(t_img *data, int x, int y, int color);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:00 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 20:06:45 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:37:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct	s_camera
 	double	far_plane;
 	double	foc_dist;
 	int		samples_per_pixel;
-	long		max_depth;
+	long	max_depth;
 	t_vec3	u;
 	t_vec3	v;
 	t_vec3	fordwards;
