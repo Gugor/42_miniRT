@@ -43,6 +43,7 @@ DEPS_CRT		:= create_deps
 # Files
 
 INC_FILES		:= scene.h \
+				ambient.h \
 				entity-data.h \
 				camera.h \
 				gui.h \
@@ -184,6 +185,7 @@ create_deps::
 	@printf " 🌟 $(WHITE) Dependencies Folders Created $(RESET) 🌟 \n\n" 
 	
 $(MLX) : 
+	# if [! == ".mlx"]
 	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) Looking for Graphic Dependencies for $(MAGENTA)minilibx$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) This can take a while depending the state of your dependencies\n" 
