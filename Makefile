@@ -128,7 +128,7 @@ GCC 			:= gcc
 CFLAGS			:= -Wall -Wextra -Werror
 OFLAGS			:= -O3
 IFLAGS			:= -I$(INCS_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
-DFLAGS			:= -g -fsanitize=leak
+DFLAGS			:= #-g -fsanitize=leak
 LFLAGS			:= -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft  -lX11 -lXext -lm
 
 

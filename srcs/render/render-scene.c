@@ -26,17 +26,17 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-static void	print_viewport_info(t_window *win)
-{
-	printf("	=> Viewport U[%f,%f,%f]\n", win->viewport_u.x,
-		win->viewport_u.y, win->viewport_v.z);
-	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x,
-		win->viewport_v.y, win->viewport_v.z);
-	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x,
-		win->pixel_delta_u.y, win->pixel_delta_u.z);
-	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x,
-		win->pixel_delta_v.y, win->pixel_delta_v.z);
-}
+// static void	print_viewport_info(t_window *win)
+// {
+// 	printf("	=> Viewport U[%f,%f,%f]\n", win->viewport_u.x,
+// 		win->viewport_u.y, win->viewport_v.z);
+// 	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x,
+// 		win->viewport_v.y, win->viewport_v.z);
+// 	printf("	=> Viewport Delta U[%f,%f,%f]\n", win->pixel_delta_u.x,
+// 		win->pixel_delta_u.y, win->pixel_delta_u.z);
+// 	printf("	=> Viewport Delta V[%f,%f,%f]\n", win->pixel_delta_v.x,
+// 		win->pixel_delta_v.y, win->pixel_delta_v.z);
+// }
 
 /**
  * @brief 
@@ -50,7 +50,7 @@ void	render_image(t_scene *scn, t_window *win)
 
 	pix_pos.x = -1;
 	pix_pos.y = -1;
-	print_viewport_info(win);
+	//print_viewport_info(win);
 	scn->start_render_tme = get_current_time('m');
 	while (++pix_pos.y < win->img_height)
 	{
@@ -92,7 +92,7 @@ void	render_scene(t_scene *scn)
 		print_create_light(lght);
 		lights = lights->next;
 	}
-	mlx_loop_hook(scn->win->mlx, &render_gui, scn);
+	//mlx_loop_hook(scn->win->mlx, &render_gui, scn);
 	if (scn->multitread)
 		render_multithreaded(scn);
 	else

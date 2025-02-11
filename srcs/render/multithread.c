@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:44 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/10 20:34:41 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:49:52 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	*render_thread(void *arg)
 
 int	get_num_threads(t_rdata *rd)
 {
-	// rd->num_tiles = sysconf(_SC_NPROCESSORS_CONF) - 1;
-	rd->num_tiles = 3;
+	rd->num_tiles = sysconf(_SC_NPROCESSORS_CONF) - 1;
+	// rd->num_tiles = 3;
 	return (rd->num_tiles);
 }
 

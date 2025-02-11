@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:39:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/10 18:48:05 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:53:15 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	move_camera(int keycode)
 		render_multithreaded(scn);
 	else
 		render_image(scn, scn->win);
-	render_gui(scn);
+	// render_gui(scn);
 	return (0);
 }
 
@@ -83,8 +83,11 @@ int	zoom_camera(int keycode)
 		cam->fovH += 10;
 	init_camera(&scn->camera);
 	init_viewport(scn, scn->win);
-	render_image(scn, scn->win);
-	render_gui(scn);
+	if (scn->multitread)
+		render_multithreaded(scn);
+	else
+		render_image(scn, scn->win);
+	// render_gui(scn);
 	return (0);
 }
 
