@@ -110,7 +110,6 @@ SRC_FILES		:= minirt.c \
 				$(COLOR_DIR)/colours-getters.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
-				$(LOGGER_DIR)/print-scene.c \
 				$(LOGGER_DIR)/log-viewport-data.c \
 				$(GUI_DIR)/entities-panel.c \
 
