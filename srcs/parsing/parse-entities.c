@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 15:29:18 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 14:15:39 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:58:23 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ void	create_ambient_light(t_scene *scene, const char *line)
 	if (set_rgb(&scene->alight.rgb, (char *)line, &offset)
 		|| !in_range_rgb(scene->alight.rgb, 0, 255))
 		err_rt_file_format("wrong ambient light format [rgb].");
-	line += skip_spaces((char *)&line[offset]);
-	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected.");
+	verify_eol((char *)&line[offset]);
 }
 
 void	create_camera(t_scene *scene, const char *line)
@@ -74,6 +72,8 @@ void	create_camera(t_scene *scene, const char *line)
 		|| !in_range_vec3(scene->camera.axis, -1.0, 1.0))
 		err_rt_file_format("wrong camera format [normal].");
 	scene->camera.lookat = normalize_v3(scene->camera.axis);
+	if (verify_axis(scene->camera.lookat))
+		err_rt_file_format("wrong axis: cannot be [0,0,0].");
 	offset += skip_spaces((char *)&line[offset]);
 	update_line_offset((char **)&line, &offset);
 	if (*line)
@@ -81,9 +81,7 @@ void	create_camera(t_scene *scene, const char *line)
 	if (line[offset] == ',' || !in_range_dbl(scene->camera.fovH, 0.0, 180.0)
 		|| offset == -1)
 		err_rt_file_format("wrong camera format [FOVH].");
-	line += skip_spaces((char *)&line[offset]);
-	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected.");
+	verify_eol((char *)&line[offset]);
 }
 
 void	create_light_src(t_scene *scene, const char *line)
@@ -108,7 +106,5 @@ void	create_light_src(t_scene *scene, const char *line)
 		err_rt_file_format("wrong source light format [rgb].");
 	scene->num_lights++;
 	add_node_to(&scene->lights, (void *)light, LIGHT);
-	line += skip_spaces((char *)&line[offset]);
-	if (line[offset])
-		err_rt_file_format("Error: Invalid input detected.");
+	verify_eol((char *)&line[offset]);
 }

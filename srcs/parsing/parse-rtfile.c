@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/03 18:29:35 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:19:50 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 #include "error-handler.h"
 #include "libft.h"
 #include "get_next_line.h"
+
+void	verify_eol(char *line)
+{
+	line += skip_spaces((char *)line);
+	if (*line)
+		err_rt_file_format("Invalid input detected.");
+}
 
 /**
 * @brief 
@@ -58,7 +65,7 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 		}
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		parse_rtfile_line(line, scene);
+		parse_rtfile_line(&line[start], scene);
 		memfree((void *)&line);
 	}
 	if (!(scene->required_ents & REQ_FULL))

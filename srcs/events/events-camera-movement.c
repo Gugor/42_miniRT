@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:39:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/09 22:40:51 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:28:08 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	toggle_camera_movement(int keycode)
 
 	if (keycode != KEY_1)
 		return (0);
-
 	scn = get_scene();
 	if (scn->input_flags & CAMERA_MODE)
 	{

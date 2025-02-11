@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 18:58:35 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:55:36 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int			read_rtfile_to_scene(int fd, t_scene *scene);
 void		parse_rtfile_line(char *entity, t_scene *scene);
 void		parse_rtfile_line(char *line, t_scene *scene);
 int			find_entity_id(char *buff);
+void		verify_eol(char *line);
 
 /*               RTfile Line                                                 */
 void		create_ambient_light(t_scene *scene, const char *line);

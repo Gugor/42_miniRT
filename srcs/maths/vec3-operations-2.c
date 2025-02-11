@@ -6,11 +6,12 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:56 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/30 18:04:28 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:38:45 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
+#include "error-handler.h"
 #include <math.h>
 
 double	sqr_v3(t_vec3 v3)

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:49:48 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/03 17:23:58 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:00:37 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ void	create_plane(t_scene *scene, const char *line)
 		|| !in_range_vec3(plane->axis, -1, 1))
 		err_rt_file_format("wrong plane format [normal]");
 	plane->axis = normalize_v3(plane->axis);
+	if (verify_axis(plane->axis))
+		err_rt_file_format("wrong axis: cannot be [0,0,0]");
 	update_line_offset((char **)&line, &offset);
 	if (set_rgb(&plane->rgb, (char *)line, &offset)
 		|| !in_range_rgb(plane->rgb, 0, 255))
 		err_rt_file_format("wrong plane format [rgb]");
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)plane, PLANE);
-	line += skip_spaces((char *)&line[offset]);
-	if (line[offset])
-		err_rt_file_format("Invalid input detected.");
+	verify_eol((char *)&line[offset]);
 }
 
 void	create_sphere(t_scene *scene, const char *line)
@@ -61,9 +61,7 @@ void	create_sphere(t_scene *scene, const char *line)
 		err_rt_file_format("wrong sphere format [rgb]");
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)sphere, SPHERE);
-	line += skip_spaces((char *)&line[offset]);
-	if (line[offset])
-		err_rt_file_format("Invalid input detected.");
+	verify_eol((char *)&line[offset]);
 }
 
 void	create_cylinder(t_scene *scene, const char *line)
@@ -80,6 +78,8 @@ void	create_cylinder(t_scene *scene, const char *line)
 		|| !in_range_vec3(cylinder->axis, -1, 1))
 		err_rt_file_format("wrong cylinder format [normal]");
 	cylinder->axis = normalize_v3(cylinder->axis);
+	if (verify_axis(cylinder->axis))
+		err_rt_file_format("wrong axis: cannot be [0,0,0]");
 	update_line_offset((char **)&line, &offset);
 	if (set_cylinder_size(&cylinder->size, (char *)line, &offset))
 		err_rt_file_format("wrong cylinder format [size]");
@@ -89,9 +89,7 @@ void	create_cylinder(t_scene *scene, const char *line)
 		err_rt_file_format("wrong cylinder format [rgb]");
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)cylinder, CYLINDER);
-	line += skip_spaces((char *)&line[offset]);
-	if (line[offset])
-		err_rt_file_format("Invalid input detected.");
+	verify_eol((char *)&line[offset]);
 }
 
 void	create_square(t_scene *scene, const char *line)
@@ -116,4 +114,5 @@ void	create_square(t_scene *scene, const char *line)
 		err_rt_file_format("wrong square format [rgb]");
 	scene->num_shapes++;
 	add_node_to(&scene->shapes, (void *)square, SQUARE);
+	verify_eol((char *)&line[offset]);
 }
