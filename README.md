@@ -23,6 +23,7 @@ Intersection calculation for:
 # Installation & Compilation
 
 ## Clone the repository:
+This proyect has being done for Linux systems. Has not support for other OS.
 ```bash
 git clone git@github.com:Gugor/42_miniRT.git miniRT
 cd miniRT
