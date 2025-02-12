@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:39:49 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/11 16:53:15 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:01:05 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,11 @@ int	toggle_camera_movement(int keycode)
 	if (scn->input_flags & CAMERA_MODE)
 	{
 		set_input_event(CAMERA_MODE, UNACTIVE_FLG);
-		if (scn->multitread)
-			render_multithreaded(scn);
-		else
-			render_image(scn, scn->win);
 		printf(":: Camera Movement mode OFF\n");
 	}
 	else
 	{
 		set_input_event(CAMERA_MODE, ACTIVE_FLG);
-		if (scn->multitread)
-			render_multithreaded(scn);
-		else
-			render_image(scn, scn->win);
 		printf(":: Camera Movemente mode ON\n");
 	}
 	return (0);
@@ -60,11 +52,6 @@ int	move_camera(int keycode)
 	cam_displace_vertical(cam, keycode, 1.0f);
 	init_camera(&scn->camera);
 	init_viewport(scn, scn->win);
-	if (scn->multitread)
-		render_multithreaded(scn);
-	else
-		render_image(scn, scn->win);
-	// render_gui(scn);
 	return (0);
 }
 
@@ -87,7 +74,6 @@ int	zoom_camera(int keycode)
 		render_multithreaded(scn);
 	else
 		render_image(scn, scn->win);
-	// render_gui(scn);
 	return (0);
 }
 

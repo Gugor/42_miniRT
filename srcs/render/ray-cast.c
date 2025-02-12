@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:44:07 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/09 22:18:54 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:05:36 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_ray	get_ray(t_window *win, t_camera *camera, t_ivec2 *pix_pos)
 	pixel_sample = get_pix_rand_pos(&win->p00, &win->pixel_delta_u,
 			&win->pixel_delta_v, pix_pos);
 	ray_dir = sub_v3(pixel_sample, camera->center);
-	ray = init_ray((t_vec3 *)&camera->center, &ray_dir, 0.001, INFINITY);
+	ray = init_ray((t_vec3 *)&camera->center, &ray_dir, 0.0001, INFINITY);
 	return (ray);
 }
 

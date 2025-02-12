@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:44 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/11 16:49:52 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:02:31 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*render_thread(void *arg)
 	while (++tl->px_pos.y < scn->win->img_height)
 	{
 		tl->px_pos.x = tl->start_x;
-		while (++tl->px_pos.x < scn->win->img_width)
+		while (++tl->px_pos.x <= tl->end_x)
 		{
 			tl->new_color = color(0, 0, 0);
 			tl->ray = get_ray(scn->win, &scn->camera, &tl->px_pos);
@@ -35,14 +35,16 @@ void	*render_thread(void *arg)
 				tl->new_color.clr);
 		}
 	}
+			mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
+				scn->win->img.img, 0, 0);
 	scn->end_render_tme = get_elapsed_time(scn->start_render_tme, 'm');
 	return (NULL);
 }
 
 int	get_num_threads(t_rdata *rd)
 {
-	rd->num_tiles = sysconf(_SC_NPROCESSORS_CONF) - 1;
-	// rd->num_tiles = 3;
+	rd->num_tiles = sysconf(_SC_NPROCESSORS_ONLN);
+	// rd->num_tiles = 16;
 	return (rd->num_tiles);
 }
 
@@ -61,12 +63,14 @@ void	init_tile(t_rm_tile *tile, t_rdata *rd, t_scene *scn)
  * @brief it divides the image to render into equal columns, as many as 
  * processor cores are permitted for the CPU;
 */
-void	render_multithreaded(t_scene *scn)
+int	render_multithreaded(void *data)
 {
+	t_scene		*scn;
 	pthread_t	*threads;
 	t_rm_tile	*tiles;
 	t_rdata		rd;
 
+	scn = data;
 	printf("=> Multithreading\n");
 	rd.tl_width = scn->win->img_width / get_num_threads(&rd);
 	tiles = (t_rm_tile *)xmalloc(sizeof(t_rm_tile) * rd.num_tiles);
@@ -82,8 +86,7 @@ void	render_multithreaded(t_scene *scn)
 	rd.indx = -1;
 	while (++rd.indx < rd.num_tiles)
 	    pthread_join(threads[rd.indx], NULL);
-	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
-		scn->win->img.img, 0, 0);
 	free(tiles);
 	free(threads);
+	return (0);
 }

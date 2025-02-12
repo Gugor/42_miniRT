@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:51:38 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/01/16 18:24:04 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:38:03 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ double	vec3_to_dbl(t_vec3 v)
 {
 	return (v.x + v.y + v.z);
 }
-//return ((double)(v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z));

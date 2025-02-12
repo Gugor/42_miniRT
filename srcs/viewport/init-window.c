@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/06 19:49:40 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:44:12 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,13 @@ static void	set_px00(t_window *win)
  */
 void	init_viewport(t_scene *scn, t_window *win)
 {
-	printf("Initializing Viewport(%ix%i)(vfov[%f])...\n", (int)win->img_width,
-		(int)win->img_height, scn->camera.fovV);
 	win->viewport_height = 2.0 * scn->camera.h * scn->camera.foc_dist;
 	win->viewport_width = win->viewport_height * ((double)win->img_width
 			/ (double)win->img_height);
-	printf("	:: Viewporwidth: %f\n", win->viewport_width);
-	printf("	:: Viewporheight: %f\n", win->viewport_height);
 	win->viewport_u = scale_v3(scn->camera.u, win->viewport_width);
 	win->viewport_v = scale_v3(scn->camera.v, -win->viewport_height);
-	printf("	=> Viewport U[%f,%f,%f]\n", win->viewport_u.x,
-		win->viewport_u.y, win->viewport_u.z);
-	printf("	=> Viewport V[%f,%f,%f]\n", win->viewport_v.x,
-		win->viewport_v.y, win->viewport_v.z);
 	win->pixel_delta_u = div_v3_dbl(win->viewport_u, win->img_width);
 	win->pixel_delta_v = div_v3_dbl(win->viewport_v, win->img_height);
-	printf("	=> Pixel delta U[%f,%f,%f]\n", win->pixel_delta_u.x,
-		win->pixel_delta_u.y, win->pixel_delta_u.z);
-	printf("	=> Pixel delta V[%f,%f,%f]\n", win->pixel_delta_v.x,
-		win->pixel_delta_v.y, win->pixel_delta_v.z);
 	set_win_pivot(&scn->camera, win);
 	set_px00(win);
 }

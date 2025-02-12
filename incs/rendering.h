@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:16:47 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/11 16:50:22 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:35:14 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		render_scene(t_scene *scene);
 void		render_image(t_scene *scn, t_window *win);
 t_vec3		get_pix_rand_pos(t_vec3 *pix00, t_vec3 *dlt_u,
 				t_vec3 *dlt_v, t_ivec2 *pix_pos);
-void		render_multithreaded(t_scene *scn);
+int			render_multithreaded(void *data);
 int			get_num_threads(t_rdata *rd);
 void		*render_thread(void *arg);
 #endif
