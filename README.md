@@ -48,8 +48,11 @@ Run the program with a scene file:
 # Authors
 Developed by [Marti Marsa] and [Hugo Montoya]
 
+
+
 # Examples
 [Ambient Light], [Lights]x4, [Sphere], [Cylinder]x2, [Plane]x5, [Square]
-![rt-room](https://github.com/user-attachments/assets/0520ce42-64ed-4717-86b8-9d9705a5a429)
-
+![room-multiple-lights](https://github.com/user-attachments/assets/8f7623d0-62b8-46f1-9747-d109b4a6af52)
+[Snow-speeder]
+![rebel-snow-speeder](https://github.com/user-attachments/assets/6c7c7131-e4fb-4c02-a410-37ea903ab8aa)
 
