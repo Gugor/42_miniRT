@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 19:47:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/11 14:19:50 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 19:14:31 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	read_rtfile_to_scene(int fd, t_scene *scene)
 		parse_rtfile_line(&line[start], scene);
 		memfree((void *)&line);
 	}
+	close(fd);
 	if (!(scene->required_ents & REQ_FULL))
 		err_rt_file_format("not enough data to create scene.");
 	return (0);
