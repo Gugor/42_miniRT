@@ -9,6 +9,7 @@
 
 
 typedef struct s_window	t_window;
+typedef struct s_camera	t_camera;
 typedef struct s_lst	t_lst;
 
 typedef struct s_hit_data

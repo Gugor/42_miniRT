@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:44 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/13 00:02:31 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:22:36 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	*render_thread(void *arg)
 				tl->new_color.clr);
 		}
 	}
-			mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
-				scn->win->img.img, 0, 0);
+	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
+		scn->win->img.img, 0, 0);
 	scn->end_render_tme = get_elapsed_time(scn->start_render_tme, 'm');
 	return (NULL);
 }
@@ -71,7 +71,6 @@ int	render_multithreaded(void *data)
 	t_rdata		rd;
 
 	scn = data;
-	printf("=> Multithreading\n");
 	rd.tl_width = scn->win->img_width / get_num_threads(&rd);
 	tiles = (t_rm_tile *)xmalloc(sizeof(t_rm_tile) * rd.num_tiles);
 	threads = (pthread_t *)xmalloc(sizeof(pthread_t) *rd.num_tiles);

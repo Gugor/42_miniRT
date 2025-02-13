@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 17:59:32 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/07 16:29:38 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:49:54 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #ifndef WINDOW_H
 # define WINDOW_H
 
-# include "scene.h"
 # include "mlx.h"
+# include "vectors.h"
 
 # define ASPEC_RATIO 16/9
 

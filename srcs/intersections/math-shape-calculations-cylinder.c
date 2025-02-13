@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math-shape-calculations-cylinder.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmarsa-s <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:59:03 by mmarsa-s          #+#    #+#             */
-/*   Updated: 2025/02/06 18:59:06 by mmarsa-s         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:57:16 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	intersect_base(t_cylinder *cyl, const t_ray *ray,
 	else
 		disk = sum_v3(cyl->pos, scale_v3(cyl->axis, -cyl->size.z));
 	denom = dot(&cyl->axis, &ray->direction);
-	if (fabs(denom) < 1e-6)
+	if (fabs(denom) < 1e-160)
 		return (0);
 	oc = sub_v3(disk, ray->origin);
 	t = dot(&oc, &cyl->axis) / denom;

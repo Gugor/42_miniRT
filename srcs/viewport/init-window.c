@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:46:31 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/12 23:44:12 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:30:19 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,12 @@ static void	set_win_pivot(t_camera *camera, t_window *win)
 	t_vec3	focl;
 	t_vec3	foc_x_plane;
 
-	printf("	=> Calc Viewport U[%f,%f,%f]\n", win->viewport_u.x,
-		win->viewport_u.y, win->viewport_u.z);
 	half_vwp_u = div_v3_dbl(win->viewport_u, 2.0);
-	printf("	=> Calc UCL Half Viewport U[%f,%f,%f]\n",
-		half_vwp_u.x, half_vwp_u.y, half_vwp_u.z);
-	printf("	=> Calc Viewport V[%f,%f,%f]\n", win->viewport_v.x,
-		win->viewport_v.y, win->viewport_v.z);
 	half_vwp_v = div_v3_dbl(win->viewport_v, 2.0);
-	printf("	=> Calc UCL Half Viewport V[%f,%f,%f]\n",
-		half_vwp_v.x, half_vwp_v.y, half_vwp_v.z);
 	dir_flnght = scale_v3(camera->fordwards, camera->foc_dist);
 	focl = sub_v3(camera->center, dir_flnght);
 	foc_x_plane = sub_v3(focl, half_vwp_u);
 	win->viewport_pivot = sub_v3(foc_x_plane, half_vwp_v);
-	printf("	=> Upper Left Corner[%f,%f,%f]\n",
-		win->viewport_pivot.x, win->viewport_pivot.y, win->viewport_pivot.z);
 }
 
 /**

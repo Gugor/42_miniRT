@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 19:29:14 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/11 16:51:57 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:29:11 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	cam_displace_vertical(t_camera *cam, int dir, double amount)
 {
 	if (dir == KEY_LEFT)
 	{
-		cam->lookfrom.y -= cam->u.x * amount;
+		cam->lookfrom.y -= cam->u.y * amount;
 		cam->lookfrom.x -= cam->u.x * amount;
 		cam->lookfrom.z -= cam->u.z * amount;
 	}
 	if (dir == KEY_RIGHT)
 	{
-		cam->lookfrom.y += cam->u.x * amount;
+		cam->lookfrom.y += cam->u.y * amount;
 		cam->lookfrom.x += cam->u.x * amount;
 		cam->lookfrom.z += cam->u.z * amount;
 	}

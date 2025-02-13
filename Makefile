@@ -43,6 +43,7 @@ DEPS_CRT		:= create_deps
 # Files
 
 INC_FILES		:= scene.h \
+				ambient.h \
 				entity-data.h \
 				camera.h \
 				gui.h \
@@ -110,7 +111,6 @@ SRC_FILES		:= minirt.c \
 				$(COLOR_DIR)/colours-getters.c \
 				$(GETLINE_DIR)/get_next_line.c \
 				$(GETLINE_DIR)/get_next_line_utils.c \
-				$(LOGGER_DIR)/print-scene.c \
 				$(LOGGER_DIR)/log-viewport-data.c \
 				$(GUI_DIR)/entities-panel.c \
 
@@ -185,6 +185,7 @@ create_deps::
 	@printf " 🌟 $(WHITE) Dependencies Folders Created $(RESET) 🌟 \n\n" 
 	
 $(MLX) : 
+	# if [! == ".mlx"]
 	@printf "$(GREEN)=>$(RESET) Compiling $(MAGENTA)$(MLX)$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) Looking for Graphic Dependencies for $(MAGENTA)minilibx$(RESET) library\n" 
 	@printf "$(GREEN)::$(RESET) This can take a while depending the state of your dependencies\n" 

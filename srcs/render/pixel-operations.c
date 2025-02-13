@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pixel-operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmarsa-s <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:27:14 by mmarsa-s          #+#    #+#             */
-/*   Updated: 2025/01/29 14:27:18 by mmarsa-s         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:02:10 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vectors.h"
 #include "maths.h"
-
-/*
-* @brief Returns the vector to a random point in the
-* [-.5,-.5]-[+.5,+.5] unit square.
-*/
 
 /*
 * @brief

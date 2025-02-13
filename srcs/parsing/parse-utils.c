@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse-utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmontoya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:50:17 by hmontoya          #+#    #+#             */
-/*   Updated: 2024/12/16 14:50:21 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:20:37 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,18 @@ int	is_vec_format(const char *line, t_vec_type type)
 		if (line[indx++] == ',')
 			commas++;
 	return (eval_vec_type(commas, type));
+}
+
+/**
+ * @brief Verifies if an at least one of the components of an 
+ * axis is > 0. Other wise throws an error.
+ * @returns
+ * 1 if axis is not 1
+ * 0 otherwise
+*/
+int	verify_axis(t_vec3 axis)
+{
+	if (axis.x == 0 && axis.y == 0 && axis.z == 0)
+		return (1);
+	return (0);
 }

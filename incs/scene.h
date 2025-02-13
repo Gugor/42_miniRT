@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:56:20 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/10 17:51:23 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:47:57 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 # include <unistd.h>
 # include <stdint.h>
 
+# include "ray.h"
 # include "lights.h"
 # include "camera.h"
 # include "shapes.h"
 # include "lists.h"
-# include "ray.h"
 # include "entity-data.h"
 # include "window.h"
+# include "rendering.h"
 
 # define NUM_ENTITIES 8
 # define NUM_SHAPES 4
@@ -52,6 +53,7 @@ typedef struct s_lst		t_lst;
 typedef struct s_ray		t_ray;
 typedef struct s_hit_data	t_hit_data;
 typedef struct s_window		t_window;
+typedef struct s_rdata		t_rdata;
 
 typedef void				(*t_create_entity)(t_scene *, const char *line);
 typedef int					(*t_is_hit)(void *, const t_ray *, t_interval *,
@@ -72,6 +74,7 @@ typedef struct s_scene
 	t_color				*img_pixels;
 	t_ambient			alight;
 	t_camera			camera;
+	t_rdata				rdata;
 	t_create_entity		create_ent[NUM_ENTITIES + 1];
 	t_is_hit			check_hit[NUM_SHAPES + 1];
 	t_lst				*lights;

@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:45:41 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/09 22:38:30 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:39:56 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ int	toggle_hard_shades_mode(int keycode)
 	if (scn->input_flags & SHADES_MODE)
 	{
 		set_input_event(SHADES_MODE, UNACTIVE_FLG);
-		render_image(scn, scn->win);
 		printf(":: Shade mode OFF\n");
 	}
 	else
 	{
 		set_input_event(SHADES_MODE, ACTIVE_FLG);
-		render_image(scn, scn->win);
 		printf(":: Shade mode ON\n");
 	}
 	return (0);
