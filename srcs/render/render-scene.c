@@ -6,7 +6,7 @@
 /*   By: hmontoya <hmontoya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 14:43:51 by hmontoya          #+#    #+#             */
-/*   Updated: 2025/02/13 00:46:13 by hmontoya         ###   ########.fr       */
+/*   Updated: 2025/02/13 01:01:39 by hmontoya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	render_image(void *data)
 		pix_pos.x = -1;
 	}
 	scn->end_render_tme = get_elapsed_time(scn->start_render_tme, 'm');
-	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
-		scn->win->img.img, 0, 0);
 	return (0);
 }
 
@@ -82,6 +80,8 @@ void	render_scene(t_scene *scn)
 		render_image((void *)scn);
 		mlx_loop_hook(scn->win, &render_image, scn);
 	}
+	mlx_put_image_to_window(scn->win->mlx, scn->win->mlx_win,
+		scn->win->img.img, 0, 0);
 	mlx_loop_hook(scn->win->mlx, &render_gui, scn);
 	log_vwp_data(scn->win);
 	log_render_time(scn->end_render_tme);
